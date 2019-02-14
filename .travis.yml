@@ -10,14 +10,14 @@ script:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build -t agamblin/tribe-client ./client
-    docker build -t agamblin/tribe-server ./server
-    docker build -t agamblin/tribe-nginx ./nginx
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-    docker push agamblin/tribe-client
-    docker push agamblin/tribe-server
-    docker push agamblin/tribe-nginx
-    fi
+    - docker build -t agamblin/tribe-client ./client
+    - docker build -t agamblin/tribe-server ./server
+    - docker build -t agamblin/tribe-nginx ./nginx
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push agamblin/tribe-client
+    - docker push agamblin/tribe-server
+    - docker push agamblin/tribe-nginx
+  fi
 # deploy:
 #   provider: elasticbeanstalk
 #   region: 'eu-west-3'
