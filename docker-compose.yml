@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=tribe
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '8081:80'
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - mysql
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    ports:
+      - '8080:8080'
+    environment:
+      - SQL_HOST=mysql
+      - SQL_USER=root
+      - SQL_PASSWORD=root
+      - SQL_DB=tribe
+      - SQL_PORT=3306
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - api
+    volumes:
+      - /app/node_modules
+      - ./client:/app
