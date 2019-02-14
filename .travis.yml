@@ -1,0 +1,32 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t agamblin/tribe-react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run agamblin/tribe-react-test yarn test -- --coverage
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build -t agamblin/tribe-client ./client
+    docker build -t agamblin/tribe-server ./server
+    docker build -t agamblin/tribe-nginx ./nginx
+    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    docker push agamblin/tribe-client
+    docker push agamblin/tribe-server
+    docker push agamblin/tribe-nginx
+    fi
+# deploy:
+#   provider: elasticbeanstalk
+#   region: 'eu-west-3'
+#   app: 'multi-docker'
+#   env: 'MultiDocker-env'
+#   bucket_name: 'elasticbeanstalk-eu-west-3-537685808258'
+#   bucket_path: 'multi-docker'
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
