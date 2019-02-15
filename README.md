@@ -14,4 +14,7 @@
 `````
 
 ##### 2
-Go to localhost:8081/
+Go to [localhost](http://localhost:8081) and enjoy !
+
+
+[trello](https://trello.com/b/04fAMfBU/tribe)
