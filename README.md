@@ -4,9 +4,7 @@
 
 ### PRE-REQUISITE
 
-````
-  DOCKER
-```
+  - DOCKER
 
 ### STEPS
 
