@@ -20,7 +20,7 @@ deploy:
   provider: elasticbeanstalk
   region: 'eu-west-3'
   app: 'tribe'
-  env: ' Tribe-env'
+  env: 'Tribe-env'
   bucket_name: 'elasticbeanstalk-eu-west-3-537685808258'
   bucket_path: 'tribe'
   on:
