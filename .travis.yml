@@ -16,15 +16,15 @@ after_success:
   - docker push agamblin/tribe-client
   - docker push agamblin/tribe-server
   - docker push agamblin/tribe-nginx
-# deploy:
-#   provider: elasticbeanstalk
-#   region: 'eu-west-3'
-#   app: 'multi-docker'
-#   env: 'MultiDocker-env'
-#   bucket_name: 'elasticbeanstalk-eu-west-3-537685808258'
-#   bucket_path: 'multi-docker'
-#   on:
-#     branch: master
-#   access_key_id: $AWS_ACCESS_KEY
-#   secret_access_key:
-#     secure: $AWS_SECRET_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: 'eu-west-3'
+  app: 'tribe'
+  env: ' Tribe-env'
+  bucket_name: 'elasticbeanstalk-eu-west-3-537685808258'
+  bucket_path: 'tribe'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
