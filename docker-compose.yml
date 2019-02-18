@@ -1,10 +1,14 @@
 version: '3'
 services:
   mysql:
-    image: 'mysql:latest'
+    image: 'mysql:5.7'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - '33061:3306'
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=tribe
+      MYSQL_ROOT_PASSWORD: 9uOxHyH9
+      MYSQL_DATABASE: 'tribe'
   nginx:
     restart: always
     build:
@@ -26,9 +30,10 @@ services:
     environment:
       - RDS_HOSTNAME=mysql
       - RDS_USERNAME=root
-      - RDS_PASSWORD=root
+      - RDS_PASSWORD=9uOxHyH9
       - RDS_DB_NAME=tribe
       - RDS_PORT=3306
+      - SECRET_JWT=somedumbjwtsecret
   client:
     build:
       context: ./client

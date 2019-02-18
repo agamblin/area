@@ -17,18 +17,27 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
+		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.18.3",
 		"concurrently": "^4.1.0",
 		"cors": "^2.8.5",
 		"express": "^4.16.4",
+		"express-validator": "^5.3.1",
+		"jwt-simple": "^0.5.5",
 		"mysql2": "^1.6.5",
 		"nodemon": "^1.18.10",
+		"passport": "^0.4.0",
+		"passport-jwt": "^4.0.0",
 		"rimraf": "^2.6.3",
 		"sequelize": "^4.42.0",
 		"typescript": "^3.3.3"
 	},
 	"devDependencies": {
+		"@types/bcryptjs": "^2.4.2",
 		"@types/express": "^4.16.1",
+		"@types/jwt-simple": "^0.5.33",
+		"@types/passport": "^1.0.0",
+		"@types/passport-jwt": "^3.0.1",
 		"@types/sequelize": "^4.27.36"
 	}
 }
