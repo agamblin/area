@@ -13,13 +13,11 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default ({
-	children,
-	initialState = {}
-}: {
-	children: any;
-	initialState?: any;
-}) => {
+const initialState: any = {
+	auth: { authenticated: localStorage.getItem('tokenTribe') }
+};
+
+export default ({ children }: { children: any }) => {
 	const store = createStore(
 		reducers,
 		initialState,
