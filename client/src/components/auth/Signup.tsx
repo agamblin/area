@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions';
 import { compose } from 'redux';
+import EmailField from './components/EmailField';
+import PasswordField from './components/PasswordField';
 import {
 	Form,
 	Button,
@@ -13,125 +15,98 @@ import {
 } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
 
-const Signup = (props: any) => {
-	const [loading, setLoading] = useState(false);
+class Signup extends React.Component<any> {
+	state = { loading: false };
 
-	const onSubmit = (formProps: any) => {
-		setLoading(true);
-		props.signUp(formProps);
+	onSubmit = (formProps: any) => {
+		this.setState({ loading: true });
+		this.props.signUp(formProps);
 	};
 
-	const _renderErrors = (meta: any) => {
+	_renderErrors = (meta: any) => {
 		if (meta.error && meta.touched) {
 			console.log('error:', meta.error);
 			return <Message error content={meta.error} />;
 		}
 	};
 
-	const _renderPassword = (props: any) => {
-		return (
-			<Form.Field>
-				<Input
-					{...props}
-					placeholder={props.label}
-					label={null}
-					icon="lock"
-					iconPosition="left"
-				/>
-				{_renderErrors(props.meta)}
-			</Form.Field>
-		);
+	_renderPassword = (props: any) => {
+		return <PasswordField {...props} _renderErrors={this._renderErrors} />;
 	};
 
-	const _renderMail = (props: any) => {
-		return (
-			<Form.Field>
-				<Input
-					{...props}
-					icon="mail"
-					iconPosition="left"
-					placeholder={props.label}
-					label={null}
-				/>
-				{_renderErrors(props.meta)}
-			</Form.Field>
-		);
+	_renderMail = (props: any) => {
+		return <EmailField {...props} _renderErrors={this._renderErrors} />;
 	};
 
-	const _renderUsername = (props: any) => {
+	_renderUsername = (props: any) => {
 		return (
 			<Form.Field>
 				<Input
-					{...props}
+					{...props.input}
 					icon="user"
 					iconPosition="left"
 					placeholder={props.label}
 					label={null}
+					type="text"
 				/>
-				{_renderErrors(props.meta)}
+				{this._renderErrors(props.meta)}
 			</Form.Field>
 		);
 	};
 
-	const _displayErrorMsg = () => {
-		if (props.errorMsg) {
-			return <Message error content={props.errorMsg} />;
+	_displayErrorMsg = () => {
+		if (this.props.errorMsg) {
+			return <Message error content={this.props.errorMsg} />;
 		}
 	};
 
-	return (
-		<Segment raised padded="very">
-			<Header as="h2" icon textAlign="center" size="medium">
-				<Icon name="add user" circular />
-				<Header.Content>Sign up</Header.Content>
-			</Header>
-			<Form
-				error
-				loading={loading && !props.errorMsg ? true : false}
-				onSubmit={props.handleSubmit(onSubmit)}
-			>
-				{_displayErrorMsg()}
-				<Segment raised attached>
-					<Form.Group widths="equal">
-						<Field
-							name="email"
-							type="email"
-							label="Email"
-							component={_renderMail}
-						/>
-						<Field
-							name="username"
-							type="text"
-							label="Username"
-							component={_renderUsername}
-						/>
-					</Form.Group>
-					<Form.Group widths="equal">
-						<Field
-							name="password"
-							type="password"
-							label="Password"
-							component={_renderPassword}
-						/>
-						<Field
-							name="confirm_password"
-							type="password"
-							label="Confirm password"
-							component={_renderPassword}
-						/>
-					</Form.Group>
-				</Segment>
-				<Button.Group attached="bottom" fluid>
-					<Button onClick={() => history.back()}>Cancel</Button>
-					<Button.Or />
-					<Button positive type="submit">
-						Sign up
-					</Button>
-				</Button.Group>
-			</Form>
-		</Segment>
-	);
-};
+	render() {
+		return (
+			<Segment raised padded="very">
+				<Header as="h2" icon textAlign="center" size="medium">
+					<Icon name="add user" circular />
+					<Header.Content>Register</Header.Content>
+				</Header>
+				<Form
+					error
+					loading={this.state.loading && !this.props.errorMsg ? true : false}
+					onSubmit={this.props.handleSubmit(this.onSubmit)}
+				>
+					{this._displayErrorMsg()}
+					<Segment raised attached>
+						<Form.Group widths="equal">
+							<Field name="email" label="Email" component={this._renderMail} />
+							<Field
+								name="username"
+								label="Username"
+								component={this._renderUsername}
+							/>
+						</Form.Group>
+						<Form.Group widths="equal">
+							<Field
+								name="password"
+								label="Password"
+								component={this._renderPassword}
+							/>
+							<Field
+								name="confirm_password"
+								label="Confirm password"
+								component={this._renderPassword}
+							/>
+						</Form.Group>
+					</Segment>
+					<Button.Group attached="bottom" fluid>
+						<Button onClick={() => history.back()}>Cancel</Button>
+						<Button.Or />
+						<Button positive type="submit">
+							Sign up
+						</Button>
+					</Button.Group>
+				</Form>
+			</Segment>
+		);
+	}
+}
 
 const validate = (formValues: any) => {
 	const errors = {} as any;

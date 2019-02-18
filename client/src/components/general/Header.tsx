@@ -22,15 +22,15 @@ const Header = (props: headerProps) => {
 					<Menu.Item
 						as={Link}
 						to="/signup"
-						name="Sign up"
-						active={activeItem === 'Sign up'}
+						name="Register"
+						active={activeItem === 'Register'}
 						onClick={handleItemClick}
 					/>
 					<Menu.Item
 						as={Link}
 						to="/signin"
-						name="Sign in"
-						active={activeItem === 'Sign in'}
+						name="Login"
+						active={activeItem === 'Login'}
 						onClick={handleItemClick}
 					/>
 				</React.Fragment>
