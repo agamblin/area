@@ -24,11 +24,11 @@ services:
     ports:
       - '8080:8080'
     environment:
-      - SQL_HOST=mysql
-      - SQL_USER=root
-      - SQL_PASSWORD=root
-      - SQL_DB=tribe
-      - SQL_PORT=3306
+      - RDS_HOSTNAME=mysql
+      - RDS_USERNAME=root
+      - RDS_PASSWORD=root
+      - RDS_DB_NAME=tribe
+      - RDS_PORT=3306
   client:
     build:
       context: ./client
