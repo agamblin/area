@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { signIn } from '../../actions';
 import { compose } from 'redux';
+import EmailField from './components/EmailField';
+import PasswordField from './components/PasswordField';
 import {
 	Segment,
 	Header,
@@ -22,113 +24,93 @@ interface signinProps {
 	errorMsg: string;
 }
 
-const Signin = (props: signinProps) => {
-	const _renderErrors = (meta: any) => {
+class Signin extends React.Component<signinProps> {
+	state = { loading: false };
+
+	_renderErrors = (meta: any) => {
 		if (meta.error && meta.touched) {
 			console.log('error:', meta.error);
 			return <Message error content={meta.error} />;
 		}
 	};
 
-	const [loading, setLoading] = useState(false);
-
-	const onSubmit = (formValues: any) => {
-		setLoading(true);
-		props.signIn(formValues);
+	onSubmit = (formValues: any) => {
+		this.setState({ loading: false });
+		this.props.signIn(formValues);
 	};
 
-	const _displayErrorMsg = () => {
-		if (props.errorMsg) {
+	_displayErrorMsg = () => {
+		if (this.props.errorMsg) {
 			return (
 				<React.Fragment>
-					<Message error content={props.errorMsg} />
+					<Message error content={this.props.errorMsg} />
 				</React.Fragment>
 			);
 		}
 	};
 
-	const _renderPassword = (props: any) => {
-		return (
-			<Form.Field>
-				<Input
-					{...props}
-					placeholder={props.label}
-					label={null}
-					icon="lock"
-					iconPosition="left"
-				/>
-				{_renderErrors(props.meta)}
-			</Form.Field>
-		);
+	_renderPassword = (props: any) => {
+		return <PasswordField {...props} _renderErrors={this._renderErrors} />;
 	};
 
-	const _renderMail = (props: any) => {
-		return (
-			<Form.Field>
-				<Input
-					{...props}
-					icon="mail"
-					iconPosition="left"
-					placeholder={props.label}
-					label={null}
-				/>
-				{_renderErrors(props.meta)}
-			</Form.Field>
-		);
+	_renderMail = (props: any) => {
+		return <EmailField {...props} _renderErrors={this._renderErrors} />;
 	};
 
-	return (
-		<Segment raised padded="very">
-			<Header as="h2" icon textAlign="center" size="medium">
-				<Icon name="arrow right" circular />
-				<Header.Content>Sign in</Header.Content>
-			</Header>
-			<Segment placeholder padded="very">
-				<Grid columns={2} stackable textAlign="center">
-					<Divider vertical>Or</Divider>
-					<Grid.Row verticalAlign="middle">
-						<Grid.Column>
-							<Form
-								error
-								loading={loading && !props.errorMsg ? true : false}
-								onSubmit={props.handleSubmit(onSubmit)}
-							>
-								{_displayErrorMsg()}
-								<Form.Group widths="equal">
-									<Field
-										name="email"
-										type="email"
-										label="Email"
-										component={_renderMail}
-									/>
-								</Form.Group>
-								<Form.Group widths="equal">
-									<Field
-										name="password"
-										type="password"
-										label="Password"
-										component={_renderPassword}
-									/>
-								</Form.Group>
-								<Button fluid type="submit" positive>
-									Sign in
+	render() {
+		return (
+			<Segment raised padded="very">
+				<Header as="h2" icon textAlign="center" size="medium">
+					<Icon name="arrow right" circular />
+					<Header.Content>Sign in</Header.Content>
+				</Header>
+				<Segment placeholder padded="very">
+					<Grid columns={2} stackable textAlign="center">
+						<Divider vertical>Or</Divider>
+						<Grid.Row verticalAlign="middle">
+							<Grid.Column>
+								<Form
+									error
+									loading={
+										this.state.loading && !this.props.errorMsg ? true : false
+									}
+									onSubmit={this.props.handleSubmit(this.onSubmit)}
+								>
+									{this._displayErrorMsg()}
+									<Form.Group widths="equal">
+										<Field
+											name="email"
+											label="Email"
+											component={this._renderMail}
+										/>
+									</Form.Group>
+									<Form.Group widths="equal">
+										<Field
+											name="password"
+											label="Password"
+											component={this._renderPassword}
+										/>
+									</Form.Group>
+									<Button fluid type="submit" positive>
+										Sign in
+									</Button>
+								</Form>
+							</Grid.Column>
+							<Grid.Column>
+								<Header icon>
+									<Icon name="add user" />
+								</Header>
+								<Button as={Link} to="/signup" basic color="black">
+									Sign up
 								</Button>
-							</Form>
-						</Grid.Column>
-						<Grid.Column>
-							<Header icon>
-								<Icon name="add user" />
-							</Header>
-							<Button as={Link} to="/signup" basic color="black">
-								Sign up
-							</Button>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</Segment>
 			</Segment>
-		</Segment>
-	);
-};
+		);
+	}
+}
 
 const validate = (formValues: any) => {
 	const errors = {} as any;
