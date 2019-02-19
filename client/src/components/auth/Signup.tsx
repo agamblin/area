@@ -4,6 +4,7 @@ import { signUp } from '../../actions';
 import { compose } from 'redux';
 import EmailField from './components/EmailField';
 import PasswordField from './components/PasswordField';
+import UsernameField from './components/UsernameField';
 import {
 	Form,
 	Button,
@@ -39,19 +40,7 @@ class Signup extends React.Component<any> {
 	};
 
 	_renderUsername = (props: any) => {
-		return (
-			<Form.Field>
-				<Input
-					{...props.input}
-					icon="user"
-					iconPosition="left"
-					placeholder={props.label}
-					label={null}
-					type="text"
-				/>
-				{this._renderErrors(props.meta)}
-			</Form.Field>
-		);
+		return <UsernameField {...props} _renderErrors={this._renderErrors} />;
 	};
 
 	_displayErrorMsg = () => {

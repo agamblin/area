@@ -63,10 +63,33 @@ exports.signin = (req, res, next) => tslib_1.__awaiter(this, void 0, void 0, fun
         return next(err);
     }
 });
+exports.edit = (req, res, next) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+    const errors = check_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        return next(error);
+    }
+    console.log('EDITING');
+    const { email, username } = req.body;
+    console.log(email, username);
+    try {
+        const user = yield User_1.default.findByPk(req.user.id);
+        user.email = email;
+        user.username = username;
+        const newUser = yield user.save();
+        return res.status(200).json(newUser);
+    }
+    catch (err) {
+        return next(err);
+    }
+});
 exports.healthCheck = (req, res) => {
     res.status(200).json({
         id: req.user.id,
         email: req.user.email,
+        username: req.user.username,
         createdAt: req.user.createdAt
     });
 };

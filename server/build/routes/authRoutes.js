@@ -23,6 +23,11 @@ router.post('/signin', [
         .isLength({ min: 5 })
         .withMessage('Please enter a valid password')
 ], authController.signin);
+router.post('/user/edit', requireAuth_1.default, [
+    check_1.body('email')
+        .isEmail()
+        .withMessage('Please enter a valid email')
+], authController.edit);
 router.get('/me', requireAuth_1.default, authController.healthCheck);
 exports.default = router;
 //# sourceMappingURL=authRoutes.js.map

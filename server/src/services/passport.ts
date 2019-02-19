@@ -10,7 +10,7 @@ const jwtOptions: passportJwt.StrategyOptions = {
 const jwtLogin = new passportJwt.Strategy(
 	jwtOptions,
 	async (payload: any, done: any) => {
-		const user = await User.findById(payload.sub);
+		const user = await User.findByPk(payload.sub);
 		if (!user) {
 			return done(null, false);
 		}

@@ -9,7 +9,7 @@ const jwtOptions = {
     secretOrKey: process.env.SECRET_JWT
 };
 const jwtLogin = new passportJwt.Strategy(jwtOptions, (payload, done) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-    const user = yield User_1.default.findById(payload.sub);
+    const user = yield User_1.default.findByPk(payload.sub);
     if (!user) {
         return done(null, false);
     }
