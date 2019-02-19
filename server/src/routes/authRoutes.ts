@@ -33,5 +33,16 @@ router.post(
 	authController.signin
 );
 
+router.post(
+	'/user/edit',
+	requireAuth,
+	[
+		body('email')
+			.isEmail()
+			.withMessage('Please enter a valid email')
+	],
+	authController.edit
+);
+
 router.get('/me', requireAuth, authController.healthCheck);
 export default router;
