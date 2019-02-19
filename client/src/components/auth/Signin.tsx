@@ -62,7 +62,7 @@ class Signin extends React.Component<signinProps> {
 			<Segment raised padded="very">
 				<Header as="h2" icon textAlign="center" size="medium">
 					<Icon name="arrow right" circular />
-					<Header.Content>Sign in</Header.Content>
+					<Header.Content>Register</Header.Content>
 				</Header>
 				<Segment placeholder padded="very">
 					<Grid columns={2} stackable textAlign="center">
