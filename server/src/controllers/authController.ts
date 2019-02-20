@@ -76,36 +76,3 @@ export const signin = async (
 		return next(err);
 	}
 };
-
-export const edit = async (req: Request, res: Response, next: NextFunction) => {
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		const error: any = new Error('Validation failed');
-		error.statusCode = 422;
-		error.data = errors.array();
-		return next(error);
-	}
-	console.log('EDITING');
-
-	const { email, username } = req.body;
-	console.log(email, username);
-	try {
-		const user: any = await User.findByPk(req.user.id);
-		user.email = email;
-		user.username = username;
-		const newUser = await user.save();
-		return res.status(200).json(newUser);
-	} catch (err) {
-		return next(err);
-	}
-};
-
-export const healthCheck = (req: Request, res: Response) => {
-	res.status(200).json({
-		id: req.user.id,
-		email: req.user.email,
-		username: req.user.username,
-		createdAt: req.user.createdAt
-	});
-};

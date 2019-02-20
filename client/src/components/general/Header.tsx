@@ -38,18 +38,22 @@ const Header = (props: headerProps) => {
 		setActiveItem(name);
 
 	const renderLoginLeft = () => {
-		return (
-			<React.Fragment>
-				<Menu.Item
-					as={Link}
-					to="/pipes"
-					name="pipes"
-					active={activeItem === 'pipes'}
-					onClick={handleItemClick}
-				/>
-			</React.Fragment>
-		);
+		if (props.authenticated) {
+			return (
+				<React.Fragment>
+					<Menu.Item
+						as={Link}
+						to="/pipes"
+						name="pipes"
+						active={activeItem === 'pipes'}
+						onClick={handleItemClick}
+					/>
+				</React.Fragment>
+			);
+		}
+		return null;
 	};
+
 	const renderLoginRight = () => {
 		if (!props.authenticated) {
 			return (
