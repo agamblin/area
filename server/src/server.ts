@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 
 // UTILS
+import sequelize from './utils/database';
 
 const app = express();
 
@@ -14,4 +15,6 @@ app.get('/', (req: any, res: any) => {
 	res.send('hello');
 });
 
-app.listen(8080, () => 'listening on port 8080');
+sequelize.sync().then(() => {
+	app.listen(8080, () => 'listening on port 8080');
+});
