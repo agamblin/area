@@ -12,10 +12,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req: any, res: any) => {
 	req;
-	res.send('hello');
+	res.send(process.env.RDS_HOSTNAME);
 });
 
 app.listen(8080, () => 'listening on port 8080');
-sequelize.sync({ force: true }).then(() => {
-	app.listen(8080, () => 'listening on port 8080');
-});
