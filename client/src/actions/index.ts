@@ -5,7 +5,7 @@ import history from '../history';
 // AUTH
 export const signUp = (formProps: any) => async (dispatch: any) => {
 	try {
-		const { data } = await tribe:.post('/auth/signup', {
+		const { data } = await tribe.post('/auth/signup', {
 			email: formProps.email,
 			username: formProps.username,
 			password: formProps.password
