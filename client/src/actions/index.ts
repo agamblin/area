@@ -5,7 +5,7 @@ import history from '../history';
 // AUTH
 export const signUp = (formProps: any) => async (dispatch: any) => {
 	try {
-		const { data } = await tribe.post('/signup', {
+		const { data } = await tribe.post('/auth/signup', {
 			email: formProps.email,
 			username: formProps.username,
 			password: formProps.password
@@ -20,7 +20,7 @@ export const signUp = (formProps: any) => async (dispatch: any) => {
 
 export const signIn = (formProps: any) => async (dispatch: any) => {
 	try {
-		const { data } = await tribe.post('/signin', {
+		const { data } = await tribe.post('/auth/signin', {
 			email: formProps.email,
 			password: formProps.password
 		});
@@ -45,7 +45,7 @@ export const signout = () => {
 export const fetchUser = () => async (dispatch: any, getState: any) => {
 	const accessToken = getState().auth.authenticated;
 
-	const { data } = await tribe.get('me', {
+	const { data } = await tribe.get('/user', {
 		headers: {
 			Authorization: `Bearer ${accessToken}`
 		}
@@ -59,7 +59,7 @@ export const editUser = (formProps: any) => async (
 ) => {
 	const accessToken = getState().auth.authenticated;
 
-	const { data } = await tribe.post('user/edit', formProps, {
+	const { data } = await tribe.put('/user', formProps, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`
 		}
