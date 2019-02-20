@@ -1,15 +1,24 @@
 import * as express from 'express';
 import * as cors from 'cors';
-import sequelize from './utils/database';
-import authRoutes from './routes/authRoutes';
 import * as bodyParser from 'body-parser';
+
+// UTILS
+import sequelize from './utils/database';
+
+// ROUTES
+import authRoutes from './routes/authRoutes';
+import userRoutes from './routes/userRoutes';
+
+// MIDDLEWARE
+import requireAuth from './middlewares/requireAuth';
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(authRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', requireAuth, userRoutes);
 
 app.use(
 	(

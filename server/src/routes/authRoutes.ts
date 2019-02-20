@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import * as authController from '../controllers/authController';
 import { body } from 'express-validator/check';
-import requireAuth from '../utils/requireAuth';
 
 const router: Router = Router();
 
@@ -33,16 +32,4 @@ router.post(
 	authController.signin
 );
 
-router.post(
-	'/user/edit',
-	requireAuth,
-	[
-		body('email')
-			.isEmail()
-			.withMessage('Please enter a valid email')
-	],
-	authController.edit
-);
-
-router.get('/me', requireAuth, authController.healthCheck);
 export default router;
