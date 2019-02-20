@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 import Root from './Root';
-import { Router, Route } from 'react-router-dom';
-import history from './history';
+import { Route } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import App from './components/App';
 
 ReactDOM.render(
 	<Root>
-		<Router history={history}>
-			<Route path="/" component={App} />
-		</Router>
+		<Route path="/" component={App} />
 	</Root>,
 	document.querySelector('#root')
 );
