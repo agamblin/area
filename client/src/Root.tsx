@@ -3,6 +3,9 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import React from 'react';
 import reduxThunk from 'redux-thunk';
+import { Router, Route } from 'react-router-dom';
+import history from './history';
+import App from './components/App';
 
 declare global {
 	interface Window {
@@ -17,11 +20,15 @@ const initialState: any = {
 	auth: { authenticated: localStorage.getItem('tokenTribe') }
 };
 
-export default ({ children }: { children: any }) => {
+export default ({ children }: { children?: any }) => {
 	const store = createStore(
 		reducers,
 		initialState,
 		composeEnhancers(applyMiddleware(reduxThunk))
 	);
-	return <Provider store={store}>{children}</Provider>;
+	return (
+		<Provider store={store}>
+			<Router history={history}>{children}</Router>
+		</Provider>
+	);
 };
