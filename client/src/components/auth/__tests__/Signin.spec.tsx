@@ -40,6 +40,15 @@ it('contains a field email', () => {
 	).toEqual('email');
 });
 
+it('contains a password field', () => {
+	expect(
+		wrapped
+			.find('input')
+			.last()
+			.prop('name')
+	).toEqual('password');
+});
+
 afterEach(() => {
 	wrapped.unmount();
 });
