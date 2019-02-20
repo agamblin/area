@@ -1,8 +1,17 @@
+import * as AWS from 'aws-sdk';
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/check';
+import { NextFunction } from 'express';
 
 import User from '../models/User';
-import { NextFunction } from 'connect';
+import * as keys from '../keys';
+
+const s3 = new AWS.S3({
+	accessKeyId: keys.s3accessKeyId,
+	secretAccessKey: keys.s3secretKey,
+	signatureVersion: 'v4',
+	region: 'eu-west-3'
+});
 
 export const edit = async (req: Request, res: Response, next: NextFunction) => {
 	const errors = validationResult(req);
@@ -15,7 +24,7 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
 	}
 
 	const { email, username } = req.body;
-	console.log(email, username);
+
 	try {
 		const user: any = await User.findByPk(req.user.id);
 		user.email = email;
@@ -34,4 +43,21 @@ export const getUser = (req: Request, res: Response) => {
 		username: req.user.username,
 		createdAt: req.user.createdAt
 	});
+};
+
+export const getS3Link = (req: Request, res: Response) => {
+	const key = `${req.user.id}/profile/image.jpeg`;
+
+	s3.getSignedUrl(
+		'putObject',
+		{
+			Bucket: 'tribe-storage',
+			ContentType: 'image/jpeg',
+			Key: key
+		},
+		(err, url) => {
+			err;
+			res.status(200).json({ key, url });
+		}
+	);
 };

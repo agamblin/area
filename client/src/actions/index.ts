@@ -45,12 +45,16 @@ export const signout = () => {
 export const fetchUser = () => async (dispatch: any, getState: any) => {
 	const accessToken = getState().auth.authenticated;
 
-	const { data } = await tribe.get('/user', {
-		headers: {
-			Authorization: `Bearer ${accessToken}`
-		}
-	});
-	dispatch({ type: FETCH_USER, payload: data });
+	try {
+		const { data } = await tribe.get('/user', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		dispatch({ type: FETCH_USER, payload: data });
+	} catch (e) {
+		dispatch(signout());
+	}
 };
 
 export const editUser = (formProps: any) => async (
