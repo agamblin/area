@@ -31,6 +31,15 @@ it('contains a button Sign up', () => {
 	).toEqual('Sign up');
 });
 
+it('contains a field email', () => {
+	expect(
+		wrapped
+			.find('input')
+			.first()
+			.prop('name')
+	).toEqual('email');
+});
+
 afterEach(() => {
 	wrapped.unmount();
 });
