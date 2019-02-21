@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/check';
 import * as jwt from 'jwt-simple';
 import * as bcrypt from 'bcryptjs';
+import * as keys from '../keys';
 
 import User from '../models/User';
 import { NextFunction } from 'connect';
 
 const tokenForUser = (user: any) => {
 	const timestamp = new Date().getTime();
-
-	return jwt.encode({ sub: user.id, iat: timestamp }, process.env.SECRET_JWT);
+	return jwt.encode({ sub: user.id, iat: timestamp }, keys.jwtSecret);
 };
 
 export const signup = async (
