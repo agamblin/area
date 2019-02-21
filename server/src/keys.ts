@@ -6,3 +6,5 @@ export const sqlPort: number = parseInt(process.env.SQL_PORT);
 
 export const s3accessKeyId = process.env.S3_ACCESS_KEY_ID;
 export const s3secretKey = process.env.S3_SECRET_KEY;
+
+export const jwtSecret = process.env.JWT_SECRET;

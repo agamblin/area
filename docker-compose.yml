@@ -33,7 +33,7 @@ services:
       - SQL_PASSWORD=9uOxHyH9
       - SQL_DB=tribe
       - SQL_PORT=3306
-      - SECRET_JWT=somedumbjwtsecret
+      - JWT_SECRET=somedumbjwtsecret
       - S3_ACCESS_KEY_ID=AKIAIHHSPATLJ6KWBNIQ
       - S3_SECRET_KEY=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
   client:
