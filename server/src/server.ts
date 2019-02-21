@@ -7,10 +7,10 @@ import sequelize from './utils/database';
 
 // ROUTES
 import authRoutes from './routes/authRoutes';
-// import userRoutes from './routes/userRoutes';
+import userRoutes from './routes/userRoutes';
 
-// // MIDDLEWARE
-// import requireAuth from './middlewares/requireAuth';
+// MIDDLEWARE
+import requireAuth from './middlewares/requireAuth';
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.get('/', (req: any, res: any) => {
 });
 
 app.use('/auth', authRoutes);
-// app.use('/user', requireAuth, userRoutes);
+app.use('/user', requireAuth, userRoutes);
 
 app.use(
 	(
