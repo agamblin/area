@@ -28,11 +28,11 @@ services:
     ports:
       - '8080:8080'
     environment:
-      - RDS_HOSTNAME=mysql
-      - RDS_USERNAME=root
-      - RDS_PASSWORD=9uOxHyH9
-      - RDS_DB_NAME=tribe
-      - RDS_PORT=3306
+      - SQL_HOST=mysql
+      - SQL_USERN=root
+      - SQL_PASSWORD=9uOxHyH9
+      - SQL_DB=tribe
+      - SQL_PORT=3306
       - SECRET_JWT=somedumbjwtsecret
       - S3_ACCESS_KEY_ID=AKIAIHHSPATLJ6KWBNIQ
       - S3_SECRET_KEY=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
