@@ -1,3 +1,8 @@
 .image-profile {
 	margin-bottom: 2%;
 }
+
+.change-image-link {
+	color: grey;
+	cursor: pointer;
+}
