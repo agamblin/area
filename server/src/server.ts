@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req: any, res: any) => {
 	req;
-	res.send('hello');
+	res.send('hi');
 });
 
 app.use('/auth', authRoutes);
@@ -42,6 +42,6 @@ app.use(
 	}
 );
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync({ force: true }).then(() => {
 	app.listen(8080, () => 'listening on port 8080');
 });
