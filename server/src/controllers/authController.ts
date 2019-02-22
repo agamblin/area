@@ -26,7 +26,7 @@ export const signup = async (
 		return next(error);
 	}
 	try {
-		const { email, username, password } = req.body;
+		const { email, username, avatarUrl, password } = req.body;
 		const user: any = await User.findOne({ where: { email: req.body.email } });
 		if (user) {
 			return res.status(422).json({ message: 'User already exist' });
@@ -35,6 +35,7 @@ export const signup = async (
 		const newUser: any = await User.create({
 			email,
 			username,
+			avatarUrl,
 			password: hash
 		});
 		return res.status(201).json({ token: tokenForUser(newUser) });
