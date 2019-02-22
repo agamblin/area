@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Button } from 'semantic-ui-react';
+import { Image, Button, Item } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './css/ImageProfile.css';
 
@@ -38,9 +38,14 @@ const ImageProfile = (props: ImageProfileProps) => {
 		<React.Fragment>
 			{_renderImage()}
 			<React.Fragment>
-				<Button as="label" positive htmlFor="upload" size="small">
-					Upload
-				</Button>
+				<Item.Meta
+					as="label"
+					htmlFor="upload"
+					size="small"
+					className="change-image-link"
+				>
+					Change image
+				</Item.Meta>
 				<input
 					hidden
 					id="upload"

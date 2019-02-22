@@ -56,7 +56,7 @@ export class UserSettings extends Component<UserSettingsProps> {
 	};
 
 	_renderSubmitButton = () => {
-		if (this.state.touched) {
+		if (this.state.touched || this.state.file) {
 			return (
 				<Button fluid positive>
 					Edit
