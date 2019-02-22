@@ -34,8 +34,6 @@ services:
       - SQL_DB=tribe
       - SQL_PORT=3306
       - JWT_SECRET=somedumbjwtsecret
-      - S3_ACCESS_KEY_ID=AKIAIHHSPATLJ6KWBNIQ
-      - S3_SECRET_KEY=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
   client:
     build:
       context: ./client
