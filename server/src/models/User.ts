@@ -12,6 +12,11 @@ const User = sequelize.define('user', {
 		unique: true,
 		allowNull: true
 	},
+	avatarUrl: {
+		type: Sequelize.STRING,
+		defaultValue:
+			'https://iupac.org/wp-content/uploads/2018/05/default-avatar.png'
+	},
 	password: {
 		type: Sequelize.STRING,
 		allowNull: false

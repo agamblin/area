@@ -16,4 +16,6 @@ router.put(
 	userController.edit
 );
 
+router.get('/upload/profile', userController.getS3Link);
+
 export default router;

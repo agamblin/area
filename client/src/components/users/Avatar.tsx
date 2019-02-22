@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, Dropdown } from 'semantic-ui-react';
-import faker from 'faker';
 import { fetchUser } from '../../actions';
 import { connect } from 'react-redux';
 import requireAuth from '../auth/requireAuth';
@@ -10,34 +9,35 @@ interface AvatarProps {
 	fetchUser?: any;
 	username?: string;
 	options?: any;
+	avatarUrl?: string;
 }
 
-const Avatar = (props: AvatarProps) => {
-	React.useEffect(() => {
-		props.fetchUser();
-	}, []);
+class Avatar extends React.Component<AvatarProps> {
+	componentDidMount() {
+		this.props.fetchUser();
+	}
 
-	const _getTrigger = () => {
+	_getTrigger = () => {
 		return (
 			<span>
-				{props.username}
+				{this.props.username}
 				<Image
 					className="avatar-photo"
 					avatar
 					size="mini"
-					src={faker.image.avatar()}
+					src={this.props.avatarUrl}
 				/>
 			</span>
 		);
 	};
 
-	const _renderDropdown = () => {
-		if (props.username) {
-			const trigger = _getTrigger();
+	_renderDropdown = () => {
+		if (this.props.username) {
+			const trigger = this._getTrigger();
 			return (
 				<Dropdown
 					trigger={trigger}
-					options={props.options}
+					options={this.props.options}
 					pointing="top left"
 					icon={null}
 				/>
@@ -46,13 +46,16 @@ const Avatar = (props: AvatarProps) => {
 		return null;
 	};
 
-	return <React.Fragment>{_renderDropdown()}</React.Fragment>;
-};
+	render() {
+		return <React.Fragment>{this._renderDropdown()}</React.Fragment>;
+	}
+}
 
 const mapStateToProps = (state: any) => {
 	if (state.auth.user) {
 		return {
-			username: state.auth.user.username
+			username: state.auth.user.username,
+			avatarUrl: state.auth.user.avatarUrl
 		};
 	}
 	return {};
