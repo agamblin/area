@@ -6,7 +6,7 @@ before_install:
   - docker build -t agamblin/area-react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run agamblin/area-react-test yarn test -- --coverage
+  - docker run agamblin/area-react-test yarn test --coverage
 
 after_success:
   - docker build -t agamblin/area-client ./client
