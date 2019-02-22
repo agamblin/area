@@ -2,7 +2,6 @@ import * as AWS from 'aws-sdk';
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator/check';
 import { NextFunction } from 'express';
-
 import User from '../models/User';
 import * as keys from '../keys';
 
@@ -23,12 +22,16 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
 		return next(error);
 	}
 
-	const { email, username } = req.body;
+	const { email, username, key } = req.body;
 
 	try {
 		const user: any = await User.findByPk(req.user.id);
 		user.email = email;
 		user.username = username;
+		if (key) {
+			user.avatarUrl =
+				'https://s3.eu-west-3.amazonaws.com/tribe-storage/' + key;
+		}
 		const newUser = await user.save();
 		return res.status(200).json(newUser);
 	} catch (err) {
@@ -40,13 +43,14 @@ export const getUser = (req: Request, res: Response) => {
 	res.status(200).json({
 		id: req.user.id,
 		email: req.user.email,
+		avatarUrl: req.user.avatarUrl,
 		username: req.user.username,
 		createdAt: req.user.createdAt
 	});
 };
 
 export const getS3Link = (req: Request, res: Response) => {
-	const key = `${req.user.id}/profile/image.jpeg`;
+	const key = `${req.user.id}/profile/${req.query.filename}`;
 
 	s3.getSignedUrl(
 		'putObject',

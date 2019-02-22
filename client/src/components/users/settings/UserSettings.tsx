@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import {
 	Header,
 	Form,
-	Image,
 	Divider,
 	Message,
-	Input,
-	Button
+	Button,
+	Loader,
+	Dimmer
 } from 'semantic-ui-react';
-import faker from 'faker';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import requireAuth from '../../auth/requireAuth';
 import { compose } from 'redux';
 import EmailField from '../../auth/components/EmailField';
 import UsernameField from '../../auth/components/UsernameField';
+import ImageProfile from '../ImageProfile';
 import { editUser } from '../../../actions';
 import './css/UserSettings.css';
 
@@ -25,11 +25,12 @@ interface UserSettingsProps {
 }
 
 export class UserSettings extends Component<UserSettingsProps> {
-	state = { touched: false };
+	state = { touched: false, file: null, loading: false };
 
-	onSubmit = (formProps: any) => {
+	onSubmit = async (formProps: any) => {
 		this.setState({ loading: true });
-		this.props.editUser(formProps);
+		await this.props.editUser(formProps, this.state.file);
+		this.setState({ loading: false });
 	};
 
 	_renderErrors = (meta: any) => {
@@ -64,13 +65,40 @@ export class UserSettings extends Component<UserSettingsProps> {
 		}
 	};
 
+	_renderImage = () => {
+		if (this.state.file) {
+			return (
+				<ImageProfile
+					imageUrl={URL.createObjectURL(this.state.file)}
+					onChange={(e: any) => this.setState({ file: e.target.files[0] })}
+				/>
+			);
+		}
+		return (
+			<ImageProfile
+				onChange={(e: any) => this.setState({ file: e.target.files[0] })}
+			/>
+		);
+	};
+
+	_renderLoader = () => {
+		if (this.state.loading) {
+			return (
+				<Dimmer active inverted>
+					<Loader size="medium">Loading</Loader>
+				</Dimmer>
+			);
+		}
+	};
+
 	render() {
 		return (
 			<React.Fragment>
 				<Divider horizontal>
 					<Header as="h4">Profile</Header>
 				</Divider>
-				<Image centered circular src={faker.image.avatar()} size="small" />
+				{this._renderImage()}
+				{this._renderLoader()}
 				<Form
 					className="edit-form"
 					onSubmit={this.props.handleSubmit(this.onSubmit)}
