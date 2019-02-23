@@ -4,9 +4,10 @@ import { Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 import Signup from './auth/Signup';
+import SignupDetails from './auth/SignupDetails';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import UserSettings from './users/settings/UserSettings';
+import UserSettings from './users/UserSettings';
 import UserProfile from './users/UserProfile';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
 			<Container textAlign="center">
 				<Header />
 				<Route path="/signup" exact component={Signup} />
+				<Route path="/user/details" exact component={SignupDetails} />
 				<Route path="/signin" exact component={Signin} />
 				<Route path="/signout" exact component={Signout} />
 				<Route path="/user/profile" exact component={UserProfile} />

@@ -13,7 +13,7 @@ export const signUp = (formProps: any) => async (dispatch: any) => {
 		});
 		localStorage.setItem('tokenTribe', data.token);
 		dispatch({ type: AUTH_USER, payload: data });
-		history.push('/pipes');
+		history.push('/user/details');
 	} catch (e) {
 		dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
 	}
@@ -80,16 +80,16 @@ export const editUser = (formProps: any, file: any) => async (
 	dispatch: any,
 	getState: any
 ) => {
-	let key;
+	let avatarUrl;
 	const accessToken = getState().auth.authenticated;
 
 	if (file) {
-		key = await _uploadFile(file, accessToken);
+		avatarUrl = await _uploadFile(file, accessToken);
 	}
 
 	const { data } = await tribe.put(
 		'/user',
-		{ ...formProps, key },
+		{ ...formProps, avatarUrl },
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`
@@ -97,4 +97,30 @@ export const editUser = (formProps: any, file: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
+};
+
+export const patchUser = (values: any) => async (
+	dispatch: any,
+	getState: any
+) => {
+	let avatarUrl: any = null;
+	const accessToken = getState().auth.authenticated;
+
+	if (values.file) {
+		avatarUrl = await _uploadFile(values.file, accessToken);
+	}
+	const { data } = await tribe.patch(
+		'/user',
+		{
+			...values,
+			avatarUrl
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		}
+	);
+	dispatch({ type: EDIT_USER, payload: data });
+	history.push('/pipes');
 };

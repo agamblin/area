@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Button, Item } from 'semantic-ui-react';
+import { Image, Item } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './css/ImageProfile.css';
 
