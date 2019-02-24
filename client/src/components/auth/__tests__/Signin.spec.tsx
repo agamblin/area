@@ -1,23 +1,15 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import Signin from "../Signin";
-import Signup from "../Signup";
-import { Input } from "semantic-ui-react";
 
 import Root from "../../../Root";
 
 let signin: ReactWrapper;
-let signup: ReactWrapper;
 
 beforeEach(() => {
   signin = mount(
     <Root>
       <Signin />
-    </Root>
-  );
-  signup = mount(
-    <Root>
-      <Signup />
     </Root>
   );
 });

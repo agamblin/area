@@ -1,7 +1,6 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import Signup from "../Signup";
-import { Input } from "semantic-ui-react";
 
 import Root from "../../../Root";
 
