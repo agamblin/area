@@ -33,7 +33,6 @@ export default (state = INITIAL_STATE as authState, action: any) => {
 		case EDIT_USER:
 			return { ...state, user: action.payload };
 		case GOOGLE_TOKEN:
-			console.log('GOOGLE_TOKEN');
 			return { ...state, user: action.payload };
 		default:
 			return state;

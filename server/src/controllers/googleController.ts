@@ -20,3 +20,18 @@ export const registerProvider = async (
 		return next(err);
 	}
 };
+
+export const fetchFiles = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	if (req.user.googleService) {
+		const googleProvider = await req.user.getGoogleProvider();
+		const files = await googleProvider.fetchFiles();
+		return res.status(200).json(files);
+	}
+	const err: any = new Error('No google provider renseigned');
+	err.statusCode = 404;
+	return next(err);
+};

@@ -129,14 +129,12 @@ export const patchUser = (values: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
-	history.push('/pipes');
 };
 
 export const registerGoogleService = (googleResponse: any) => async (
 	dispatch: any,
 	getState: any
 ) => {
-	console.log(googleResponse);
 	const accessToken = getState().auth.authenticated;
 
 	const { data } = await tribe.post(
@@ -151,6 +149,5 @@ export const registerGoogleService = (googleResponse: any) => async (
 			}
 		}
 	);
-	console.log(data);
 	dispatch({ type: GOOGLE_TOKEN, payload: data });
 };
