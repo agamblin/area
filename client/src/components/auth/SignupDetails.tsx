@@ -40,7 +40,7 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 		if (this.state.file) {
 			return (
 				<div style={{ marginTop: '2.5%' }}>
-					<Button positive icon="check" circular type="submit" />
+					<Button positive icon="check" size="large" circular type="submit" />
 				</div>
 			);
 		}
@@ -53,11 +53,14 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 	render() {
 		return (
 			<div>
-				<Form
-					onSubmit={this._handleSubmit}
-					loading={this.state.loading ? true : false}
-				>
-					<Segment raised>
+				<Segment raised>
+					<Header as="h1" textAlign="center">
+						Give us some details
+					</Header>
+					<Form
+						onSubmit={this._handleSubmit}
+						loading={this.state.loading ? true : false}
+					>
 						<Divider horizontal>
 							<Header as="h4">Image Profile</Header>
 						</Divider>
@@ -66,9 +69,10 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 							<Header as="h4">Services</Header>
 						</Divider>
 						{this._renderServices()}
-					</Segment>
-					{this._renderButton()}
-				</Form>
+
+						{this._renderButton()}
+					</Form>
+				</Segment>
 			</div>
 		);
 	}

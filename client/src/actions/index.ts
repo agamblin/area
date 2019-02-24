@@ -1,7 +1,14 @@
 import tribe from '../api/tribe';
-import { AUTH_USER, AUTH_ERROR, FETCH_USER, EDIT_USER } from './types';
+import {
+	AUTH_USER,
+	AUTH_ERROR,
+	FETCH_USER,
+	EDIT_USER,
+	GOOGLE_TOKEN
+} from './types';
 import history from '../history';
 import Axios from 'axios';
+import { any } from 'prop-types';
 
 // AUTH
 export const signUp = (formProps: any) => async (dispatch: any) => {
@@ -122,5 +129,25 @@ export const patchUser = (values: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
-	history.push('/pipes');
+};
+
+export const registerGoogleService = (googleResponse: any) => async (
+	dispatch: any,
+	getState: any
+) => {
+	const accessToken = getState().auth.authenticated;
+
+	const { data } = await tribe.post(
+		'/google',
+		{
+			name: googleResponse.profileObj.name,
+			accessToken: googleResponse.accessToken
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		}
+	);
+	dispatch({ type: GOOGLE_TOKEN, payload: data });
 };

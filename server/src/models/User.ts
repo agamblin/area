@@ -20,6 +20,10 @@ const User = sequelize.define('user', {
 	password: {
 		type: Sequelize.STRING,
 		allowNull: false
+	},
+	googleService: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 

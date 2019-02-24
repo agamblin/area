@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import GoogleLogin from './Services/GoogleLogin';
 
 export class ServicesAuth extends Component {
 	render() {
-		return <div>Services</div>;
+		return (
+			<div>
+				<GoogleLogin />
+			</div>
+		);
 	}
 }
 
