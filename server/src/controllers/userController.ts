@@ -22,15 +22,15 @@ export const edit = async (req: Request, res: Response, next: NextFunction) => {
 		return next(error);
 	}
 
-	const { email, username, key } = req.body;
+	const { email, username, avatarUrl } = req.body;
 
 	try {
 		const user: any = await User.findByPk(req.user.id);
 		user.email = email;
 		user.username = username;
-		if (key) {
+		if (avatarUrl) {
 			user.avatarUrl =
-				'https://s3.eu-west-3.amazonaws.com/tribe-storage/' + key;
+				'https://s3.eu-west-3.amazonaws.com/tribe-storage/' + avatarUrl;
 		}
 		const newUser = await user.save();
 		return res.status(200).json(newUser);
@@ -47,6 +47,32 @@ export const getUser = (req: Request, res: Response) => {
 		username: req.user.username,
 		createdAt: req.user.createdAt
 	});
+};
+
+export const patch = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const { email, username, avatarUrl } = req.body;
+
+	try {
+		const user: any = await User.findByPk(req.user.id);
+		if (email) {
+			user.email = email;
+		}
+		if (username) {
+			user.username = username;
+		}
+		if (avatarUrl) {
+			user.avatarUrl =
+				'https://s3.eu-west-3.amazonaws.com/tribe-storage/' + avatarUrl;
+		}
+		const newUser = await user.save();
+		return res.status(200).json(newUser);
+	} catch (err) {
+		return next(err);
+	}
 };
 
 export const getS3Link = (req: Request, res: Response) => {

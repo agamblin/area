@@ -10,12 +10,12 @@ import {
 } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import requireAuth from '../../auth/requireAuth';
+import requireAuth from '../auth/requireAuth';
 import { compose } from 'redux';
-import EmailField from '../../auth/components/EmailField';
-import UsernameField from '../../auth/components/UsernameField';
-import ImageProfile from '../ImageProfile';
-import { editUser } from '../../../actions';
+import EmailField from '../auth/components/EmailField';
+import UsernameField from '../auth/components/UsernameField';
+import ImageProfile from './ImageProfile';
+import { editUser } from '../../actions';
 import './css/UserSettings.css';
 
 interface UserSettingsProps {
@@ -35,13 +35,11 @@ export class UserSettings extends Component<UserSettingsProps> {
 
 	_renderErrors = (meta: any) => {
 		if (meta.error && meta.touched) {
-			console.log('error:', meta.error);
 			return <Message error content={meta.error} />;
 		}
 	};
 
 	_renderEmail = (props: any) => {
-		console.log(props.meta);
 		if (props.meta.active) {
 			this.setState({ touched: true });
 		}
