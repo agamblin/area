@@ -1,7 +1,7 @@
 import sequelize from '../utils/database';
 import * as Sequelize from 'sequelize';
 
-const User = sequelize.define('user', {
+const User: any = sequelize.define('user', {
 	email: {
 		type: Sequelize.STRING,
 		unique: true,

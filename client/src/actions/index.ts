@@ -129,6 +129,7 @@ export const patchUser = (values: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
+	history.push('/pipes');
 };
 
 export const registerGoogleService = (googleResponse: any) => async (
