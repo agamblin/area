@@ -2,12 +2,17 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 
+// MODELS
+import User from './models/User';
+import GoogleProvider from './models/GoogleProvider';
+
 // UTILS
 import sequelize from './utils/database';
 
 // ROUTES
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import googleRoutes from './routes/googleRoutes';
 
 // MIDDLEWARE
 import requireAuth from './middlewares/requireAuth';
@@ -24,6 +29,7 @@ app.get('/', (req: any, res: any) => {
 
 app.use('/auth', authRoutes);
 app.use('/user', requireAuth, userRoutes);
+app.use('/google', requireAuth, googleRoutes);
 
 app.use(
 	(
@@ -41,6 +47,10 @@ app.use(
 		res.status(status).json({ message, data });
 	}
 );
+
+// User has one GoogleProvider
+User.hasOne(GoogleProvider);
+GoogleProvider.belongsTo(User);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');
