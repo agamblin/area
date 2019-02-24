@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react';
-import UserSettings from './settings/UserSettings';
+import UserSettings from './UserSettings';
 
 export class UserProfile extends Component {
 	state = { activeItem: 'General' };

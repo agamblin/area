@@ -26,7 +26,6 @@ class Signup extends React.Component<any> {
 
 	_renderErrors = (meta: any) => {
 		if (meta.error && meta.touched) {
-			console.log('error:', meta.error);
 			return <Message error content={meta.error} />;
 		}
 	};
