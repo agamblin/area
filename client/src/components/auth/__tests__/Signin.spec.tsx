@@ -1,36 +1,50 @@
-import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
-import Signin from '../Signin';
+import React from "react";
+import { mount, ReactWrapper } from "enzyme";
+import Signin from "../Signin";
+import Signup from "../Signup";
+import { Input } from "semantic-ui-react";
 
-import Root from '../../../Root';
+import Root from "../../../Root";
 
-let wrapped: ReactWrapper;
+let signin: ReactWrapper;
+let signup: ReactWrapper;
 
 beforeEach(() => {
-	wrapped = mount(
-		<Root>
-			<Signin />
-		</Root>
-	);
+  signin = mount(
+    <Root>
+      <Signin />
+    </Root>
+  );
+  signup = mount(
+    <Root>
+      <Signup />
+    </Root>
+  );
 });
 
-it('contains a Sign in title', () => {
-	expect(wrapped.find('.content').text()).toEqual('Sign in');
+// signin check
+
+it("contains a Sign in title", () => {
+  expect(signin.find(".content").text()).toEqual("Sign in");
 });
 
-it('contains a Sign in button', () => {
-	expect(wrapped.find('.ui.fluid.positive.button').text()).toEqual('Sign in');
+it("contains a Sign in button", () => {
+  expect(signin.find(".ui.fluid.positive.button").text()).toEqual("Sign in");
 });
 
-it('contains a button Sign up', () => {
-	expect(
-		wrapped
-			.find('.ui.black.basic.button')
-			.first()
-			.text()
-	).toEqual('Sign up');
+it("contains a button Sign up", () => {
+  expect(
+    signin
+      .find(".ui.black.basic.button")
+      .first()
+      .text()
+  ).toEqual("Sign up");
+});
+
+it("contains an email field", () => {
+  expect(signin.find("input").first());
 });
 
 afterEach(() => {
-	wrapped.unmount();
+  signin.unmount();
 });
