@@ -53,7 +53,7 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 	render() {
 		return (
 			<div>
-				<Segment raised>
+				<Segment raised textAlign="center">
 					<Header as="h1" textAlign="center">
 						Give us some details
 					</Header>
@@ -69,7 +69,6 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 							<Header as="h4">Services</Header>
 						</Divider>
 						{this._renderServices()}
-
 						{this._renderButton()}
 					</Form>
 				</Segment>

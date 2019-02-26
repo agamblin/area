@@ -7,21 +7,19 @@ import TrelloLogin from './Services/TrelloLogin';
 export class ServicesAuth extends Component {
 	render() {
 		return (
-			<div>
-				<Grid columns={3} divided>
-					<Grid.Row>
-						<Grid.Column>
-							<GoogleLogin />
-						</Grid.Column>
-						<Grid.Column>
-							<GithubLogin />
-						</Grid.Column>
-						<Grid.Column>
-							<TrelloLogin />
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
-			</div>
+			<Grid columns={3} centered>
+				<Grid.Row>
+					<Grid.Column width={4} textAlign="center">
+						<GoogleLogin />
+					</Grid.Column>
+					<Grid.Column width={4} textAlign="center">
+						<GithubLogin />
+					</Grid.Column>
+					<Grid.Column width={4} textAlign="center">
+						<TrelloLogin />
+					</Grid.Column>
+				</Grid.Row>
+			</Grid>
 		);
 	}
 }
