@@ -19,3 +19,7 @@ if (process.env.S3_AWS_KEY_ID) {
 
 export const s3accessKeyId = s3id;
 export const s3secretKey = s3secret;
+
+export const githubId = process.env.GITHUB_ID;
+export const githubSecret = process.env.GITHUB_SECRET;
+export const githubRedirectUri = process.env.GITHUB_REDIRECT_URI;

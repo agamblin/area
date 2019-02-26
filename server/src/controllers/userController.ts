@@ -45,7 +45,8 @@ export const getUser = (req: Request, res: Response) => {
 		email: req.user.email,
 		avatarUrl: req.user.avatarUrl,
 		username: req.user.username,
-		googleService: req.user.googleService
+		googleService: req.user.googleService,
+		githubService: req.user.githubService
 	});
 };
 

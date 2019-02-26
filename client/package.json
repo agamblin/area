@@ -6,6 +6,7 @@
 		"axios": "^0.18.0",
 		"enzyme": "^3.8.0",
 		"enzyme-adapter-react-16": "^1.9.1",
+		"querystring": "^0.2.0",
 		"react": "^16.8.2",
 		"react-dom": "^16.8.2",
 		"react-google-login": "^5.0.2",

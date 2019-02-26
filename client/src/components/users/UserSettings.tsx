@@ -15,17 +15,22 @@ import { compose } from 'redux';
 import EmailField from '../auth/components/EmailField';
 import UsernameField from '../auth/components/UsernameField';
 import ImageProfile from './ImageProfile';
-import { editUser } from '../../actions';
+import { editUser, fetchUser } from '../../actions/user';
 import './css/UserSettings.css';
 
 interface UserSettingsProps {
 	username: string;
 	handleSubmit: any;
 	editUser: any;
+	fetchUser: any;
 }
 
 export class UserSettings extends Component<UserSettingsProps> {
 	state = { touched: false, file: null, loading: false };
+
+	componentDidMount() {
+		this.props.fetchUser();
+	}
 
 	onSubmit = async (formProps: any) => {
 		this.setState({ loading: true });
@@ -111,11 +116,11 @@ export class UserSettings extends Component<UserSettingsProps> {
 }
 
 const mapStateToProps = (state: any) => {
-	if (state.auth.user) {
+	if (state.user.email) {
 		return {
 			initialValues: {
-				email: state.auth.user.email,
-				username: state.auth.user.username
+				email: state.user.email,
+				username: state.user.username
 			}
 		};
 	}
@@ -126,7 +131,8 @@ const editProfileForm: any = compose(
 	connect(
 		mapStateToProps,
 		{
-			editUser
+			editUser,
+			fetchUser
 		}
 	),
 	reduxForm({ form: 'editProfile' })

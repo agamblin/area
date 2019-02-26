@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ImageProfile from '../users/ImageProfile';
 import { Form, Divider, Header, Button, Segment } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { patchUser } from '../../actions';
+import { patchUser } from '../../actions/user';
 import requireAuth from '../auth/requireAuth';
 import ServicesAuth from './ServicesAuth';
 import './css/SignupDetails.css';
