@@ -24,6 +24,10 @@ const User: any = sequelize.define('user', {
 	googleService: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: false
+	},
+	githubService: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 

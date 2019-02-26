@@ -59,9 +59,9 @@ const ImageProfile = (props: ImageProfileProps) => {
 };
 
 const mapStateToProps = (state: any) => {
-	if (state.auth.user) {
+	if (state.user) {
 		return {
-			avatarUrl: state.auth.user.avatarUrl
+			avatarUrl: state.user.avatarUrl
 		};
 	}
 	return {};

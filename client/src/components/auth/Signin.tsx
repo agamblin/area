@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import { signIn } from '../../actions';
+import { signIn } from '../../actions/auth';
 import { compose } from 'redux';
 import EmailField from './components/EmailField';
 import PasswordField from './components/PasswordField';

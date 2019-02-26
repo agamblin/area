@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react';
 import UserSettings from './UserSettings';
 import ServicesAuth from '../auth/ServicesAuth';
+import history from '../../history';
+import * as qs from 'querystring';
 
 export class UserProfile extends Component {
 	state = { activeItem: 'General' };
+
+	componentDidMount() {
+		const query: any = qs.parse(history.location.search);
+		if (query.github) {
+			this.setState({ activeItem: 'Services' });
+		}
+	}
 
 	handleItemClick: any = (e: any, { name }: { name: string }) =>
 		this.setState({ activeItem: name });

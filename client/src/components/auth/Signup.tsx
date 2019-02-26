@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions';
+import { signUp } from '../../actions/auth';
 import { compose } from 'redux';
 import EmailField from './components/EmailField';
 import PasswordField from './components/PasswordField';

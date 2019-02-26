@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Dropdown } from 'semantic-ui-react';
-import { fetchUser } from '../../actions';
+import { fetchUser } from '../../actions/user';
 import { connect } from 'react-redux';
 import requireAuth from '../auth/requireAuth';
 import './css/Avatar.css';
@@ -52,10 +52,10 @@ class Avatar extends React.Component<AvatarProps> {
 }
 
 const mapStateToProps = (state: any) => {
-	if (state.auth.user) {
+	if (state.user) {
 		return {
-			username: state.auth.user.username,
-			avatarUrl: state.auth.user.avatarUrl
+			username: state.user.username,
+			avatarUrl: state.user.avatarUrl
 		};
 	}
 	return {};

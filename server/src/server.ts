@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 // MODELS
 import User from './models/User';
 import GoogleProvider from './models/GoogleProvider';
+import GithubProvider from './models/GithubProvider';
 
 // UTILS
 import sequelize from './utils/database';
@@ -13,6 +14,7 @@ import sequelize from './utils/database';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import googleRoutes from './routes/googleRoutes';
+import githubRoutes from './routes/githubRoutes';
 
 // MIDDLEWARE
 import requireAuth from './middlewares/requireAuth';
@@ -30,6 +32,7 @@ app.get('/', (req: any, res: any) => {
 app.use('/auth', authRoutes);
 app.use('/user', requireAuth, userRoutes);
 app.use('/google', requireAuth, googleRoutes);
+app.use('/github', requireAuth, githubRoutes);
 
 app.use(
 	(
@@ -51,6 +54,9 @@ app.use(
 // User has one GoogleProvider
 User.hasOne(GoogleProvider);
 GoogleProvider.belongsTo(User);
+
+User.hasOne(GithubProvider);
+GithubProvider.belongsTo(User);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

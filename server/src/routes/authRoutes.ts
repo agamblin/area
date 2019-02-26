@@ -32,4 +32,6 @@ router.post(
 	authController.signin
 );
 
+router.get('/oauth/github/callback', authController.githubOauth);
+
 export default router;
