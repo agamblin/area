@@ -86,7 +86,9 @@ const mapStateToProps = (state: any) => {
 			googleService: state.user.googleService
 		};
 	}
-	return {};
+	return {
+		googleService: state.user.googleService
+	};
 };
 
 export default requireAuth(
