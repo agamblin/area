@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.get('/', (req: any, res: any) => {
 	req;
-	res.send('hoa');
+	res.send('ha');
 });
 
 app.use('/auth', authRoutes);
