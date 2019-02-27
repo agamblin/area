@@ -1,7 +1,8 @@
-import { GOOGLE_FETCH, GOOGLE_RESET } from './types';
 import tribe from '../api/tribe';
+import { TRELLO_FETCH, TRELLO_RESET } from './types';
+import history from '../history';
 
-export const registerGoogleService = (googleResponse: any) => async (
+export const registerTrelloService = (accessTokenTrello: string) => async (
 	dispatch: any,
 	getState: any
 ) => {
@@ -9,10 +10,9 @@ export const registerGoogleService = (googleResponse: any) => async (
 		const accessToken = getState().auth.authenticated;
 
 		const { data } = await tribe.post(
-			'/google',
+			'/trello',
 			{
-				name: googleResponse.profileObj.name,
-				accessToken: googleResponse.accessToken
+				accessToken: accessTokenTrello
 			},
 			{
 				headers: {
@@ -20,43 +20,45 @@ export const registerGoogleService = (googleResponse: any) => async (
 				}
 			}
 		);
-		dispatch({ type: GOOGLE_FETCH, payload: data });
+		dispatch({ type: TRELLO_FETCH, payload: data });
+		history.push('/user/profile?trello=true');
 	} catch (e) {
 		alert('Registration failed: Account already in use');
 	}
 };
 
-export const fetchGoogleService = () => async (
+export const fetchTrelloService = () => async (
 	dispatch: any,
 	getState: any
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
-		const { data } = await tribe.get('/google', {
+
+		const { data } = await tribe.get('/trello', {
 			headers: {
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		dispatch({ type: GOOGLE_FETCH, payload: data });
+		dispatch({ type: TRELLO_FETCH, payload: data });
 	} catch (e) {
 		return;
 	}
 };
 
-export const resetGoogleService = () => async (
+export const resetTrelloService = () => async (
 	dispatch: any,
 	getState: any
 ) => {
 	try {
-		console.log('RESETING');
 		const accessToken = getState().auth.authenticated;
-		await tribe.delete('/google', {
+
+		await tribe.delete('/trello', {
 			headers: {
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		dispatch({ type: GOOGLE_RESET });
+		dispatch({ type: TRELLO_RESET });
 	} catch (e) {
-		alert('Some error occured');
+		alert('Failed to reset trello service');
 	}
 };

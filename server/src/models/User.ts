@@ -28,6 +28,10 @@ const User: any = sequelize.define('user', {
 	githubService: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: false
+	},
+	trelloService: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 

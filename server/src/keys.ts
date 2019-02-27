@@ -23,3 +23,6 @@ export const s3secretKey = s3secret;
 export const githubId = process.env.GITHUB_ID;
 export const githubSecret = process.env.GITHUB_SECRET;
 export const githubRedirectUri = process.env.GITHUB_REDIRECT_URI;
+
+export const trelloKey = process.env.TRELLO_KEY;
+export const trelloSecret = process.env.TRELLO_SECRET;

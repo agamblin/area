@@ -31,7 +31,7 @@
 		"nodemon": "^1.18.10",
 		"passport": "^0.4.0",
 		"passport-jwt": "^4.0.0",
-		"querystring": "^0.2.0",
+		"query-string": "^6.2.0",
 		"rimraf": "^2.6.3",
 		"sequelize": "^4.42.0",
 		"typescript": "^3.3.3"
@@ -43,6 +43,7 @@
 		"@types/lodash": "^4.14.121",
 		"@types/passport": "^1.0.0",
 		"@types/passport-jwt": "^3.0.1",
+		"@types/query-string": "^6.2.0",
 		"@types/sequelize": "^4.27.36"
 	}
 }

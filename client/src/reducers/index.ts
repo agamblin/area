@@ -5,12 +5,14 @@ import auth from './auth';
 import user from './user';
 import google from './google';
 import github from './github';
+import trello from './trello';
 
 const appReducer = combineReducers({
 	auth,
 	user,
 	google,
 	github,
+	trello,
 	form: formReducer
 });
 

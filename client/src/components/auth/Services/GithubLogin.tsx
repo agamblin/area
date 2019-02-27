@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as qs from 'querystring';
+import * as qs from 'query-string';
 import { connect } from 'react-redux';
 import { Button, Card } from 'semantic-ui-react';
 import requireAuth from '../../auth/requireAuth';
@@ -16,11 +16,16 @@ interface GithubLoginProps {
 	username?: string;
 	fetchGithubService: any;
 	resetGithubService: any;
+	githubService: boolean;
 }
 
 export class GithubLogin extends Component<GithubLoginProps> {
 	componentDidMount() {
-		this.props.fetchGithubService();
+		if (this.props.githubService) {
+			this.props.fetchGithubService();
+		} else {
+			console.log('NO GITHUB');
+		}
 	}
 
 	_renderAccount = () => {
@@ -75,7 +80,8 @@ const mapStateToProps = (state: any) => {
 		};
 	} else if (state.user) {
 		return {
-			userId: state.user.id
+			userId: state.user.id,
+			githubService: state.user.githubService
 		};
 	}
 	return {};

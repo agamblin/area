@@ -34,4 +34,6 @@ router.post(
 
 router.get('/oauth/github/callback', authController.githubOauth);
 
+router.get('/oauth/trello/callback', authController.trelloOauth);
+
 export default router;

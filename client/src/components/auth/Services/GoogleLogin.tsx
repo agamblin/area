@@ -16,12 +16,15 @@ interface GoogleLoginProps {
 	registerGoogleService: any;
 	fetchGoogleService: any;
 	resetGoogleService: any;
+	googleService: boolean;
 	username?: string;
 }
 
 class GoogleLoginButton extends Component<GoogleLoginProps> {
 	componentDidMount() {
-		this.props.fetchGoogleService();
+		if (this.props.googleService) {
+			this.props.fetchGoogleService();
+		}
 	}
 
 	googleResponse = (response: any) => {
@@ -79,7 +82,8 @@ class GoogleLoginButton extends Component<GoogleLoginProps> {
 const mapStateToProps = (state: any) => {
 	if (state.google) {
 		return {
-			username: state.google.name
+			username: state.google.name,
+			googleService: state.user.googleService
 		};
 	}
 	return {};

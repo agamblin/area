@@ -46,7 +46,8 @@ export const getUser = (req: Request, res: Response) => {
 		avatarUrl: req.user.avatarUrl,
 		username: req.user.username,
 		googleService: req.user.googleService,
-		githubService: req.user.githubService
+		githubService: req.user.githubService,
+		trelloService: req.user.trelloService
 	});
 };
 
