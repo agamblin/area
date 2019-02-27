@@ -10,3 +10,6 @@ export const GOOGLE_RESET = 'GOOGLE_RESET';
 
 export const GITHUB_FETCH = 'GITHUB_FETCH';
 export const GITHUB_RESET = 'GITHUB_RESET';
+
+export const TRELLO_FETCH = 'TRELLO_FETCH';
+export const TRELLO_RESET = 'TRELLO_RESET';

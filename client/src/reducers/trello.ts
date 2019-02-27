@@ -1,4 +1,4 @@
-import { GOOGLE_FETCH, GOOGLE_RESET } from '../actions/types';
+import { TRELLO_FETCH, TRELLO_RESET } from '../actions/types';
 
 interface googleState {
 	id?: number;
@@ -8,9 +8,9 @@ interface googleState {
 
 export default (state = {} as googleState, action: any) => {
 	switch (action.type) {
-		case GOOGLE_FETCH:
+		case TRELLO_FETCH:
 			return { ...state, ...action.payload };
-		case GOOGLE_RESET:
+		case TRELLO_RESET:
 			return { state: {} };
 		default:
 			return state;

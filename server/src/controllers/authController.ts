@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator/check';
 import * as jwt from 'jwt-simple';
 import * as bcrypt from 'bcryptjs';
 import * as keys from '../keys';
-import * as qs from 'querystring';
+import * as qs from 'query-string';
 import githubAuth from '../api/githubAuth';
 import github from '../api/github';
 
@@ -115,7 +115,10 @@ export const githubOauth = async (
 	} catch (err) {
 		return next(err);
 	}
-	return res.redirect(
-		'http://localhost:8081/user/profile?services&github=true'
-	);
+	return res.redirect('http://localhost:8081/user/profile?github=true');
+};
+
+export const trelloOauth = async (req: Request, res: Response) => {
+	console.log('query:', req.query);
+	return res.redirect('http://localhost:8081/user/profile?trello=true');
 };

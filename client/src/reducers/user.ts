@@ -2,9 +2,11 @@ import {
 	FETCH_USER,
 	EDIT_USER,
 	GOOGLE_FETCH,
-	GITHUB_FETCH,
 	GOOGLE_RESET,
-	GITHUB_RESET
+	GITHUB_FETCH,
+	GITHUB_RESET,
+	TRELLO_FETCH,
+	TRELLO_RESET
 } from '../actions/types';
 
 interface userState {
@@ -13,6 +15,7 @@ interface userState {
 	avatarUrl: string;
 	googleService: boolean;
 	githubService: boolean;
+	trelloService: boolean;
 }
 
 export default (state = {} as userState, action: any) => {
@@ -25,10 +28,14 @@ export default (state = {} as userState, action: any) => {
 			return { ...state, googleService: true };
 		case GITHUB_FETCH:
 			return { ...state, githubService: true };
+		case TRELLO_FETCH:
+			return { ...state, trelloService: true };
 		case GOOGLE_RESET:
 			return { ...state, googleService: false };
 		case GITHUB_RESET:
 			return { ...state, githubService: false };
+		case TRELLO_RESET:
+			return { ...state, trelloService: false };
 		default:
 			return state;
 	}

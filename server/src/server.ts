@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import User from './models/User';
 import GoogleProvider from './models/GoogleProvider';
 import GithubProvider from './models/GithubProvider';
+import TrelloProvider from './models/TrelloProvider';
 
 // UTILS
 import sequelize from './utils/database';
@@ -15,6 +16,7 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import googleRoutes from './routes/googleRoutes';
 import githubRoutes from './routes/githubRoutes';
+import trelloRoutes from './routes/trelloRoutes';
 
 // MIDDLEWARE
 import requireAuth from './middlewares/requireAuth';
@@ -33,6 +35,7 @@ app.use('/auth', authRoutes);
 app.use('/user', requireAuth, userRoutes);
 app.use('/google', requireAuth, googleRoutes);
 app.use('/github', requireAuth, githubRoutes);
+app.use('/trello', requireAuth, trelloRoutes);
 
 app.use(
 	(
@@ -43,7 +46,6 @@ app.use(
 	) => {
 		req;
 		next;
-		console.log(error);
 		const status = error.statusCode || 500;
 		const message = error.message;
 		const data = error.data;
@@ -57,6 +59,9 @@ GoogleProvider.belongsTo(User);
 
 User.hasOne(GithubProvider);
 GithubProvider.belongsTo(User);
+
+User.hasOne(TrelloProvider);
+TrelloProvider.belongsTo(User);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

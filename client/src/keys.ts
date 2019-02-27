@@ -5,3 +5,8 @@ export const GOOGLE_SECRET = 'fsBzTAMCa6QiqU5NN05X1A59';
 export const GITHUB_CLIENT_ID = process.env.REACT_APP_GITHUB_ID;
 export const GITHUB_SECRET = process.env.REACT_APP_GITHUB_SECRET;
 export const GITHUB_REDIRECT_URI = process.env.REACT_APP_GITHUB_REDIRECT_URI;
+
+export const TRELLO_KEY = process.env.REACT_APP_TRELLO_KEY;
+export const TRELLO_SECRET = process.env.REACT_APP_TRELLO_SECRET;
+
+export const PROD_URL = process.env.REACT_APP_PROD_URL;

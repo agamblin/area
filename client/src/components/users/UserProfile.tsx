@@ -3,14 +3,23 @@ import { Grid, Menu, Segment } from 'semantic-ui-react';
 import UserSettings from './UserSettings';
 import ServicesAuth from '../auth/ServicesAuth';
 import history from '../../history';
-import * as qs from 'querystring';
+import requireAuth from '../auth/requireAuth';
+import { connect } from 'react-redux';
+import { fetchUser } from '../../actions/user';
+import * as qs from 'query-string';
 
-export class UserProfile extends Component {
+interface UserProfileProps {
+	fetchUser: any;
+	user: any;
+}
+
+export class UserProfile extends Component<UserProfileProps> {
 	state = { activeItem: 'General' };
 
 	componentDidMount() {
+		this.props.fetchUser();
 		const query: any = qs.parse(history.location.search);
-		if (query.github) {
+		if (query.github || query.trello) {
 			this.setState({ activeItem: 'Services' });
 		}
 	}
@@ -19,10 +28,13 @@ export class UserProfile extends Component {
 		this.setState({ activeItem: name });
 
 	renderContent = () => {
-		if (this.state.activeItem === 'General') {
-			return <UserSettings />;
+		if (this.props.user) {
+			if (this.state.activeItem === 'General') {
+				return <UserSettings />;
+			}
+			return <ServicesAuth />;
 		}
-		return <ServicesAuth />;
+		return null;
 	};
 
 	render() {
@@ -52,4 +64,20 @@ export class UserProfile extends Component {
 	}
 }
 
-export default UserProfile;
+const mapStateTopProps = (state: any) => {
+	if (state.user.id) {
+		return {
+			user: state.user
+		};
+	}
+	return {};
+};
+
+export default requireAuth(
+	connect(
+		mapStateTopProps,
+		{
+			fetchUser
+		}
+	)(UserProfile)
+);
