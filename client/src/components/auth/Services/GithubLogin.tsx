@@ -23,8 +23,6 @@ export class GithubLogin extends Component<GithubLoginProps> {
 	componentDidMount() {
 		if (this.props.githubService) {
 			this.props.fetchGithubService();
-		} else {
-			console.log('NO GITHUB');
 		}
 	}
 
@@ -43,6 +41,8 @@ export class GithubLogin extends Component<GithubLoginProps> {
 
 	render() {
 		const { username } = this.props;
+		console.log(keys.GITHUB_CLIENT_ID);
+		console.log(keys.GITHUB_SECRET);
 		return (
 			<Card>
 				<Card.Content>
