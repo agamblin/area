@@ -42,6 +42,6 @@ app.use(
 	}
 );
 
-sequelize.sync({force: true}).then(() => {
+sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');
 });
