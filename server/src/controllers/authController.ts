@@ -3,6 +3,9 @@ import { validationResult } from 'express-validator/check';
 import * as jwt from 'jwt-simple';
 import * as bcrypt from 'bcryptjs';
 import * as keys from '../keys';
+import * as qs from 'query-string';
+import githubAuth from '../api/githubAuth';
+import github from '../api/github';
 
 import User from '../models/User';
 import { NextFunction } from 'connect';
@@ -76,4 +79,46 @@ export const signin = async (
 	} catch (err) {
 		return next(err);
 	}
+};
+
+export const githubOauth = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const { code, state } = req.query;
+	try {
+		const { data } = await githubAuth.post(
+			'/access_token?' +
+				qs.stringify({
+					client_id: keys.githubId,
+					client_secret: keys.githubSecret,
+					code: code,
+					redirect_uri: keys.githubRedirectUri
+				})
+		);
+		const accessToken = qs.parse(data).access_token;
+		const res = await github.get('/user', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		const user = await User.findByPk(state);
+		if (!user.githubService) {
+			user.githubService = true;
+			user.createGithubProvider({
+				name: res.data.login,
+				accessToken
+			});
+			await user.save();
+		}
+	} catch (err) {
+		return next(err);
+	}
+	return res.redirect('http://localhost:8081/user/profile?github=true');
+};
+
+export const trelloOauth = async (req: Request, res: Response) => {
+	console.log('query:', req.query);
+	return res.redirect('http://localhost:8081/user/profile?trello=true');
 };

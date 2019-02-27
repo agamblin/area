@@ -34,6 +34,11 @@ services:
       - SQL_DB=tribe
       - SQL_PORT=3306
       - JWT_SECRET=somedumbjwtsecret
+      - GITHUB_ID=6c1112c8bc90ffd689ac
+      - GITHUB_SECRET=4c16e5c4668feae87847aa0bad457b2bd411b217
+      - GITHUB_REDIRECT_URI=http://localhost:8081/api/auth/oauth/github/callback
+      - TRELLO_KEY=3e858af306d0f775ec0ca83a7051cd1a
+      - TRELLO_SECRET=256574e6d34bf6fd130480719e52e119486d268c742da8b104d9bca53875b0d0
   client:
     build:
       context: ./client
@@ -43,3 +48,10 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    environment:
+      - REACT_APP_GITHUB_ID=6c1112c8bc90ffd689ac
+      - REACT_APP_GITHUB_SECRET=4c16e5c4668feae87847aa0bad457b2bd411b217
+      - REACT_APP_GITHUB_REDIRECT_URI=http://localhost:8081/api/auth/oauth/github/callback
+      - REACT_APP_TRELLO_KEY=3e858af306d0f775ec0ca83a7051cd1a
+      - REACT_APP_TRELLO_SECRET=256574e6d34bf6fd130480719e52e119486d268c742da8b104d9bca53875b0d0
+      - REACT_APP_PROD_URL=http://tribe.eu-west-3.elasticbeanstalk.com

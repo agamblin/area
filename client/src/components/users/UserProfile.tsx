@@ -1,12 +1,41 @@
 import React, { Component } from 'react';
 import { Grid, Menu, Segment } from 'semantic-ui-react';
 import UserSettings from './UserSettings';
+import ServicesAuth from '../auth/ServicesAuth';
+import history from '../../history';
+import requireAuth from '../auth/requireAuth';
+import { connect } from 'react-redux';
+import { fetchUser } from '../../actions/user';
+import * as qs from 'query-string';
 
-export class UserProfile extends Component {
+interface UserProfileProps {
+	fetchUser: any;
+	user: any;
+}
+
+export class UserProfile extends Component<UserProfileProps> {
 	state = { activeItem: 'General' };
+
+	componentDidMount() {
+		this.props.fetchUser();
+		const query: any = qs.parse(history.location.search);
+		if (query.github || query.trello) {
+			this.setState({ activeItem: 'Services' });
+		}
+	}
 
 	handleItemClick: any = (e: any, { name }: { name: string }) =>
 		this.setState({ activeItem: name });
+
+	renderContent = () => {
+		if (this.props.user) {
+			if (this.state.activeItem === 'General') {
+				return <UserSettings />;
+			}
+			return <ServicesAuth />;
+		}
+		return null;
+	};
 
 	render() {
 		const { activeItem } = this.state;
@@ -28,13 +57,27 @@ export class UserProfile extends Component {
 				</Grid.Column>
 
 				<Grid.Column stretched width={12}>
-					<Segment>
-						<UserSettings />
-					</Segment>
+					<Segment>{this.renderContent()}</Segment>
 				</Grid.Column>
 			</Grid>
 		);
 	}
 }
 
-export default UserProfile;
+const mapStateTopProps = (state: any) => {
+	if (state.user.id) {
+		return {
+			user: state.user
+		};
+	}
+	return {};
+};
+
+export default requireAuth(
+	connect(
+		mapStateTopProps,
+		{
+			fetchUser
+		}
+	)(UserProfile)
+);

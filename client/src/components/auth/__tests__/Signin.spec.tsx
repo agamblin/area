@@ -4,51 +4,43 @@ import Signin from '../Signin';
 
 import Root from '../../../Root';
 
-let wrapped: ReactWrapper;
+let signin: ReactWrapper;
 
 beforeEach(() => {
-	wrapped = mount(
+	signin = mount(
 		<Root>
 			<Signin />
 		</Root>
 	);
 });
 
+// signin check
+
 it('contains a Sign in title', () => {
-	expect(wrapped.find('.content').text()).toEqual('Sign in');
+	expect(signin.find('.content').text()).toEqual('Sign in');
 });
 
 it('contains a Sign in button', () => {
-	expect(wrapped.find('.ui.fluid.positive.button').text()).toEqual('Sign in');
+	expect(signin.find('.ui.fluid.positive.button').text()).toEqual('Sign in');
 });
 
 it('contains a button Sign up', () => {
 	expect(
-		wrapped
+		signin
 			.find('.ui.black.basic.button')
 			.first()
 			.text()
 	).toEqual('Sign up');
 });
 
-it('contains a field email', () => {
-	expect(
-		wrapped
-			.find('input')
-			.first()
-			.prop('name')
-	).toEqual('email');
+it('contains an email field', () => {
+	expect(signin.find('input').find({ placeholder: 'Email' }));
 });
 
-it('contains a password field', () => {
-	expect(
-		wrapped
-			.find('input')
-			.last()
-			.prop('name')
-	).toEqual('password');
+it('contains an password field', () => {
+	expect(signin.find('input').find({ placeholder: 'Password' }));
 });
 
 afterEach(() => {
-	wrapped.unmount();
+	signin.unmount();
 });
