@@ -32,7 +32,7 @@ class GoogleLoginButton extends Component<GoogleLoginProps> {
 	};
 
 	onError = (error: any) => {
-		alert(error);
+		console.log(error);
 	};
 
 	renderAccount = () => {
