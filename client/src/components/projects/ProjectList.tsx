@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Header, Grid, Placeholder, Segment, Button } from 'semantic-ui-react';
+import ProjectCreate from './ProjectCreate';
 import './css/ProjectList.css';
 
 export class ProjectList extends Component {
@@ -34,13 +35,7 @@ export class ProjectList extends Component {
 					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
 					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
 				</Grid>
-				<Button
-					circular
-					icon="add"
-					size="huge"
-					color="green"
-					className="m-t-sm"
-				/>
+				<ProjectCreate />
 			</React.Fragment>
 		);
 	}
