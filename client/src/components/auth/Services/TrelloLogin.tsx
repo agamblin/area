@@ -3,6 +3,7 @@ import { Button, Card } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import requireAuth from '../requireAuth';
 import * as keys from '../../../keys';
+import AccountCard from './AccountCard';
 import {
 	registerTrelloService,
 	resetTrelloService,
@@ -21,6 +22,7 @@ interface TrelloLoginProps {
 export class TrelloLogin extends Component<TrelloLoginProps> {
 	private url?: string;
 
+	state = { renderAccount: false };
 	constructor(props: TrelloLoginProps) {
 		super(props);
 		if (process.env.NODE_ENV === 'production') {
@@ -43,46 +45,51 @@ export class TrelloLogin extends Component<TrelloLoginProps> {
 	}
 
 	_renderAccount = () => {
-		if (this.props.username) {
+		if (this.props.username && this.state.renderAccount) {
 			return (
-				<Card.Content extra className="social-card">
-					Connected as: {this.props.username}
-					<p className="reset-link" onClick={this.props.resetTrelloService}>
-						reset
-					</p>
-				</Card.Content>
+				<AccountCard
+					username={this.props.username}
+					resetFunction={this.props.resetTrelloService}
+				/>
 			);
 		}
 	};
 
 	render() {
+		const { username } = this.props;
 		return (
-			<Card>
-				<Card.Content>
-					<Card.Header>Trello</Card.Header>
-				</Card.Content>
-				<Card.Content>
-					<Button
-						icon="trello"
-						as="a"
-						href={
-							'https://trello.com/1/authorize?' +
-							qs.stringify({
-								expiration: 'never',
-								callback_method: 'fragment',
-								return_url: `${this.url}/api/auth/oauth/trello/callback`,
-								scope: 'read,write,account',
-								name: 'Tribe',
-								key: keys.TRELLO_KEY,
-								response_type: 'token'
-							})
-						}
-						size="massive"
-						color="green"
-					/>
-				</Card.Content>
-				{this._renderAccount()}
-			</Card>
+			<div
+				onMouseEnter={() => this.setState({ renderAccount: true })}
+				onMouseLeave={() => this.setState({ renderAccount: false })}
+			>
+				<Card>
+					<Card.Content>
+						<Card.Header>Trello</Card.Header>
+					</Card.Content>
+					<Card.Content>
+						<Button
+							icon="trello"
+							as="a"
+							disabled={username ? true : false}
+							href={
+								'https://trello.com/1/authorize?' +
+								qs.stringify({
+									expiration: 'never',
+									callback_method: 'fragment',
+									return_url: `${this.url}/api/auth/oauth/trello/callback`,
+									scope: 'read,write,account',
+									name: 'Tribe',
+									key: keys.TRELLO_KEY,
+									response_type: 'token'
+								})
+							}
+							size="massive"
+							color="green"
+						/>
+					</Card.Content>
+					{this._renderAccount()}
+				</Card>
+			</div>
 		);
 	}
 }

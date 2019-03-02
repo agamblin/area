@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Button, Card } from 'semantic-ui-react';
 import requireAuth from '../../auth/requireAuth';
 import * as keys from '../../../keys';
+import AccountCard from './AccountCard';
 import {
 	fetchGithubService,
 	resetGithubService
@@ -20,6 +21,8 @@ interface GithubLoginProps {
 }
 
 export class GithubLogin extends Component<GithubLoginProps> {
+	state = { renderAccount: false };
+
 	componentDidMount() {
 		if (this.props.githubService) {
 			this.props.fetchGithubService();
@@ -29,14 +32,12 @@ export class GithubLogin extends Component<GithubLoginProps> {
 	}
 
 	_renderAccount = () => {
-		if (this.props.username) {
+		if (this.props.username && this.state.renderAccount) {
 			return (
-				<Card.Content extra className="social-card">
-					Connected as: {this.props.username}
-					<p className="reset-link" onClick={this.props.resetGithubService}>
-						reset
-					</p>
-				</Card.Content>
+				<AccountCard
+					username={this.props.username}
+					resetFunction={this.props.resetGithubService}
+				/>
 			);
 		}
 	};
@@ -44,30 +45,35 @@ export class GithubLogin extends Component<GithubLoginProps> {
 	render() {
 		const { username } = this.props;
 		return (
-			<Card>
-				<Card.Content>
-					<Card.Header>Github</Card.Header>
-				</Card.Content>
-				<Card.Content>
-					<Button
-						disabled={username ? true : false}
-						as="a"
-						href={
-							'https://github.com/login/oauth/authorize?' +
-							qs.stringify({
-								client_id: keys.GITHUB_CLIENT_ID,
-								client_secret: keys.GITHUB_SECRET,
-								scope: 'user repo',
-								state: this.props.userId
-							})
-						}
-						color="black"
-						size="massive"
-						icon="github"
-					/>
-				</Card.Content>
-				{this._renderAccount()}
-			</Card>
+			<div
+				onMouseEnter={() => this.setState({ renderAccount: true })}
+				onMouseLeave={() => this.setState({ renderAccount: false })}
+			>
+				<Card>
+					<Card.Content>
+						<Card.Header>Github</Card.Header>
+					</Card.Content>
+					<Card.Content>
+						<Button
+							disabled={username ? true : false}
+							as="a"
+							href={
+								'https://github.com/login/oauth/authorize?' +
+								qs.stringify({
+									client_id: keys.GITHUB_CLIENT_ID,
+									client_secret: keys.GITHUB_SECRET,
+									scope: 'user repo',
+									state: this.props.userId
+								})
+							}
+							color="black"
+							size="massive"
+							icon="github"
+						/>
+					</Card.Content>
+					{this._renderAccount()}
+				</Card>
+			</div>
 		);
 	}
 }
