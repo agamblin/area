@@ -78,13 +78,15 @@ export const patch = async (
 };
 
 export const getS3Link = (req: Request, res: Response) => {
-	const key = `${req.user.id}/profile/${req.query.filename}`;
+	const { filename, contentType } = req.query;
+
+	const key = `${req.user.id}/profile/${filename}`;
 
 	s3.getSignedUrl(
 		'putObject',
 		{
 			Bucket: 'tribe-storage',
-			ContentType: 'image/jpeg',
+			ContentType: contentType,
 			Key: key
 		},
 		(err, url) => {

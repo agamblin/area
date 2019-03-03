@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 
 // MODELS
 import User from './models/User';
+import Project from './models/Project';
 import GoogleProvider from './models/GoogleProvider';
 import GithubProvider from './models/GithubProvider';
 import TrelloProvider from './models/TrelloProvider';
@@ -14,6 +15,7 @@ import sequelize from './utils/database';
 // ROUTES
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import projectRoutes from './routes/projectRoutes';
 import googleRoutes from './routes/googleRoutes';
 import githubRoutes from './routes/githubRoutes';
 import trelloRoutes from './routes/trelloRoutes';
@@ -32,7 +34,8 @@ app.get('/', (req: any, res: any) => {
 });
 
 app.use('/auth', authRoutes);
-app.use('/user', requireAuth, userRoutes);
+app.use('/users', requireAuth, userRoutes);
+app.use('/projects', requireAuth, projectRoutes);
 app.use('/google', requireAuth, googleRoutes);
 app.use('/github', requireAuth, githubRoutes);
 app.use('/trello', requireAuth, trelloRoutes);
@@ -62,6 +65,9 @@ GithubProvider.belongsTo(User);
 
 User.hasOne(TrelloProvider);
 TrelloProvider.belongsTo(User);
+
+User.hasMany(Project);
+Project.belongsTo(User);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

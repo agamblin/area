@@ -16,6 +16,7 @@ import EmailField from '../auth/components/EmailField';
 import UsernameField from '../auth/components/UsernameField';
 import ImageProfile from './ImageProfile';
 import { editUser } from '../../actions/user';
+import Spinner from '../general/Spinner';
 import './css/UserSettings.css';
 
 interface UserSettingsProps {
@@ -80,16 +81,6 @@ export class UserSettings extends Component<UserSettingsProps> {
 		);
 	};
 
-	_renderLoader = () => {
-		if (this.state.loading) {
-			return (
-				<Dimmer active inverted>
-					<Loader size="medium">Loading</Loader>
-				</Dimmer>
-			);
-		}
-	};
-
 	render() {
 		return (
 			<React.Fragment>
@@ -97,7 +88,7 @@ export class UserSettings extends Component<UserSettingsProps> {
 					<Header as="h4">Profile</Header>
 				</Divider>
 				{this._renderImage()}
-				{this._renderLoader()}
+				<Spinner loading={this.state.loading} />
 				<Form
 					className="edit-form"
 					onSubmit={this.props.handleSubmit(this.onSubmit)}
