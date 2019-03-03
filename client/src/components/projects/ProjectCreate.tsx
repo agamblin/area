@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { createProject } from '../../actions/project';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
+import ImageProject from './ImageProject';
 import './css/ProjectCreate.css';
 
 export class ProjectCreate extends Component<any> {
 	private form: any;
-	state = { open: false, dimmer: undefined };
+	state = { open: false, dimmer: undefined, file: null };
 
 	show = (dimmer: any) => () => this.setState({ dimmer, open: true });
 	close = () => {
@@ -38,10 +39,18 @@ export class ProjectCreate extends Component<any> {
 	};
 
 	_renderImage = () => {
+		if (this.state.file) {
+			return (
+				<ImageProject
+					onChange={(e: any) => this.setState({ file: e.target.files[0] })}
+					imageUrl={URL.createObjectURL(this.state.file)}
+				/>
+			);
+		}
 		return (
-			<Placeholder style={{ height: 130, width: 180 }}>
-				<Placeholder.Image />
-			</Placeholder>
+			<ImageProject
+				onChange={(e: any) => this.setState({ file: e.target.files[0] })}
+			/>
 		);
 	};
 
@@ -63,7 +72,9 @@ export class ProjectCreate extends Component<any> {
 				<Modal.Content>
 					<Grid divided="vertically">
 						<Grid.Row columns={2}>
-							<Grid.Column width={4}>{this._renderImage()}</Grid.Column>
+							<Grid.Column width={4} textAlign="center">
+								{this._renderImage()}
+							</Grid.Column>
 							<Grid.Column width={12}>
 								<Ref innerRef={this.form}>
 									<Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
