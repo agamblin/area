@@ -32,7 +32,7 @@ export class UserProfile extends Component<UserProfileProps> {
 			if (this.state.activeItem === 'General') {
 				return <UserSettings />;
 			}
-			return <ServicesAuth />;
+			return <ServicesAuth header />;
 		}
 		return null;
 	};

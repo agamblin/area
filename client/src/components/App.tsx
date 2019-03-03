@@ -25,7 +25,11 @@ const App = () => {
 					<Route path="/signout" exact component={Signout} />
 					<Route path="/user/profile" exact component={UserProfile} />
 					<Route path="/user/settings" exact component={UserSettings} />
-					<Route path="/services" exact component={AuthServices} />
+					<Route
+						path="/services"
+						exact
+						component={() => <AuthServices header />}
+					/>
 				</div>
 			</Container>
 		</div>
