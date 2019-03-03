@@ -13,10 +13,10 @@ export class ServicesAuth extends Component {
 						<GoogleLogin />
 					</Grid.Column>
 					<Grid.Column width={4} textAlign="center">
-						<GithubLogin />
+						<TrelloLogin />
 					</Grid.Column>
 					<Grid.Column width={4} textAlign="center">
-						<TrelloLogin />
+						<GithubLogin />
 					</Grid.Column>
 				</Grid.Row>
 			</Grid>
