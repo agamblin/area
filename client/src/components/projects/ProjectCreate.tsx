@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Modal, Button, Ref, Form, Grid, Placeholder } from 'semantic-ui-react';
+import {
+	Modal,
+	Button,
+	Ref,
+	Form,
+	Grid,
+	Dimmer,
+	Loader
+} from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { createProject } from '../../actions/project';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
+import Spinner from '../general/Spinner';
 import ImageProject from './ImageProject';
 import './css/ProjectCreate.css';
 
 export class ProjectCreate extends Component<any> {
 	private form: any;
-	state = { open: false, dimmer: undefined, file: null };
+	state = { open: false, dimmer: undefined, file: null, loading: false };
 
 	show = (dimmer: any) => () => this.setState({ dimmer, open: true });
 	close = () => {
@@ -55,14 +64,15 @@ export class ProjectCreate extends Component<any> {
 	};
 
 	// Form related
-	onSubmit = (formValues: any) => {
-		this.props.createProject(formValues);
+	onSubmit = async (formValues: any) => {
+		this.setState({ loading: true });
+		await this.props.createProject(formValues, this.state.file);
+		this.setState({ loading: false, file: null });
+		this.close();
 	};
 
 	submitForm = () => {
-		// this.form.dispatchEvent(new Event('submit'));
 		this.form.current.dispatchEvent(new Event('submit'));
-		this.close();
 	};
 
 	_renderModalContent = () => {
@@ -70,6 +80,7 @@ export class ProjectCreate extends Component<any> {
 			<React.Fragment>
 				<Modal.Header className="centered">Add a new project</Modal.Header>
 				<Modal.Content>
+					<Spinner loading={this.state.loading} />
 					<Grid divided="vertically">
 						<Grid.Row columns={2}>
 							<Grid.Column width={4} textAlign="center">
@@ -123,7 +134,12 @@ export class ProjectCreate extends Component<any> {
 					onClick={this.show('blurring')}
 					className="m-t-sm"
 				/>
-				<Modal dimmer={dimmer} open={open} onClose={this.close}>
+				<Modal
+					dimmer={dimmer}
+					open={open}
+					centered={false}
+					onClose={this.close}
+				>
 					{this._renderModalContent()}
 				</Modal>
 			</div>

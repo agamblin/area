@@ -1,7 +1,7 @@
-import sequelize from '../utils/database';
+import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 
-const TrelloProvider: any = sequelize.define('TrelloProvider', {
+const GithubProvider: any = sequelize.define('GithubProvider', {
 	name: {
 		type: Sequelize.STRING,
 		unique: true,
@@ -13,4 +13,4 @@ const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	}
 });
 
-export default TrelloProvider;
+export default GithubProvider;

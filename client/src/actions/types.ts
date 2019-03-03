@@ -13,3 +13,5 @@ export const GITHUB_RESET = 'GITHUB_RESET';
 
 export const TRELLO_FETCH = 'TRELLO_FETCH';
 export const TRELLO_RESET = 'TRELLO_RESET';
+
+export const PROJECT_CREATE = 'PROJECT_CREATE';
