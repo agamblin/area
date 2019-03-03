@@ -5,9 +5,11 @@ import * as bodyParser from 'body-parser';
 // MODELS
 import User from './models/User';
 import Project from './models/Project';
-import GoogleProvider from './models/GoogleProvider';
-import GithubProvider from './models/GithubProvider';
-import TrelloProvider from './models/TrelloProvider';
+import GoogleProvider from './models/google/GoogleProvider';
+import GithubProvider from './models/github/GithubProvider';
+
+import TrelloProvider from './models/trello/TrelloProvider';
+import TrelloBoard from './models/trello/TrelloBoard';
 
 // UTILS
 import sequelize from './utils/database';
@@ -68,6 +70,9 @@ TrelloProvider.belongsTo(User);
 
 User.hasMany(Project);
 Project.belongsTo(User);
+
+Project.hasOne(TrelloBoard);
+TrelloBoard.belongsTo(Project);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

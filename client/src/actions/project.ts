@@ -28,22 +28,25 @@ export const createProject = (formValues: any, file: any) => async (
 	let imageUrl: any = null;
 	const accessToken = getState().auth.authenticated;
 
-	if (file) {
-		imageUrl = await _uploadFile(file, accessToken);
-	}
-
-	const { data } = await tribe.post(
-		'/projects',
-		{
-			...formValues,
-			imageUrl
-		},
-		{
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
+	try {
+		if (file) {
+			imageUrl = await _uploadFile(file, accessToken);
 		}
-	);
-	dispatch(reset('projectForm'));
-	dispatch({ type: PROJECT_CREATE, payload: data });
+		const { data } = await tribe.post(
+			'/projects',
+			{
+				...formValues,
+				imageUrl
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			}
+		);
+		dispatch(reset('projectForm'));
+		dispatch({ type: PROJECT_CREATE, payload: data });
+	} catch (err) {
+		alert('You have to be logged to google, github and trello to proceed');
+	}
 };

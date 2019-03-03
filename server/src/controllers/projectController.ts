@@ -18,6 +18,17 @@ export const createProject = async (
 	let pathImage: string;
 	const { name, description, imageUrl } = req.body;
 
+	if (
+		!req.user.googleService ||
+		!req.user.trelloService ||
+		!req.user.githubService
+	) {
+		const err: any = new Error(
+			'You have to be connected to github, trello et google to proceed'
+		);
+		err.statusCode = 401;
+		return next(err);
+	}
 	if (imageUrl) {
 		pathImage = 'https://s3.eu-west-3.amazonaws.com/tribe-storage/' + imageUrl;
 	}

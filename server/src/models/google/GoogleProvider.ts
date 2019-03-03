@@ -1,6 +1,6 @@
-import sequelize from '../utils/database';
+import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
-import googleDrive from '../api/googleDrive';
+import googleDrive from '../../api/googleDrive';
 
 const GoogleProvider: any = sequelize.define('GoogleProvider', {
 	name: {
