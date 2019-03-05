@@ -38,12 +38,15 @@ Project.afterCreate(async (project: projectType) => {
 
 	if (!repo) {
 		user.githubService = false;
+		await githubProvider.destroy();
 	}
 	if (!board) {
 		user.trelloService = false;
+		await trelloProvider.destroy();
 	}
 	if (!folder) {
 		user.googleService = false;
+		await googleProvider.destroy();
 	}
 	if (!folder || !board || !repo) {
 		await user.save();
