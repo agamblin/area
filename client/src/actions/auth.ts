@@ -9,9 +9,11 @@ export const signUp = (formProps: any) => async (dispatch: any) => {
 			username: formProps.username,
 			password: formProps.password
 		});
-		localStorage.setItem('tokenTribe', data.token);
-		dispatch({ type: AUTH_USER, payload: data });
-		history.push('/user/details');
+		if (data.token) {
+			localStorage.setItem('tokenTribe', data.token);
+			dispatch({ type: AUTH_USER, payload: data });
+			history.push('/user/details');
+		}
 	} catch (e) {
 		dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
 	}
@@ -23,9 +25,11 @@ export const signIn = (formProps: any) => async (dispatch: any) => {
 			email: formProps.email,
 			password: formProps.password
 		});
-		localStorage.setItem('tokenTribe', data.token);
-		dispatch({ type: AUTH_USER, payload: data });
-		history.push('/');
+		if (data.token) {
+			localStorage.setItem('tokenTribe', data.token);
+			dispatch({ type: AUTH_USER, payload: data });
+			history.push('/');
+		}
 	} catch (e) {
 		dispatch({ type: AUTH_ERROR, payload: 'Invalid credentials' });
 	}
