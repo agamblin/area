@@ -24,7 +24,7 @@ Project.afterCreate(async (project: projectType) => {
 	const user: userType = await User.findByPk(project.userId);
 	// const trelloProvider = await user.getTrelloProvider();
 	const githubProvider: githubProviderType = await user.getGithubProvider();
-	// await trelloProvider.createNewBoard(project);
+	// await trelloProvider.createBoard(project);
 	await githubProvider.createRepo(project);
 	return project;
 });

@@ -48,7 +48,6 @@ export const resetGoogleService = () => async (
 	getState: any
 ) => {
 	try {
-		console.log('RESETING');
 		const accessToken = getState().auth.authenticated;
 		await tribe.delete('/google', {
 			headers: {

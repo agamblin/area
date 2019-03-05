@@ -26,8 +26,6 @@ export class GithubLogin extends Component<GithubLoginProps> {
 	componentDidMount() {
 		if (this.props.githubService) {
 			this.props.fetchGithubService();
-		} else {
-			console.log('NO GITHUB');
 		}
 	}
 
