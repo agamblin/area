@@ -1,4 +1,4 @@
-import { userType } from '../models/modelsType';
+import userType from '../types/userType';
 import { Request } from 'express';
 
 export interface requestType extends Request {

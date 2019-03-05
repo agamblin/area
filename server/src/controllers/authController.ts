@@ -9,7 +9,7 @@ import github from '../api/github';
 
 import User from '../models/User';
 import { NextFunction } from 'connect';
-import { userType } from '../models/modelsType';
+import userType from '../types/userType';
 
 const tokenForUser = (user: any) => {
 	const timestamp = new Date().getTime();

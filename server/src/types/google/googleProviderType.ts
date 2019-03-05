@@ -1,4 +1,4 @@
-export interface googleProviderType {
+export default interface googleProviderType {
 	id?: number;
 	name: string;
 	accessToken: string;

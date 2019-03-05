@@ -5,7 +5,7 @@ import { NextFunction } from 'express';
 import User from '../models/User';
 import * as keys from '../keys';
 import { requestType } from './requestType';
-import { userType } from '../models/modelsType';
+import userType from '../types/userType';
 
 const s3 = new AWS.S3({
 	accessKeyId: keys.s3accessKeyId,

@@ -1,20 +1,9 @@
-import { githubRepoType, githubProviderType } from './github/githubTypes';
-import { trelloBoardType, trelloProviderType } from './trello/trelloTypes';
-import { googleProviderType } from './google/googleTypes';
+import projectType from './projectType';
+import googleProviderType from './google/googleProviderType';
+import trelloProviderType from './trello/trelloProviderType';
+import githubProviderType from './github/githubProviderType';
 
-export interface projectType {
-	id?: number;
-	name: string;
-	description: string;
-	imageUrl?: string;
-	userId?: number;
-	createTrelloBoard?: (source: trelloBoardType) => trelloBoardType;
-	createGithubRepo?: (source: githubRepoType) => githubRepoType;
-	getTrelloBoard?: () => trelloBoardType;
-	getGithubRepo?: () => githubRepoType;
-}
-
-export interface userType {
+export default interface userType {
 	id?: number;
 	email: string;
 	username: string;

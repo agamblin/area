@@ -1,8 +1,10 @@
 import sequelize from '../utils/database';
 import * as Sequelize from 'sequelize';
 import User from './User';
-import { projectType, userType } from './modelsType';
-import { githubProviderType } from './github/githubTypes';
+import userType from '../types/userType';
+import projectType from '../types/projectType';
+import githubProviderType from '../types/github/githubProviderType';
+import trelloProviderType from 'trello/trelloProviderType';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -22,9 +24,9 @@ const Project: any = sequelize.define('Project', {
 
 Project.afterCreate(async (project: projectType) => {
 	const user: userType = await User.findByPk(project.userId);
-	// const trelloProvider = await user.getTrelloProvider();
+	const trelloProvider: trelloProviderType = await user.getTrelloProvider();
 	const githubProvider: githubProviderType = await user.getGithubProvider();
-	// await trelloProvider.createBoard(project);
+	await trelloProvider.createBoard(project);
 	await githubProvider.createRepo(project);
 	return project;
 });
