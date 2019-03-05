@@ -8,4 +8,5 @@ export default interface githubRepoType {
 	htmlUrl: string;
 	cloneUrl: string;
 	subscribersCount: number;
+	destroy?: () => any;
 }

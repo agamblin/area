@@ -2,6 +2,7 @@ import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 import googleDrive from '../../api/googleDrive';
 import projectType from 'projectType';
+import User from '../User';
 
 const GoogleProvider: any = sequelize.define('GoogleProvider', {
 	name: {
@@ -49,6 +50,25 @@ GoogleProvider.prototype.createFolder = async function(project: projectType) {
 	} catch (e) {
 		console.log(e);
 		return null;
+	}
+};
+
+GoogleProvider.prototype.healthCheck = async function() {
+	let healthState: boolean = true;
+	try {
+		await googleDrive.get('/files', {
+			headers: {
+				Authorization: `Bearer ${this.accessToken}`
+			}
+		});
+	} catch (err) {
+		healthState = false;
+		const user = await User.findByPk(this.userId);
+		user.googleService = false;
+		await user.save();
+		await this.destroy();
+	} finally {
+		return healthState;
 	}
 };
 

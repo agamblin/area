@@ -15,4 +15,5 @@ export default interface projectType {
 	) => googleDriveFolderType;
 	getTrelloBoard?: () => trelloBoardType;
 	getGithubRepo?: () => githubRepoType;
+	destroy?: () => any;
 }
