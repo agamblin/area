@@ -28,8 +28,10 @@ const Project: any = sequelize.define('Project', {
 
 Project.afterCreate(async (project: project) => {
 	const user = await User.findByPk(project.userId);
-	const trelloProvider = await user.getTrelloProvider();
-	await trelloProvider.createNewBoard(project);
+	// const trelloProvider = await user.getTrelloProvider();
+	const githubProvider = await user.getGithubProvider();
+	// await trelloProvider.createNewBoard(project);
+	await githubProvider.createRepo(project);
 	return project;
 });
 

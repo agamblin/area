@@ -6,7 +6,9 @@ import * as bodyParser from 'body-parser';
 import User from './models/User';
 import Project from './models/Project';
 import GoogleProvider from './models/google/GoogleProvider';
+
 import GithubProvider from './models/github/GithubProvider';
+import GithubRepo from './models/github/GithubRepo';
 
 import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
@@ -73,6 +75,9 @@ Project.belongsTo(User);
 
 Project.hasOne(TrelloBoard);
 TrelloBoard.belongsTo(Project);
+
+Project.hasOne(GithubRepo);
+GithubRepo.belongsTo(Project);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');
