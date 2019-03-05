@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import * as _ from 'lodash';
+import { requestType } from './requestType';
 
 export const getInfoAboutService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -18,7 +19,7 @@ export const getInfoAboutService = async (
 };
 
 export const removeProvider = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {

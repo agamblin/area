@@ -16,7 +16,7 @@ const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	}
 });
 
-TrelloProvider.prototype.createNewBoard = async function(project: any) {
+TrelloProvider.prototype.createBoard = async function(project: any) {
 	const querystring = qs.stringify({
 		name: project.name,
 		desc: project.description,

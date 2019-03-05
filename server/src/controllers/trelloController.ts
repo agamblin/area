@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
+import { requestType } from './requestType';
 
 export const registerTrelloService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -13,13 +14,15 @@ export const registerTrelloService = async (
 		`/members/me?key=${keys.trelloKey}&token=${accessToken}`
 	);
 	if (!req.user.trelloService) {
-		const provider = await req.user.createTrelloProvider({
+		const trelloProvider = await req.user.createTrelloProvider({
 			name: data.fullName,
 			accessToken: accessToken
 		});
 		req.user.trelloService = true;
 		await req.user.save();
-		return res.status(201).json(_.pick(provider, 'id', 'name', 'accessToken'));
+		return res
+			.status(201)
+			.json(_.pick(trelloProvider, 'id', 'name', 'accessToken'));
 	}
 	const err: any = new Error('A trello provider is already registered');
 	err.statusCode = 401;
@@ -27,7 +30,7 @@ export const registerTrelloService = async (
 };
 
 export const fetchTrelloService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -47,7 +50,7 @@ export const fetchTrelloService = async (
 };
 
 export const resetTrelloService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {

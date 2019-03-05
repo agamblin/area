@@ -14,6 +14,7 @@ import {
 	Icon,
 	Input
 } from 'semantic-ui-react';
+import './css/Signup.css';
 import { reduxForm, Field } from 'redux-form';
 
 class Signup extends React.Component<any> {
@@ -61,7 +62,7 @@ class Signup extends React.Component<any> {
 					onSubmit={this.props.handleSubmit(this.onSubmit)}
 				>
 					{this._displayErrorMsg()}
-					<Segment raised attached>
+					<Segment padded="very" attached className="grey-segment">
 						<Form.Group widths="equal">
 							<Field name="email" label="Email" component={this._renderMail} />
 							<Field

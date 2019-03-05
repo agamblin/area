@@ -33,9 +33,7 @@ export class TrelloLogin extends Component<TrelloLoginProps> {
 	}
 
 	componentDidMount() {
-		console.log(this.props.trelloService);
 		if (this.props.trelloService) {
-			console.log('fetching');
 			this.props.fetchTrelloService();
 		}
 		const hashParams = qs.parse(location.hash);

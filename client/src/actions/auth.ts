@@ -25,7 +25,7 @@ export const signIn = (formProps: any) => async (dispatch: any) => {
 		});
 		localStorage.setItem('tokenTribe', data.token);
 		dispatch({ type: AUTH_USER, payload: data });
-		history.push('/pipes');
+		history.push('/');
 	} catch (e) {
 		dispatch({ type: AUTH_ERROR, payload: 'Invalid credentials' });
 	}
