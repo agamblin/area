@@ -1,4 +1,4 @@
-import { TRELLO_FETCH, TRELLO_RESET } from '../actions/types';
+import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR } from '../actions/types';
 
 interface googleState {
 	id?: number;
@@ -12,6 +12,8 @@ export default (state = {} as googleState, action: any) => {
 			return { ...state, ...action.payload };
 		case TRELLO_RESET:
 			return { state: {} };
+		case TRELLO_ERROR:
+			return {};
 		default:
 			return state;
 	}

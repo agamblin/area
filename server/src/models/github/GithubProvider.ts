@@ -2,6 +2,7 @@ import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 import github from '../../api/github';
 import projectType from 'projectType';
+import User from '../User';
 
 const GithubProvider: any = sequelize.define('GithubProvider', {
 	name: {
@@ -49,4 +50,23 @@ GithubProvider.prototype.createRepo = async function(project: projectType) {
 	}
 };
 
+GithubProvider.prototype.healthCheck = async function() {
+	let healthState: boolean = true;
+
+	try {
+		github.get('/user', {
+			headers: {
+				Authorization: `Bearer ${this.accessToken}`
+			}
+		});
+	} catch (e) {
+		healthState = false;
+		const user = await User.findByPk(this.userId);
+		user.githubService = false;
+		await user.save();
+		await this.destroy();
+	} finally {
+		return healthState;
+	}
+};
 export default GithubProvider;

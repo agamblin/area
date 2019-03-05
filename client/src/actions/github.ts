@@ -1,5 +1,5 @@
 import tribe from '../api/tribe';
-import { GITHUB_FETCH, GITHUB_RESET } from './types';
+import { GITHUB_FETCH, GITHUB_RESET, TRELLO_ERROR } from './types';
 
 export const fetchGithubService = () => async (
 	dispatch: any,
@@ -14,7 +14,7 @@ export const fetchGithubService = () => async (
 		});
 		dispatch({ type: GITHUB_FETCH, payload: data });
 	} catch (e) {
-		return;
+		dispatch({ type: TRELLO_ERROR });
 	}
 };
 

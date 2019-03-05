@@ -23,6 +23,23 @@ const Project: any = sequelize.define('Project', {
 	}
 });
 
+Project.beforeCreate(async (project: projectType) => {
+	const user: userType = await User.findByPk(project.userId);
+
+	const trelloProvider: trelloProviderType = await user.getTrelloProvider();
+	const githubProvider: githubProviderType = await user.getGithubProvider();
+	const googleProvider: googleProviderType = await user.getGoogleProvider();
+
+	const healthTrello = await trelloProvider.healthCheck();
+	const healthGoogle = await googleProvider.healthCheck();
+	const healthGithub = await githubProvider.healthCheck();
+
+	if (!healthTrello || !healthGoogle || !healthGithub) {
+		return sequelize.Promise.reject('Provider is off');
+	}
+	return project;
+});
+
 Project.afterCreate(async (project: projectType) => {
 	const user: userType = await User.findByPk(project.userId);
 
@@ -32,25 +49,9 @@ Project.afterCreate(async (project: projectType) => {
 	const googleProvider: googleProviderType = await user.getGoogleProvider();
 
 	// CREATE ALL RESSOURCES
-	const folder = await googleProvider.createFolder(project);
-	const board = await trelloProvider.createBoard(project);
-	const repo = await githubProvider.createRepo(project);
-
-	if (!repo) {
-		user.githubService = false;
-		await githubProvider.destroy();
-	}
-	if (!board) {
-		user.trelloService = false;
-		await trelloProvider.destroy();
-	}
-	if (!folder) {
-		user.googleService = false;
-		await googleProvider.destroy();
-	}
-	if (!folder || !board || !repo) {
-		await user.save();
-	}
+	await googleProvider.createFolder(project);
+	await trelloProvider.createBoard(project);
+	await githubProvider.createRepo(project);
 	return project;
 });
 

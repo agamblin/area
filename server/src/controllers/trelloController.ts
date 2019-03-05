@@ -37,9 +37,18 @@ export const fetchTrelloService = async (
 	if (req.user.trelloService) {
 		try {
 			const trelloProvider = await req.user.getTrelloProvider();
-			return res
-				.status(200)
-				.json(_.pick(trelloProvider, 'id', 'name', 'accessToken'));
+			const healthState = await trelloProvider.healthCheck();
+			if (healthState) {
+				return res
+					.status(200)
+					.json(_.pick(trelloProvider, 'id', 'name', 'accessToken'));
+			}
+			const err: any = new Error(
+				'Their is some problem with your account, please relog.'
+			);
+			err.statusCode = 404;
+			err.message = 'Their is some problem with your account, please relog';
+			return next(err);
 		} catch (e) {
 			return next(e);
 		}

@@ -47,6 +47,7 @@ export const createProject = (formValues: any, file: any) => async (
 		dispatch(reset('projectForm'));
 		dispatch({ type: PROJECT_CREATE, payload: data });
 	} catch (err) {
+		console.log(err);
 		alert('You have to be logged to google, github and trello to proceed');
 	}
 };

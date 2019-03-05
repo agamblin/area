@@ -1,4 +1,4 @@
-import { GOOGLE_FETCH, GOOGLE_RESET } from './types';
+import { GOOGLE_FETCH, GOOGLE_RESET, GOOGLE_ERROR } from './types';
 import tribe from '../api/tribe';
 
 export const registerGoogleService = (googleResponse: any) => async (
@@ -39,7 +39,7 @@ export const fetchGoogleService = () => async (
 		});
 		dispatch({ type: GOOGLE_FETCH, payload: data });
 	} catch (e) {
-		return;
+		dispatch({ type: GOOGLE_ERROR });
 	}
 };
 

@@ -37,9 +37,17 @@ export const fetchService = async (
 ) => {
 	if (req.user.googleService) {
 		const googleProvider = await req.user.getGoogleProvider();
-		return res
-			.status(200)
-			.json(_.pick(googleProvider, 'id', 'name', 'accessToken'));
+		const healthState = await googleProvider.healthCheck();
+		if (healthState) {
+			return res
+				.status(200)
+				.json(_.pick(googleProvider, 'id', 'name', 'accessToken'));
+		}
+		const err: any = new Error(
+			'Their is some problem with your account, please relog'
+		);
+		err.statusCode = 404;
+		return next(err);
 	}
 	const err: any = new Error('No google provider rensegined');
 	err.statusCode = 404;

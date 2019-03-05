@@ -4,6 +4,7 @@ import * as keys from '../../keys';
 import trello from '../../api/trello';
 import * as qs from 'query-string';
 import projectType from 'projectType';
+import User from '../User';
 
 const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	name: {
@@ -39,6 +40,25 @@ TrelloProvider.prototype.createBoard = async function(project: projectType) {
 		return trelloBoard;
 	} catch (e) {
 		return null;
+	}
+};
+
+TrelloProvider.prototype.healthCheck = async function() {
+	let healthState: boolean = true;
+	const querystring = qs.stringify({
+		key: keys.trelloKey,
+		token: this.accessToken
+	});
+	try {
+		await trello.get(`/members/me?${querystring}`);
+	} catch (e) {
+		healthState = false;
+		const user = await User.findByPk(this.userId);
+		user.trelloService = false;
+		await user.save();
+		await this.destroy();
+	} finally {
+		return healthState;
 	}
 };
 
