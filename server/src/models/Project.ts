@@ -5,6 +5,7 @@ import userType from '../types/userType';
 import projectType from '../types/projectType';
 import githubProviderType from '../types/github/githubProviderType';
 import trelloProviderType from 'trello/trelloProviderType';
+import googleProviderType from 'google/googleProviderType';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -24,10 +25,29 @@ const Project: any = sequelize.define('Project', {
 
 Project.afterCreate(async (project: projectType) => {
 	const user: userType = await User.findByPk(project.userId);
+
+	// FETCH PROVIDERS
 	const trelloProvider: trelloProviderType = await user.getTrelloProvider();
 	const githubProvider: githubProviderType = await user.getGithubProvider();
-	await trelloProvider.createBoard(project);
-	await githubProvider.createRepo(project);
+	const googleProvider: googleProviderType = await user.getGoogleProvider();
+
+	// CREATE ALL RESSOURCES
+	const folder = await googleProvider.createFolder(project);
+	const board = await trelloProvider.createBoard(project);
+	const repo = await githubProvider.createRepo(project);
+
+	if (!repo) {
+		user.githubService = false;
+	}
+	if (!board) {
+		user.trelloService = false;
+	}
+	if (!folder) {
+		user.googleService = false;
+	}
+	if (!folder || !board || !repo) {
+		await user.save();
+	}
 	return project;
 });
 

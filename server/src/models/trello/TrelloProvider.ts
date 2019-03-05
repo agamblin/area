@@ -3,6 +3,7 @@ import * as Sequelize from 'sequelize';
 import * as keys from '../../keys';
 import trello from '../../api/trello';
 import * as qs from 'query-string';
+import projectType from 'projectType';
 
 const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	name: {
@@ -16,7 +17,7 @@ const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	}
 });
 
-TrelloProvider.prototype.createBoard = async function(project: any) {
+TrelloProvider.prototype.createBoard = async function(project: projectType) {
 	const querystring = qs.stringify({
 		name: project.name,
 		desc: project.description,
@@ -27,13 +28,18 @@ TrelloProvider.prototype.createBoard = async function(project: any) {
 		prefs_background: 'grey',
 		token: this.accessToken
 	});
-	const { data } = await trello.post(`/boards/?${querystring}`);
-	await project.createTrelloBoard({
-		trelloId: data.id,
-		name: data.name,
-		description: data.desc,
-		url: data.shortUrl
-	});
+	try {
+		const { data } = await trello.post(`/boards/?${querystring}`);
+		const trelloBoard = await project.createTrelloBoard({
+			trelloId: data.id,
+			name: data.name,
+			description: data.desc,
+			url: data.shortUrl
+		});
+		return trelloBoard;
+	} catch (e) {
+		return null;
+	}
 };
 
 export default TrelloProvider;
