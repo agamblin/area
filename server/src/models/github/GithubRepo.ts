@@ -30,7 +30,7 @@ const GithubRepo: any = sequelize.define('GithubRepo', {
 		type: Sequelize.STRING,
 		allowNull: false
 	},
-	suscribersCount: {
+	subscribersCount: {
 		type: Sequelize.INTEGER,
 		allowNull: false
 	}

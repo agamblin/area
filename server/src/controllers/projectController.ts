@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import * as keys from '../keys';
 import * as AWS from 'aws-sdk';
 import * as _ from 'lodash';
+import { requestType } from './requestType';
 
 const s3 = new AWS.S3({
 	accessKeyId: keys.s3accessKeyId,
@@ -11,7 +12,7 @@ const s3 = new AWS.S3({
 });
 
 export const createProject = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -46,7 +47,7 @@ export const createProject = async (
 	}
 };
 
-export const getS3Link = (req: Request, res: Response) => {
+export const getS3Link = (req: requestType, res: Response) => {
 	const { filename, contentType } = req.query;
 	const key = `${req.user.id}/projects/${filename}`;
 

@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { NextFunction } from 'connect';
 import * as _ from 'lodash';
+import { requestType } from './requestType';
 
 export const registerService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -30,7 +31,7 @@ export const registerService = async (
 };
 
 export const fetchService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -46,7 +47,7 @@ export const fetchService = async (
 };
 
 export const resetService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -63,7 +64,7 @@ export const resetService = async (
 };
 
 export const fetchFiles = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {

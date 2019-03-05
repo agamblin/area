@@ -1,14 +1,8 @@
 import sequelize from '../utils/database';
 import * as Sequelize from 'sequelize';
 import User from './User';
-
-interface project {
-	id: number;
-	name: string;
-	description: string;
-	imageUrl?: string;
-	userId: number;
-}
+import { projectType, userType } from './modelsType';
+import { githubProviderType } from './github/githubTypes';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -26,10 +20,10 @@ const Project: any = sequelize.define('Project', {
 	}
 });
 
-Project.afterCreate(async (project: project) => {
-	const user = await User.findByPk(project.userId);
+Project.afterCreate(async (project: projectType) => {
+	const user: userType = await User.findByPk(project.userId);
 	// const trelloProvider = await user.getTrelloProvider();
-	const githubProvider = await user.getGithubProvider();
+	const githubProvider: githubProviderType = await user.getGithubProvider();
 	// await trelloProvider.createNewBoard(project);
 	await githubProvider.createRepo(project);
 	return project;

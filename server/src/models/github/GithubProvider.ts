@@ -1,6 +1,7 @@
 import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 import github from '../../api/github';
+import { githubRepoType } from './githubTypes';
 
 const GithubProvider: any = sequelize.define('GithubProvider', {
 	name: {
@@ -31,7 +32,7 @@ GithubProvider.prototype.createRepo = async function(project: any) {
 			}
 		}
 	);
-	const repo = await project.createGithubRepo({
+	const repo: githubRepoType = await project.createGithubRepo({
 		name,
 		description,
 		githubId: data.id,
@@ -39,7 +40,7 @@ GithubProvider.prototype.createRepo = async function(project: any) {
 		private: data.private,
 		htmlUrl: data.html_url,
 		cloneUrl: data.ssh_url,
-		suscribersCount: data.suscribers_count
+		subscribersCount: data.subscribers_count
 	});
 	console.log(repo);
 };
