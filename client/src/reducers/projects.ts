@@ -1,14 +1,7 @@
 import { PROJECT_CREATE, PROJECT_FETCH } from '../actions/types';
+import projectState from '../types/states/projectState';
 
-interface project {
-	id?: number;
-	name: string;
-	description: string;
-	imageUrl?: string;
-	userId: number;
-}
-
-export default (state = [] as Array<project>, action: any) => {
+export default (state = [] as Array<projectState>, action: any) => {
 	switch (action.type) {
 		case PROJECT_CREATE:
 			return [action.payload, ...state];

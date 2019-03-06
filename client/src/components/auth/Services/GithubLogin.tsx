@@ -11,13 +11,14 @@ import {
 } from '../../../actions/github';
 
 import './css/SocialButton.css';
+import globalState from '../../../types/states/globalState';
 
 interface GithubLoginProps {
-	userId: number;
+	userId?: number;
 	username?: string;
 	fetchGithubService: any;
 	resetGithubService: any;
-	githubService: boolean;
+	githubService?: boolean;
 }
 
 export class GithubLogin extends Component<GithubLoginProps> {
@@ -76,7 +77,7 @@ export class GithubLogin extends Component<GithubLoginProps> {
 	}
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: globalState) => {
 	if (state.user && state.github.name) {
 		return {
 			userId: state.user.id,
@@ -90,6 +91,7 @@ const mapStateToProps = (state: any) => {
 	}
 	return {};
 };
+
 export default requireAuth(
 	connect(
 		mapStateToProps,
