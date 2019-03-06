@@ -11,6 +11,7 @@ import AuthServices from './auth/ServicesAuth';
 import UserSettings from './users/UserSettings';
 import UserProfile from './users/UserProfile';
 import ProjectList from './projects/ProjectList';
+import ProjectDetail from './projects/ProjectDetail';
 
 const App = () => {
 	return (
@@ -25,6 +26,7 @@ const App = () => {
 					<Route path="/signout" exact component={Signout} />
 					<Route path="/user/profile" exact component={UserProfile} />
 					<Route path="/user/settings" exact component={UserSettings} />
+					<Route path="/projects/:projectId" exact component={ProjectDetail} />
 					<Route
 						path="/services"
 						exact

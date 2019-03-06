@@ -6,6 +6,7 @@ import requireAuth from '../auth/requireAuth';
 import './css/ProjectList.css';
 import { getProjects } from '../../actions/projects';
 import projectState from '../../types/states/projectState';
+import history from '../../history';
 
 interface ProjectListProps {
 	getProjects: () => any;
@@ -19,8 +20,11 @@ export class ProjectList extends Component<ProjectListProps> {
 
 	_displayProject = (project: projectState) => {
 		return (
-			<Card>
-				<Image src={project.imageUrl} />
+			<Card onClick={() => history.push(`/projects/${project.id}`)}>
+				<Image
+					src={project.imageUrl}
+					style={{ height: '150px', width: '260px' }}
+				/>
 				<Card.Content>
 					<Card.Header>{project.name}</Card.Header>
 					<Card.Meta>
@@ -31,6 +35,7 @@ export class ProjectList extends Component<ProjectListProps> {
 			</Card>
 		);
 	};
+
 	_displayContent = () => {
 		if (this.props.projects.length > 0) {
 			return this.props.projects.map(project => {
