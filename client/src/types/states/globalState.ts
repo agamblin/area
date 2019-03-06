@@ -4,6 +4,7 @@ import projectState from './projectState';
 import googleState from './googleState';
 import githubState from './githubState';
 import trelloState from './trelloState';
+import selectedProjectState from './selectedProjectState';
 
 export default interface globalState {
 	auth: authState;
@@ -11,7 +12,7 @@ export default interface globalState {
 	google: googleState;
 	github: githubState;
 	trello: trelloState;
-	selectedProject: projectState;
+	selectedProject: selectedProjectState;
 	projects: Array<projectState>;
 	form: any;
 }

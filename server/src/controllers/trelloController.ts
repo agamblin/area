@@ -3,6 +3,7 @@ import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import TrelloBoard from '../models/trello/TrelloBoard';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -73,4 +74,16 @@ export const resetTrelloService = async (
 	const err: any = new Error('No provider for trello renseigned');
 	err.statusCode = 404;
 	return next(err);
+};
+
+export const fetchCards = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	console.log('fetching');
+	const { boardId } = req.params;
+
+	const board = await TrelloBoard.findByPk(boardId);
+	await board.fetchCards();
 };

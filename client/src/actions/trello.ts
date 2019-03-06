@@ -64,3 +64,17 @@ export const resetTrelloService = () => async (
 		alert('Failed to reset trello service');
 	}
 };
+
+export const fetchBoardCards = (boardId: number) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	console.log('fetching');
+	const accessToken = getState().auth.authenticated;
+
+	await tribe.get(`trello/boards/${boardId}/cards`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`
+		}
+	});
+};

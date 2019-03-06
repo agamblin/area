@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getProject } from '../../actions/projects';
 import requireAuth from '../auth/requireAuth';
-import projectState from '../../types/states/projectState';
 import globalState from '../../types/states/globalState';
 import { Segment, Header, Image, Tab } from 'semantic-ui-react';
 import Spinner from '../general/Spinner';
+import TrelloDetails from './TrelloDetails';
+import selectedProjectState from '../../types/states/selectedProjectState';
 
 interface ProjectDetailProps {
 	projectId?: number | null;
 	getProject: (projectId: number) => any;
-	project: projectState;
+	project: selectedProjectState;
 	match: {
 		params: {
 			projectId: number;
@@ -18,10 +19,19 @@ interface ProjectDetailProps {
 	};
 }
 
-export class ProjectDetail extends Component<ProjectDetailProps> {
+class ProjectDetail extends Component<ProjectDetailProps> {
 	componentDidMount = () => {
 		const projectId: number = this.props.match.params.projectId;
 		this.props.getProject(projectId);
+	};
+
+	_renderTrelloDetails = () => {
+		const { project } = this.props;
+
+		if (project.board) {
+			return <TrelloDetails boardId={project.board.id} />;
+		}
+		return <Spinner loading />;
 	};
 
 	_displayContent = () => {
@@ -30,7 +40,7 @@ export class ProjectDetail extends Component<ProjectDetailProps> {
 		const panes = [
 			{
 				menuItem: { key: 'trello', icon: 'trello', content: 'Trello' },
-				render: () => <Tab.Pane loading>Tab 1 Content</Tab.Pane>
+				render: () => <Tab.Pane>{this._renderTrelloDetails()}</Tab.Pane>
 			},
 			{
 				menuItem: { key: 'drive', icon: 'google drive', content: 'Drive' },

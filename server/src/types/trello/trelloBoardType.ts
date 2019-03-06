@@ -4,5 +4,6 @@ export default interface trelloBoardType {
 	name: string;
 	description: string;
 	url: string;
+	accessToken: string;
 	destroy?: () => any;
 }

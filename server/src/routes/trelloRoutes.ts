@@ -6,4 +6,6 @@ const router: Router = Router();
 router.post('/', trelloController.registerTrelloService);
 router.get('/', trelloController.fetchTrelloService);
 router.delete('/', trelloController.resetTrelloService);
+
+router.get('/boards/:boardId/cards', trelloController.fetchCards);
 export default router;

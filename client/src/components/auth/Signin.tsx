@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { signIn } from '../../actions/auth';
 import { compose } from 'redux';
 import EmailField from './components/EmailField';
@@ -18,7 +18,7 @@ import {
 	Input
 } from 'semantic-ui-react';
 
-interface signinProps {
+interface signinProps extends InjectedFormProps {
 	signIn: any;
 	handleSubmit: any;
 	errorMsg: string;

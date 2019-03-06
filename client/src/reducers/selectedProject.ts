@@ -1,7 +1,7 @@
 import { PROJECT_FETCH } from '../actions/types';
-import projectState from '../types/states/projectState';
+import selectedProjectState from '../types/states/selectedProjectState';
 
-export default (state = {} as projectState, action: any) => {
+export default (state = {} as selectedProjectState, action: any) => {
 	switch (action.type) {
 		case PROJECT_FETCH:
 			const date = action.payload.createdAt.split('T')[0];

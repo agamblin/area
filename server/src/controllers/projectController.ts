@@ -4,6 +4,10 @@ import * as AWS from 'aws-sdk';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
 import Project from '../models/Project';
+import projectType from 'projectType';
+import TrelloBoard from '../models/trello/TrelloBoard';
+import GithubRepo from '../models/github/GithubRepo';
+import GoogleDriveFolder from '../models/google/GoogleDriveFolder';
 
 const s3 = new AWS.S3({
 	accessKeyId: keys.s3accessKeyId,
@@ -89,25 +93,30 @@ export const getProject = async (
 ) => {
 	const { projectId } = req.params;
 
-	const project = await Project.findByPk(projectId);
+	const project: projectType = await Project.findByPk(projectId, {
+		include: [TrelloBoard, GoogleDriveFolder, GithubRepo]
+	});
+
 	if (project.userId !== req.user.id) {
 		const err: any = new Error('You do not have access to this project');
 		err.statusCode = 401;
 		return next(err);
 	}
-	return res
-		.status(200)
-		.json(
-			_.pick(
-				project,
-				'id',
-				'name',
-				'description',
-				'imageUrl',
-				'userId',
-				'createdAt'
-			)
-		);
+
+	return res.status(200).json({
+		..._.pick(
+			project,
+			'id',
+			'name',
+			'description',
+			'imageUrl',
+			'userId',
+			'createdAt'
+		),
+		board: _.pick(project.TrelloBoard, 'id', 'trelloId'),
+		repo: _.pick(project.GithubRepo, 'id', 'githubId'),
+		folder: _.pick(project.GoogleDriveFolder, 'id', 'googleId')
+	});
 };
 
 export const getS3Link = (req: requestType, res: Response) => {
