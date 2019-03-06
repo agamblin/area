@@ -47,6 +47,22 @@ export const createProject = async (
 	}
 };
 
+export const getProjects = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	try {
+		const rawProjects = await req.user.getProjects();
+		const listProjects = rawProjects.map(project => {
+			return _.pick(project, 'id', 'name', 'description', 'imageUrl', 'userId');
+		});
+		return res.status(200).json(listProjects);
+	} catch (err) {
+		return next(err);
+	}
+};
+
 export const getS3Link = (req: requestType, res: Response) => {
 	const { filename, contentType } = req.query;
 	const key = `${req.user.id}/projects/${filename}`;

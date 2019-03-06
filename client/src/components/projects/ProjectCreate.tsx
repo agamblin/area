@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Ref, Form, Grid, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { createProject } from '../../actions/project';
+import { createProject } from '../../actions/projects';
 import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import { compose } from 'redux';
 import Spinner from '../general/Spinner';

@@ -18,6 +18,9 @@ router.post(
 	validateReq,
 	projectController.createProject
 );
+
+router.get('/', projectController.getProjects);
+
 router.get('/upload/image', projectController.getS3Link);
 
 export default router;

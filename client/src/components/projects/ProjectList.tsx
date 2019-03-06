@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
-import { Header, Grid, Placeholder, Segment, Button } from 'semantic-ui-react';
+import { Header, Grid } from 'semantic-ui-react';
 import ProjectCreate from './ProjectCreate';
+import { connect } from 'react-redux';
+import requireAuth from '../auth/requireAuth';
 import './css/ProjectList.css';
+import { getProjects } from '../../actions/projects';
 
-export class ProjectList extends Component {
-	_renderPlaceholder() {
-		return (
-			<Segment raised>
-				<Placeholder>
-					<Placeholder.Header image>
-						<Placeholder.Line />
-						<Placeholder.Line />
-					</Placeholder.Header>
-					<Placeholder.Paragraph>
-						<Placeholder.Line length="medium" />
-						<Placeholder.Line length="short" />
-					</Placeholder.Paragraph>
-				</Placeholder>
-			</Segment>
-		);
+interface ProjectListProps {
+	getProjects: () => any;
+}
+
+export class ProjectList extends Component<ProjectListProps> {
+	componentDidMount() {
+		this.props.getProjects();
 	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -30,10 +25,7 @@ export class ProjectList extends Component {
 					dividing
 				/>
 				<Grid columns={2} stackable className="m-t-sm">
-					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
-					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
-					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
-					<Grid.Column>{this._renderPlaceholder()}</Grid.Column>
+					<Grid.Column />
 				</Grid>
 				<ProjectCreate />
 			</React.Fragment>
@@ -41,4 +33,17 @@ export class ProjectList extends Component {
 	}
 }
 
-export default ProjectList;
+const mapStateToProps = (state: any) => {
+	return {
+		projects: state.projects
+	};
+};
+
+export default requireAuth(
+	connect(
+		mapStateToProps,
+		{
+			getProjects
+		}
+	)(ProjectList)
+);

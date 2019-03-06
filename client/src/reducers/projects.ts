@@ -1,4 +1,4 @@
-import { PROJECT_CREATE } from '../actions/types';
+import { PROJECT_CREATE, PROJECT_FETCH } from '../actions/types';
 
 interface project {
 	id?: number;
@@ -12,6 +12,8 @@ export default (state = [] as Array<project>, action: any) => {
 	switch (action.type) {
 		case PROJECT_CREATE:
 			return [action.payload, ...state];
+		case PROJECT_FETCH:
+			return [...action.payload, ...state];
 		default:
 			return state;
 	}
