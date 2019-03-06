@@ -4,17 +4,10 @@ import projectState from '../types/states/projectState';
 export default (state = [] as Array<projectState>, action: any) => {
 	switch (action.type) {
 		case PROJECT_CREATE:
-			return [...state, action.payload];
+			const date = action.payload.createdAt.split('T')[0];
+			const project = { ...action.payload, createdAt: date };
+			return [...state, project];
 		case PROJECT_FETCH:
-			// let notPresent = true;
-			// const projects = action.payload.filter((project: projectState) => {
-			// 	state.forEach((savedProject: projectState) => {
-			// 		if (savedProject.id === project.id) {
-			// 			notPresent = false;
-			// 		}
-			// 	});
-			// 	return notPresent;
-			// });
 			const parsedProjects = action.payload.map((project: projectState) => {
 				const date = project.createdAt.split('T')[0];
 				return { ...project, createdAt: date };

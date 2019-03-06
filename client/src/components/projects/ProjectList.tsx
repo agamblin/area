@@ -24,7 +24,7 @@ export class ProjectList extends Component<ProjectListProps> {
 				<Card.Content>
 					<Card.Header>{project.name}</Card.Header>
 					<Card.Meta>
-						<span className="date">Created in {project.createdAt}</span>
+						<span className="date">Created at {project.createdAt}</span>
 					</Card.Meta>
 					<Card.Description>{project.description}</Card.Description>
 				</Card.Content>
