@@ -34,7 +34,7 @@ export const createProject = (formValues: any, file: any) => async (
 		!getState().user.trelloService ||
 		!getState().user.githubService
 	) {
-		return false;
+		return true;
 	}
 
 	try {
