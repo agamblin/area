@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-	Modal,
-	Button,
-	Ref,
-	Form,
-	Grid,
-	Dimmer,
-	Loader
-} from 'semantic-ui-react';
+import { Modal, Button, Ref, Form, Grid, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { createProject } from '../../actions/project';
 import { reduxForm, Field } from 'redux-form';
@@ -30,20 +22,32 @@ export class ProjectCreate extends Component<any> {
 		this.form = React.createRef();
 	}
 
+	_renderErrors = (meta: any) => {
+		if (meta.error && meta.touched) {
+			return <Message size="mini" error content={meta.error} />;
+		}
+	};
+
 	// Render input of the form
 	_renderTextInput = (props: any) => {
 		return (
-			<Form.Input type="text" {...props.input} placeholder={props.label} />
+			<React.Fragment>
+				<Form.Input type="text" {...props.input} placeholder={props.label} />
+				{this._renderErrors(props.meta)}
+			</React.Fragment>
 		);
 	};
 
 	_renderTextArea = (props: any) => {
 		return (
-			<Form.TextArea
-				type="textarea"
-				{...props.input}
-				placeholder={props.label}
-			/>
+			<React.Fragment>
+				<Form.TextArea
+					type="textarea"
+					{...props.input}
+					placeholder={props.label}
+				/>
+				{this._renderErrors(props.meta)}
+			</React.Fragment>
 		);
 	};
 
@@ -88,7 +92,7 @@ export class ProjectCreate extends Component<any> {
 							</Grid.Column>
 							<Grid.Column width={12}>
 								<Ref innerRef={this.form}>
-									<Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+									<Form onSubmit={this.props.handleSubmit(this.onSubmit)} error>
 										<Field
 											name="name"
 											label="Project name"
@@ -147,12 +151,32 @@ export class ProjectCreate extends Component<any> {
 	}
 }
 
+const validate = (formValues: any) => {
+	const errors = {} as any;
+
+	if (!formValues.name) {
+		errors.name = 'Name is required';
+	} else {
+		if (formValues.name.length < 3) {
+			errors.name = 'Name must be at least 3 characters';
+		}
+	}
+	if (!formValues.description) {
+		errors.description = 'Description is required';
+	} else {
+		if (formValues.description.length < 20) {
+			errors.description = 'Description must be at least 20 characters';
+		}
+	}
+	return errors;
+};
+
 const projectForm: any = compose(
 	connect(
 		null,
 		{ createProject }
 	),
-	reduxForm({ form: 'projectForm' })
+	reduxForm({ form: 'projectForm', validate: validate })
 )(ProjectCreate);
 
 export default projectForm;

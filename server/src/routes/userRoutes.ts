@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator/check';
 import * as userController from '../controllers/userController';
+import validateReq from '../middlewares/validateReq';
 
 const router: Router = Router();
 
@@ -13,6 +14,7 @@ router.put(
 			.isEmail()
 			.withMessage('Please enter a valid email')
 	],
+	validateReq,
 	userController.edit
 );
 

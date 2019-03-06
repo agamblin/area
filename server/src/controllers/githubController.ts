@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import * as _ from 'lodash';
-import { requestType } from './requestType';
+import { requestType } from '../types/requestType';
 
 export const fetchService = async (
 	req: requestType,

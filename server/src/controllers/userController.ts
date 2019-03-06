@@ -1,10 +1,9 @@
 import * as AWS from 'aws-sdk';
 import { Response } from 'express';
-import { validationResult } from 'express-validator/check';
 import { NextFunction } from 'express';
 import User from '../models/User';
 import * as keys from '../keys';
-import { requestType } from './requestType';
+import { requestType } from '../types/requestType';
 import userType from '../types/userType';
 
 const s3 = new AWS.S3({
@@ -19,15 +18,6 @@ export const edit = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		const error: any = new Error('Validation failed');
-		error.statusCode = 422;
-		error.data = errors.array();
-		return next(error);
-	}
-
 	const { email, username, avatarUrl } = req.body;
 
 	try {
