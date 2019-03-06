@@ -11,6 +11,7 @@ export default interface globalState {
 	google: googleState;
 	github: githubState;
 	trello: trelloState;
+	selectedProject: projectState;
 	projects: Array<projectState>;
 	form: any;
 }

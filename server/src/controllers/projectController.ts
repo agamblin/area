@@ -3,6 +3,7 @@ import * as keys from '../keys';
 import * as AWS from 'aws-sdk';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import Project from '../models/Project';
 
 const s3 = new AWS.S3({
 	accessKeyId: keys.s3accessKeyId,
@@ -79,6 +80,34 @@ export const getProjects = async (
 	} catch (err) {
 		return next(err);
 	}
+};
+
+export const getProject = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { projectId } = req.params;
+
+	const project = await Project.findByPk(projectId);
+	if (project.userId !== req.user.id) {
+		const err: any = new Error('You do not have access to this project');
+		err.statusCode = 401;
+		return next(err);
+	}
+	return res
+		.status(200)
+		.json(
+			_.pick(
+				project,
+				'id',
+				'name',
+				'description',
+				'imageUrl',
+				'userId',
+				'createdAt'
+			)
+		);
 };
 
 export const getS3Link = (req: requestType, res: Response) => {

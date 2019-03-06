@@ -18,4 +18,5 @@ export const TRELLO_RESET = 'TRELLO_RESET';
 export const TRELLO_ERROR = 'TRELLO_ERROR';
 
 export const PROJECT_CREATE = 'PROJECT_CREATE';
+export const PROJECTS_FETCH = 'PROJECTS_FETCH';
 export const PROJECT_FETCH = 'PROJECT_FETCH';

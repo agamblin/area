@@ -1,10 +1,12 @@
 import tribe from '../api/tribe';
 import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR } from './types';
 import history from '../history';
+import globalState from '../types/states/globalState';
+import actionType from '../types/actionType';
 
 export const registerTrelloService = (accessTokenTrello: string) => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -28,8 +30,8 @@ export const registerTrelloService = (accessTokenTrello: string) => async (
 };
 
 export const fetchTrelloService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -46,8 +48,8 @@ export const fetchTrelloService = () => async (
 };
 
 export const resetTrelloService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;

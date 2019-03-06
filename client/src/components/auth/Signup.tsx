@@ -20,7 +20,6 @@ class Signup extends React.Component<any> {
 	state = { loading: false };
 
 	onSubmit = (formProps: any) => {
-		console.log('COMPONENT:', 'FORM SUBMITTED');
 		this.setState({ loading: true });
 		this.props.signUp(formProps);
 	};

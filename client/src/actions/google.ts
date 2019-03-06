@@ -1,9 +1,11 @@
 import { GOOGLE_FETCH, GOOGLE_RESET, GOOGLE_ERROR } from './types';
 import tribe from '../api/tribe';
+import globalState from '../types/states/globalState';
+import actionType from '../types/actionType';
 
 export const registerGoogleService = (googleResponse: any) => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -27,8 +29,8 @@ export const registerGoogleService = (googleResponse: any) => async (
 };
 
 export const fetchGoogleService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -44,8 +46,8 @@ export const fetchGoogleService = () => async (
 };
 
 export const resetGoogleService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
