@@ -28,6 +28,15 @@ export const createProject = (formValues: any, file: any) => async (
 	let imageUrl: any = null;
 	const accessToken = getState().auth.authenticated;
 	let error: boolean = false;
+
+	if (
+		!getState().user.googleService ||
+		!getState().user.trelloService ||
+		!getState().user.githubService
+	) {
+		return false;
+	}
+
 	try {
 		if (file) {
 			imageUrl = await _uploadFile(file, accessToken);
