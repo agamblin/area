@@ -41,7 +41,17 @@ export const createProject = async (
 		});
 		return res
 			.status(201)
-			.json(_.pick(project, 'id', 'name', 'description', 'imageUrl', 'userId'));
+			.json(
+				_.pick(
+					project,
+					'id',
+					'name',
+					'description',
+					'imageUrl',
+					'userId',
+					'createdAt'
+				)
+			);
 	} catch (err) {
 		return next(err);
 	}
@@ -55,7 +65,15 @@ export const getProjects = async (
 	try {
 		const rawProjects = await req.user.getProjects();
 		const listProjects = rawProjects.map(project => {
-			return _.pick(project, 'id', 'name', 'description', 'imageUrl', 'userId');
+			return _.pick(
+				project,
+				'id',
+				'name',
+				'description',
+				'imageUrl',
+				'userId',
+				'createdAt'
+			);
 		});
 		return res.status(200).json(listProjects);
 	} catch (err) {

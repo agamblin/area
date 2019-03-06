@@ -4,4 +4,5 @@ export default interface projectState {
 	description: string;
 	imageUrl: string;
 	userId: number;
+	createdAt: string;
 }
