@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import * as keys from '../keys';
 import * as AWS from 'aws-sdk';
 import * as _ from 'lodash';
-import { requestType } from './requestType';
+import { requestType } from '../types/requestType';
 
 const s3 = new AWS.S3({
 	accessKeyId: keys.s3accessKeyId,

@@ -27,7 +27,7 @@ export const createProject = (formValues: any, file: any) => async (
 ) => {
 	let imageUrl: any = null;
 	const accessToken = getState().auth.authenticated;
-
+	let error: boolean = false;
 	try {
 		if (file) {
 			imageUrl = await _uploadFile(file, accessToken);
@@ -47,7 +47,8 @@ export const createProject = (formValues: any, file: any) => async (
 		dispatch(reset('projectForm'));
 		dispatch({ type: PROJECT_CREATE, payload: data });
 	} catch (err) {
-		console.log(err);
-		alert('You have to be logged to google, github and trello to proceed');
+		error = true;
+	} finally {
+		return error;
 	}
 };

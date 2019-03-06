@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator/check';
 import * as jwt from 'jwt-simple';
 import * as bcrypt from 'bcryptjs';
 import * as keys from '../keys';
@@ -21,14 +20,6 @@ export const signup = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		const error: any = new Error('Validation failed');
-		error.statusCode = 422;
-		error.data = errors.array();
-		return next(error);
-	}
 	try {
 		const { email, username, avatarUrl, password } = req.body;
 		const user: userType = await User.findOne({
@@ -55,14 +46,6 @@ export const signin = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		const error: any = new Error('Validation failed');
-		error.statusCode = 422;
-		error.data = errors.array();
-		return next(error);
-	}
 	const { email, password } = req.body;
 
 	try {

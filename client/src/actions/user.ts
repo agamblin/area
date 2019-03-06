@@ -83,5 +83,5 @@ export const patchUser = (values: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
-	history.push('/pipes');
+	history.push('/');
 };

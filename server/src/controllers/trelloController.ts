@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
-import { requestType } from './requestType';
+import { requestType } from '../types/requestType';
 
 export const registerTrelloService = async (
 	req: requestType,

@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { NextFunction } from 'connect';
 import * as _ from 'lodash';
-import { requestType } from './requestType';
+import { requestType } from '../types/requestType';
 
 export const registerService = async (
 	req: requestType,
