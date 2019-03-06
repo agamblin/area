@@ -1,12 +1,7 @@
 import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR } from '../actions/types';
+import trelloState from '../types/states/trelloState';
 
-interface googleState {
-	id?: number;
-	name: string;
-	accessToken: string;
-}
-
-export default (state = {} as googleState, action: any) => {
+export default (state = {} as trelloState, action: any) => {
 	switch (action.type) {
 		case TRELLO_FETCH:
 			return { ...state, ...action.payload };

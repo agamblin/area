@@ -1,17 +1,18 @@
-import { PROJECT_CREATE } from '../actions/types';
+import { PROJECT_CREATE, PROJECT_FETCH } from '../actions/types';
+import projectState from '../types/states/projectState';
 
-interface project {
-	id?: number;
-	name: string;
-	description: string;
-	imageUrl?: string;
-	userId: number;
-}
-
-export default (state = [] as Array<project>, action: any) => {
+export default (state = [] as Array<projectState>, action: any) => {
 	switch (action.type) {
 		case PROJECT_CREATE:
-			return [action.payload, ...state];
+			const date = action.payload.createdAt.split('T')[0];
+			const project = { ...action.payload, createdAt: date };
+			return [...state, project];
+		case PROJECT_FETCH:
+			const parsedProjects = action.payload.map((project: projectState) => {
+				const date = project.createdAt.split('T')[0];
+				return { ...project, createdAt: date };
+			});
+			return [...parsedProjects];
 		default:
 			return state;
 	}

@@ -8,6 +8,7 @@ export default interface projectType {
 	description: string;
 	imageUrl?: string;
 	userId?: number;
+	createdAt?: string;
 	createTrelloBoard?: (source: trelloBoardType) => trelloBoardType;
 	createGithubRepo?: (source: githubRepoType) => githubRepoType;
 	createGoogleDriveFolder?: (

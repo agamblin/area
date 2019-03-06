@@ -1,7 +1,7 @@
 import { reset } from 'redux-form';
 import tribe from '../api/tribe';
 import Axios from 'axios';
-import { PROJECT_CREATE } from './types';
+import { PROJECT_CREATE, PROJECT_FETCH } from './types';
 
 const _uploadFile = async (file: any, accessToken: string) => {
 	const uploadConfig: any = await tribe.get(
@@ -23,7 +23,7 @@ const _uploadFile = async (file: any, accessToken: string) => {
 
 export const createProject = (formValues: any, file: any) => async (
 	dispatch: any,
-	getState: any
+	getState: () => any
 ) => {
 	let imageUrl: any = null;
 	const accessToken = getState().auth.authenticated;
@@ -34,7 +34,7 @@ export const createProject = (formValues: any, file: any) => async (
 		!getState().user.trelloService ||
 		!getState().user.githubService
 	) {
-		return false;
+		return true;
 	}
 
 	try {
@@ -59,5 +59,20 @@ export const createProject = (formValues: any, file: any) => async (
 		error = true;
 	} finally {
 		return error;
+	}
+};
+
+export const getProjects = () => async (dispatch: any, getState: () => any) => {
+	const accessToken = getState().auth.authenticated;
+
+	try {
+		const { data } = await tribe.get('/projects', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		dispatch({ type: PROJECT_FETCH, payload: data });
+	} catch (e) {
+		return;
 	}
 };
