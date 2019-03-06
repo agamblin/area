@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { signout } from '../../actions';
+import { signout } from '../../actions/auth';
 import { connect } from 'react-redux';
 import { Loader } from 'semantic-ui-react';
 

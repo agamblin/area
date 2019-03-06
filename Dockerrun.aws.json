@@ -3,21 +3,21 @@
 	"containerDefinitions": [
 		{
 			"name": "client",
-			"image": "agamblin/tribe-client",
+			"image": "agamblin/area-client",
 			"hostname": "client",
 			"essential": false,
-			"memory": 128
+			"memory": 256
 		},
 		{
 			"name": "server",
-			"image": "agamblin/tribe-server",
+			"image": "agamblin/area-server",
 			"hostname": "api",
 			"essential": false,
-			"memory": 128
+			"memory": 256
 		},
 		{
 			"name": "nginx",
-			"image": "agamblin/tribe-nginx",
+			"image": "agamblin/area-nginx",
 			"hostname": "nginx",
 			"essential": true,
 			"portMappings": [
@@ -27,7 +27,7 @@
 				}
 			],
 			"links": ["client", "server"],
-			"memory": 128
+			"memory": 256
 		}
 	]
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import { signIn } from '../../actions';
+import { signIn } from '../../actions/auth';
 import { compose } from 'redux';
 import EmailField from './components/EmailField';
 import PasswordField from './components/PasswordField';
@@ -29,7 +29,6 @@ class Signin extends React.Component<signinProps> {
 
 	_renderErrors = (meta: any) => {
 		if (meta.error && meta.touched) {
-			console.log('error:', meta.error);
 			return <Message error content={meta.error} />;
 		}
 	};

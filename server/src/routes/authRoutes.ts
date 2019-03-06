@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as authController from '../controllers/authController';
 import { body } from 'express-validator/check';
-import requireAuth from '../utils/requireAuth';
+import validateReq from '../middlewares/validateReq';
 
 const router: Router = Router();
 
@@ -16,6 +16,7 @@ router.post(
 			.isLength({ min: 5 })
 			.withMessage('Please enter a password of minimum 5 characters')
 	],
+	validateReq,
 	authController.signup
 );
 
@@ -30,8 +31,12 @@ router.post(
 			.isLength({ min: 5 })
 			.withMessage('Please enter a valid password')
 	],
+	validateReq,
 	authController.signin
 );
 
-router.get('/me', requireAuth, authController.healthCheck);
+router.get('/oauth/github/callback', authController.githubOauth);
+
+router.get('/oauth/trello/callback', authController.trelloOauth);
+
 export default router;
