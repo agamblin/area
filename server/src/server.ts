@@ -84,6 +84,6 @@ GithubRepo.belongsTo(Project);
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
 
-sequelize.sync().then(() => {
+sequelize.sync({ force: true}).then(() => {
 	app.listen(8080, () => 'listening on port 8080');
 });
