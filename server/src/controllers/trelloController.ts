@@ -85,14 +85,18 @@ export const fetchBoard = async (
 ) => {
 	const { boardId } = req.params;
 
-	const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
-	await rawBoard.fetchBoard();
-	const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
-	const cards = rawCards.map((card: trelloCardType) => {
-		return _.pick(card, 'id', 'name', 'description', 'url');
-	});
-	const url: string = rawBoard.url;
-	res.status(200).json({ cards, url });
+	try {
+		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		await rawBoard.fetchBoard();
+		const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
+		const cards = rawCards.map((card: trelloCardType) => {
+			return _.pick(card, 'id', 'name', 'description', 'url');
+		});
+		const url: string = rawBoard.url;
+		return res.status(200).json({ cards, url });
+	} catch (err) {
+		return next(err);
+	}
 };
 
 export const fetchCards = async (
@@ -102,7 +106,11 @@ export const fetchCards = async (
 ) => {
 	const { boardId } = req.params;
 
-	const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
-	const cards = await board.fetchBoard();
-	res.status(200).json(cards);
+	try {
+		const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const cards = await board.fetchBoard();
+		return res.status(200).json(cards);
+	} catch (err) {
+		return next(err);
+	}
 };
