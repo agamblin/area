@@ -3,9 +3,8 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import reducers from './reducers';
 import React from 'react';
 import reduxThunk from 'redux-thunk';
-import { Router, Route } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import history from './history';
-import App from './components/App';
 
 declare global {
 	interface Window {

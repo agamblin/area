@@ -6,6 +6,7 @@ import user from './user';
 import google from './google';
 import github from './github';
 import trello from './trello';
+import projects from './projects';
 
 const appReducer = combineReducers({
 	auth,
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
 	google,
 	github,
 	trello,
+	projects,
 	form: formReducer
 });
 

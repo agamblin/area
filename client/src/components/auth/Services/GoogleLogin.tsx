@@ -8,6 +8,7 @@ import {
 	fetchGoogleService,
 	resetGoogleService
 } from '../../../actions/google';
+import AccountCard from './AccountCard';
 import requireAuth from '../requireAuth';
 
 import './css/SocialButton.css';
@@ -21,6 +22,8 @@ interface GoogleLoginProps {
 }
 
 class GoogleLoginButton extends Component<GoogleLoginProps> {
+	state = { renderAccount: false };
+
 	componentDidMount() {
 		if (this.props.googleService) {
 			this.props.fetchGoogleService();
@@ -36,14 +39,12 @@ class GoogleLoginButton extends Component<GoogleLoginProps> {
 	};
 
 	renderAccount = () => {
-		if (this.props.username) {
+		if (this.props.username && this.state.renderAccount) {
 			return (
-				<Card.Content extra className="social-card">
-					Connected as: {this.props.username}
-					<p className="reset-link" onClick={this.props.resetGoogleService}>
-						reset
-					</p>
-				</Card.Content>
+				<AccountCard
+					username={this.props.username}
+					resetFunction={this.props.resetGoogleService}
+				/>
 			);
 		}
 	};
@@ -51,30 +52,35 @@ class GoogleLoginButton extends Component<GoogleLoginProps> {
 	render() {
 		const { username } = this.props;
 		return (
-			<Card>
-				<Card.Content>
-					<Card.Header>Google</Card.Header>
-				</Card.Content>
-				<Card.Content>
-					<GoogleLogin
-						clientId={keys.GOOGLE_CLIENT_ID}
-						buttonText="Login"
-						scope="https://www.googleapis.com/auth/drive profile email"
-						render={(renderProps: any) => (
-							<Button
-								disabled={username ? true : false}
-								color="google plus"
-								icon="google"
-								onClick={renderProps.onClick}
-								size="massive"
-							/>
-						)}
-						onSuccess={this.googleResponse}
-						onFailure={this.onError}
-					/>
-				</Card.Content>
-				{this.renderAccount()}
-			</Card>
+			<div
+				onMouseEnter={() => this.setState({ renderAccount: true })}
+				onMouseLeave={() => this.setState({ renderAccount: false })}
+			>
+				<Card>
+					<Card.Content>
+						<Card.Header>Google</Card.Header>
+					</Card.Content>
+					<Card.Content>
+						<GoogleLogin
+							clientId={keys.GOOGLE_CLIENT_ID}
+							buttonText="Login"
+							scope="https://www.googleapis.com/auth/drive profile email"
+							render={(renderProps: any) => (
+								<Button
+									disabled={username ? true : false}
+									color="google plus"
+									icon="google"
+									onClick={renderProps.onClick}
+									size="massive"
+								/>
+							)}
+							onSuccess={this.googleResponse}
+							onFailure={this.onError}
+						/>
+					</Card.Content>
+					{this.renderAccount()}
+				</Card>
+			</div>
 		);
 	}
 }

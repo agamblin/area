@@ -4,24 +4,9 @@ import tribe from '../api/tribe';
 import { signout } from './auth';
 import history from '../history';
 
-export const fetchUser = () => async (dispatch: any, getState: any) => {
-	const accessToken = getState().auth.authenticated;
-
-	try {
-		const { data } = await tribe.get('/user', {
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
-		});
-		dispatch({ type: FETCH_USER, payload: data });
-	} catch (e) {
-		dispatch(signout());
-	}
-};
-
 const _uploadFile = async (file: any, accessToken: string) => {
 	const uploadConfig: any = await tribe.get(
-		'/user/upload/profile?filename=' + file.name,
+		`/users/upload/profile?filename=${file.name}&contentType=${file.type}`,
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`
@@ -37,6 +22,21 @@ const _uploadFile = async (file: any, accessToken: string) => {
 	return key;
 };
 
+export const fetchUser = () => async (dispatch: any, getState: any) => {
+	const accessToken = getState().auth.authenticated;
+
+	try {
+		const { data } = await tribe.get('/users', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		dispatch({ type: FETCH_USER, payload: data });
+	} catch (e) {
+		dispatch(signout());
+	}
+};
+
 export const editUser = (formProps: any, file: any) => async (
 	dispatch: any,
 	getState: any
@@ -49,7 +49,7 @@ export const editUser = (formProps: any, file: any) => async (
 	}
 
 	const { data } = await tribe.put(
-		'/user',
+		'/users',
 		{ ...formProps, avatarUrl },
 		{
 			headers: {
@@ -71,7 +71,7 @@ export const patchUser = (values: any) => async (
 		avatarUrl = await _uploadFile(values.file, accessToken);
 	}
 	const { data } = await tribe.patch(
-		'/user',
+		'/users',
 		{
 			...values,
 			avatarUrl
@@ -83,5 +83,5 @@ export const patchUser = (values: any) => async (
 		}
 	);
 	dispatch({ type: EDIT_USER, payload: data });
-	history.push('/pipes');
+	history.push('/');
 };

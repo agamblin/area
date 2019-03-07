@@ -6,17 +6,12 @@ import {
 	GITHUB_FETCH,
 	GITHUB_RESET,
 	TRELLO_FETCH,
-	TRELLO_RESET
+	TRELLO_RESET,
+	GOOGLE_ERROR,
+	GITHUB_ERROR,
+	TRELLO_ERROR
 } from '../actions/types';
-
-interface userState {
-	email: string;
-	username: string;
-	avatarUrl: string;
-	googleService: boolean;
-	githubService: boolean;
-	trelloService: boolean;
-}
+import userState from '../types/states/userState';
 
 export default (state = {} as userState, action: any) => {
 	switch (action.type) {
@@ -36,6 +31,13 @@ export default (state = {} as userState, action: any) => {
 			return { ...state, githubService: false };
 		case TRELLO_RESET:
 			return { ...state, trelloService: false };
+		case GOOGLE_ERROR:
+			return { ...state, googleService: false };
+		case GITHUB_ERROR:
+			return { ...state, githubService: false };
+		case TRELLO_ERROR:
+			return { ...state, trelloService: false };
+
 		default:
 			return state;
 	}

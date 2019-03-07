@@ -36,16 +36,6 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 		this.setState({ loading: false });
 	};
 
-	_renderButton = () => {
-		if (this.state.file) {
-			return (
-				<div style={{ marginTop: '2.5%' }}>
-					<Button positive icon="check" size="large" circular type="submit" />
-				</div>
-			);
-		}
-	};
-
 	_renderServices = () => {
 		return <ServicesAuth />;
 	};
@@ -69,7 +59,14 @@ export class SignupDetails extends Component<SignupDetailsProps> {
 							<Header as="h4">Services</Header>
 						</Divider>
 						{this._renderServices()}
-						{this._renderButton()}
+						<Button
+							positive
+							icon="check"
+							size="huge"
+							circular
+							type="submit"
+							style={{ marginTop: '2.5%' }}
+						/>
 					</Form>
 				</Segment>
 			</div>

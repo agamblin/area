@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions/auth';
 import { compose } from 'redux';
@@ -11,15 +11,16 @@ import {
 	Message,
 	Segment,
 	Header,
-	Icon,
-	Input
+	Icon
 } from 'semantic-ui-react';
+import './css/Signup.css';
 import { reduxForm, Field } from 'redux-form';
 
 class Signup extends React.Component<any> {
 	state = { loading: false };
 
 	onSubmit = (formProps: any) => {
+		console.log('COMPONENT:', 'FORM SUBMITTED');
 		this.setState({ loading: true });
 		this.props.signUp(formProps);
 	};
@@ -61,7 +62,7 @@ class Signup extends React.Component<any> {
 					onSubmit={this.props.handleSubmit(this.onSubmit)}
 				>
 					{this._displayErrorMsg()}
-					<Segment raised attached>
+					<Segment padded="very" attached className="grey-segment">
 						<Form.Group widths="equal">
 							<Field name="email" label="Email" component={this._renderMail} />
 							<Field
@@ -84,7 +85,9 @@ class Signup extends React.Component<any> {
 						</Form.Group>
 					</Segment>
 					<Button.Group attached="bottom" fluid>
-						<Button onClick={() => history.back()}>Cancel</Button>
+						<Button as="a" onClick={() => history.back()}>
+							Cancel
+						</Button>
 						<Button.Or />
 						<Button positive type="submit">
 							Sign up

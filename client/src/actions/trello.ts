@@ -1,5 +1,5 @@
 import tribe from '../api/tribe';
-import { TRELLO_FETCH, TRELLO_RESET } from './types';
+import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR } from './types';
 import history from '../history';
 
 export const registerTrelloService = (accessTokenTrello: string) => async (
@@ -41,7 +41,7 @@ export const fetchTrelloService = () => async (
 		});
 		dispatch({ type: TRELLO_FETCH, payload: data });
 	} catch (e) {
-		return;
+		dispatch({ type: TRELLO_ERROR });
 	}
 };
 

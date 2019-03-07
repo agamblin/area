@@ -7,9 +7,15 @@ export const EDIT_USER = 'EDIT_USER';
 
 export const GOOGLE_FETCH = 'GOOGLE_FETCH';
 export const GOOGLE_RESET = 'GOOGLE_RESET';
+export const GOOGLE_ERROR = 'GOOGLE_ERROR';
 
 export const GITHUB_FETCH = 'GITHUB_FETCH';
 export const GITHUB_RESET = 'GITHUB_RESET';
+export const GITHUB_ERROR = 'GITHUB_ERROR';
 
 export const TRELLO_FETCH = 'TRELLO_FETCH';
 export const TRELLO_RESET = 'TRELLO_RESET';
+export const TRELLO_ERROR = 'TRELLO_ERROR';
+
+export const PROJECT_CREATE = 'PROJECT_CREATE';
+export const PROJECT_FETCH = 'PROJECT_FETCH';

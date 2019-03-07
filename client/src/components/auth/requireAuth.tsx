@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import history from '../../history';
+import globalState from '../../types/states/globalState';
 
 export default (ChildComponent: any) => {
 	const ComposedComponent = (props: any) => {
@@ -14,7 +15,7 @@ export default (ChildComponent: any) => {
 	return connect(mapStateToProps)(ComposedComponent);
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: globalState) => {
 	return {
 		isLoggedIn: state.auth.authenticated
 	};

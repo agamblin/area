@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { NextFunction } from 'connect';
 import * as _ from 'lodash';
+import { requestType } from '../types/requestType';
 
 export const registerService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -30,15 +31,23 @@ export const registerService = async (
 };
 
 export const fetchService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
 	if (req.user.googleService) {
 		const googleProvider = await req.user.getGoogleProvider();
-		return res
-			.status(200)
-			.json(_.pick(googleProvider, 'id', 'name', 'accessToken'));
+		const healthState = await googleProvider.healthCheck();
+		if (healthState) {
+			return res
+				.status(200)
+				.json(_.pick(googleProvider, 'id', 'name', 'accessToken'));
+		}
+		const err: any = new Error(
+			'Their is some problem with your account, please relog'
+		);
+		err.statusCode = 404;
+		return next(err);
 	}
 	const err: any = new Error('No google provider rensegined');
 	err.statusCode = 404;
@@ -46,7 +55,7 @@ export const fetchService = async (
 };
 
 export const resetService = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
@@ -63,7 +72,7 @@ export const resetService = async (
 };
 
 export const fetchFiles = async (
-	req: Request,
+	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {

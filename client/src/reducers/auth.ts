@@ -1,9 +1,5 @@
 import { AUTH_USER, AUTH_ERROR } from '../actions/types';
-
-interface authState {
-	authenticated: string;
-	errorMessage: string;
-}
+import authState from '../types/states/authState';
 
 const INITIAL_STATE = {
 	authenticated: '',

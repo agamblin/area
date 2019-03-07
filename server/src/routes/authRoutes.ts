@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as authController from '../controllers/authController';
 import { body } from 'express-validator/check';
+import validateReq from '../middlewares/validateReq';
 
 const router: Router = Router();
 
@@ -15,6 +16,7 @@ router.post(
 			.isLength({ min: 5 })
 			.withMessage('Please enter a password of minimum 5 characters')
 	],
+	validateReq,
 	authController.signup
 );
 
@@ -29,6 +31,7 @@ router.post(
 			.isLength({ min: 5 })
 			.withMessage('Please enter a valid password')
 	],
+	validateReq,
 	authController.signin
 );
 
