@@ -16,5 +16,6 @@
 ##### 2
 Go to [localhost](http://localhost:8081) and enjoy !
 
+debug
 
 [trello](https://trello.com/b/04fAMfBU/tribe)
