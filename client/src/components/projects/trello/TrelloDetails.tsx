@@ -26,13 +26,7 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 
 		if (board) {
 			return (
-				<Label
-					as="a"
-					href={board.url}
-					icon="trello"
-					color="green"
-					attached="top left"
-				>
+				<Label as="a" href={board.url} color="green" attached="top left">
 					Trello
 				</Label>
 			);
