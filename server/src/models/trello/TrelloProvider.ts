@@ -34,7 +34,7 @@ TrelloProvider.prototype.createBoard = async function(project: projectType) {
 	try {
 		const { data } = await trello.post(`/boards/?${querystring}`);
 		const trelloBoard: trelloBoardType = await project.createTrelloBoard({
-			trelloId: data.id,
+			id: data.id,
 			name: data.name,
 			description: data.desc,
 			url: data.shortUrl,

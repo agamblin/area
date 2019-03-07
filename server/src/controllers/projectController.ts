@@ -113,7 +113,7 @@ export const getProject = async (
 			'userId',
 			'createdAt'
 		),
-		board: _.pick(project.TrelloBoard, 'id', 'trelloId'),
+		board: _.pick(project.TrelloBoard, 'id'),
 		repo: _.pick(project.GithubRepo, 'id', 'githubId'),
 		folder: _.pick(project.GoogleDriveFolder, 'id', 'googleId')
 	});

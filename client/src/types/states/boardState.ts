@@ -1,4 +1,7 @@
+import cardState from './cardState';
+
 export default interface boardState {
-	id: number;
-	trelloId: string;
+	id: string;
+	url: string;
+	cards: Array<cardState>;
 }

@@ -4,6 +4,8 @@ import * as keys from '../keys';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
 import TrelloBoard from '../models/trello/TrelloBoard';
+import trelloBoardType from 'trello/trelloBoardType';
+import trelloCardType from 'trello/trelloCardType';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -76,14 +78,31 @@ export const resetTrelloService = async (
 	return next(err);
 };
 
+export const fetchBoard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+	await rawBoard.fetchBoard();
+	const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
+	const cards = rawCards.map((card: trelloCardType) => {
+		return _.pick(card, 'id', 'name', 'description', 'url');
+	});
+	const url: string = rawBoard.url;
+	res.status(200).json({ cards, url });
+};
+
 export const fetchCards = async (
 	req: requestType,
 	res: Response,
 	next: NextFunction
 ) => {
-	console.log('fetching');
 	const { boardId } = req.params;
 
-	const board = await TrelloBoard.findByPk(boardId);
-	await board.fetchCards();
+	const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
+	const cards = await board.fetchBoard();
+	res.status(200).json(cards);
 };

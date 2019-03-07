@@ -5,7 +5,7 @@ import requireAuth from '../auth/requireAuth';
 import globalState from '../../types/states/globalState';
 import { Segment, Header, Image, Tab } from 'semantic-ui-react';
 import Spinner from '../general/Spinner';
-import TrelloDetails from './TrelloDetails';
+import TrelloDetails from './trello/TrelloDetails';
 import selectedProjectState from '../../types/states/selectedProjectState';
 
 interface ProjectDetailProps {
