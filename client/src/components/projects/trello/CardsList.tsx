@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import globalState from '../../../types/states/globalState';
 import cardState from '../../../types/states/cardState';
 import Spinner from '../../general/Spinner';
-import { Label, Card, Header, List, Statistic } from 'semantic-ui-react';
+import { Label, Card, List, Statistic } from 'semantic-ui-react';
 import CardDetail from './CardDetail';
 
 interface CardsListProps {

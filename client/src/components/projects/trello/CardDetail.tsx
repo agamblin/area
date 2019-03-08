@@ -36,12 +36,9 @@ export class CardDetail extends Component<CardDetailProps> {
 			open &&
 			(!selectedCard || selectedCard.id != cardId)
 		) {
-			console.log('fetching');
 			fetchCard(cardId);
 		}
 	}
-
-	_renderMemberItem = () => {};
 
 	_renderMembers = () => {
 		const { selectedCard } = this.props;
@@ -132,15 +129,6 @@ export class CardDetail extends Component<CardDetailProps> {
 							</Item.Extra>
 						</Item>
 					</Modal.Content>
-					{/* <Modal.Actions>
-						<Button negative>No</Button>
-						<Button
-							positive
-							icon="checkmark"
-							labelPosition="right"
-							content="Yes"
-						/>
-					</Modal.Actions> */}
 				</React.Fragment>
 			);
 		}
