@@ -1,5 +1,11 @@
 import tribe from '../api/tribe';
-import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR, BOARD_FETCH } from './types';
+import {
+	TRELLO_FETCH,
+	TRELLO_RESET,
+	TRELLO_ERROR,
+	BOARD_FETCH,
+	CARD_FETCH
+} from './types';
 import history from '../history';
 import globalState from '../types/states/globalState';
 import actionType from '../types/actionType';
@@ -65,7 +71,7 @@ export const resetTrelloService = () => async (
 	}
 };
 
-export const fetchBoard = (boardId: number) => async (
+export const fetchBoard = (boardId: string) => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
@@ -77,8 +83,26 @@ export const fetchBoard = (boardId: number) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		console.log(data);
 		dispatch({ type: BOARD_FETCH, payload: data });
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const fetchCard = (cardId: string) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	const accessToken = getState().auth.authenticated;
+
+	console.log('fetching card');
+	try {
+		const { data } = await tribe.get(`trello/cards/${cardId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		dispatch({ type: CARD_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);
 	}

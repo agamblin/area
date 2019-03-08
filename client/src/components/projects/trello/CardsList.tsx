@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import globalState from '../../../types/states/globalState';
 import cardState from '../../../types/states/cardState';
 import Spinner from '../../general/Spinner';
-import { Label, Card, Header, List } from 'semantic-ui-react';
+import { Label, Card, Header, List, Statistic } from 'semantic-ui-react';
 import CardDetail from './CardDetail';
 
 interface CardsListProps {
@@ -14,7 +14,21 @@ class CardsList extends Component<CardsListProps> {
 	state = { detailOpen: false, cardId: null };
 
 	show = (cardId: string) => this.setState({ detailOpen: true, cardId });
-	close = () => this.setState({ detailOpen: false });
+	close = () => this.setState({ detailOpen: false, cardId: null });
+
+	_renderHeader = () => {
+		const { cards } = this.props;
+
+		if (cards) {
+			return (
+				<Statistic
+					horizontal
+					label={cards.length > 1 ? 'cards' : 'card'}
+					value={cards.length}
+				/>
+			);
+		}
+	};
 
 	_displayContent = () => {
 		const { cards } = this.props;
@@ -23,14 +37,13 @@ class CardsList extends Component<CardsListProps> {
 			return cards.map((card: cardState) => {
 				return (
 					<List.Item key={card.id} style={{ marginBottom: '2.5%' }}>
-						<Card centered>
+						<Card centered raised>
 							<Label
 								as="a"
 								href={card.url}
-								ribbon
+								corner
 								icon="trello"
 								color="green"
-								content="Trello"
 							/>
 							<Card.Content
 								onClick={() => this.show(card.id)}
@@ -55,9 +68,7 @@ class CardsList extends Component<CardsListProps> {
 	render() {
 		return (
 			<div>
-				<Header as="h2" dividing>
-					Last cards
-				</Header>
+				{this._renderHeader()}
 				<List animated verticalAlign="middle">
 					{this._displayContent()}
 				</List>
