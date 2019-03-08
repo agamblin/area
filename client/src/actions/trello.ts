@@ -4,7 +4,8 @@ import {
 	TRELLO_RESET,
 	TRELLO_ERROR,
 	BOARD_FETCH,
-	CARD_FETCH
+	CARD_FETCH,
+	CARD_EMPTY
 } from './types';
 import history from '../history';
 import globalState from '../types/states/globalState';
@@ -106,6 +107,10 @@ export const fetchCard = (cardId: string) => async (
 	} catch (err) {
 		console.log(err);
 	}
+};
+
+export const closedCardDetails = () => {
+	return { type: CARD_EMPTY };
 };
 
 export const fetchBoardCards = (boardId: number) => async (

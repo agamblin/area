@@ -1,4 +1,4 @@
-import { CARD_FETCH } from '../actions/types';
+import { CARD_FETCH, CARD_EMPTY } from '../actions/types';
 import selectedCardState from '../types/states/selectedCardState';
 
 export default (state = {} as selectedCardState, action: any) => {
@@ -13,9 +13,10 @@ export default (state = {} as selectedCardState, action: any) => {
 			if (action.payload.dateLastActivity) {
 				dateLastActivity = action.payload.dateLastActivity.split('T')[0];
 			}
-
 			const card = { ...action.payload, due, dateLastActivity };
 			return { ...state, ...card };
+		case CARD_EMPTY:
+			return {};
 		default:
 			return state;
 	}

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
 	Modal,
-	Button,
 	Label,
 	Item,
 	Header,
@@ -28,7 +27,9 @@ interface CardDetailProps {
 }
 
 export class CardDetail extends Component<CardDetailProps> {
-	componentDidUpdate() {
+	state = { loading: true };
+
+	async componentDidUpdate() {
 		const { cardId, fetchCard, selectedCard } = this.props;
 		if (
 			fetchCard &&
@@ -36,7 +37,8 @@ export class CardDetail extends Component<CardDetailProps> {
 			open &&
 			(!selectedCard || selectedCard.id != cardId)
 		) {
-			fetchCard(cardId);
+			await fetchCard(cardId);
+			this.setState({ loading: false });
 		}
 	}
 
@@ -44,16 +46,19 @@ export class CardDetail extends Component<CardDetailProps> {
 		const { selectedCard } = this.props;
 
 		if (selectedCard && selectedCard.members) {
-			return selectedCard.members.map((member: trelloMemberState) => {
-				return (
-					<List.Item key={member.id}>
-						<Image avatar src={`${member.avatarUrl}/50.png`} />
-						<List.Content>
-							<List.Header>{member.fullName}</List.Header>
-						</List.Content>
-					</List.Item>
-				);
-			});
+			if (selectedCard.members.length > 0) {
+				return selectedCard.members.map((member: trelloMemberState) => {
+					return (
+						<List.Item key={member.id}>
+							<Image avatar src={`${member.avatarUrl}/50.png`} />
+							<List.Content>
+								<List.Header>{member.fullName}</List.Header>
+							</List.Content>
+						</List.Item>
+					);
+				});
+			}
+			return <List.Description>None</List.Description>;
 		}
 		return null;
 	};
@@ -82,61 +87,60 @@ export class CardDetail extends Component<CardDetailProps> {
 		if (selectedCard) {
 			return (
 				<React.Fragment>
-					<Modal.Content style={{ textAlign: 'center' }}>
-						<Item>
-							<Item.Header>
-								<Header as="h1" dividing>
-									{selectedCard.name}
-								</Header>
-							</Item.Header>
-							<Item.Meta style={{ marginTop: '2.5%' }}>
-								<Label color="red" horizontal>
-									Due date:
-									<Label.Detail>
-										{selectedCard.due ? selectedCard.due : 'none'}
-									</Label.Detail>
-								</Label>
-								<Label as="a" color="teal" horizontal>
-									Last activity:
-									<Label.Detail>{selectedCard.dateLastActivity}</Label.Detail>
-								</Label>
-							</Item.Meta>
-							<Item.Description style={{ marginTop: '2.5%' }}>
-								{selectedCard.description}
-							</Item.Description>
-							<Item.Extra style={{ marginTop: '2.5%' }}>
-								<Segment>
-									<Grid columns={2} relaxed="very">
-										<Grid.Column>
-											<Header as="h3" dividing>
-												Members
-											</Header>
-											<List animated verticalAlign="middle">
-												{this._renderMembers()}
-											</List>
-										</Grid.Column>
-										<Grid.Column>
-											<Header as="h3" dividing>
-												Labels
-											</Header>
-											<List animated verticalAlign="middle">
-												{this._renderLabels()}
-											</List>
-										</Grid.Column>
-									</Grid>
-									<Divider vertical>And</Divider>
-								</Segment>
-							</Item.Extra>
-						</Item>
-					</Modal.Content>
+					<Item>
+						<Item.Header>
+							<Header as="h1" dividing>
+								{selectedCard.name}
+							</Header>
+						</Item.Header>
+						<Item.Meta style={{ marginTop: '2.5%' }}>
+							<Label color="red" horizontal>
+								Due date:
+								<Label.Detail>
+									{selectedCard.due ? selectedCard.due : 'none'}
+								</Label.Detail>
+							</Label>
+							<Label as="a" color="teal" horizontal>
+								Last activity:
+								<Label.Detail>{selectedCard.dateLastActivity}</Label.Detail>
+							</Label>
+						</Item.Meta>
+						<Item.Description style={{ marginTop: '2.5%' }}>
+							{selectedCard.description}
+						</Item.Description>
+						<Item.Extra style={{ marginTop: '2.5%' }}>
+							<Segment>
+								<Grid columns={2} relaxed="very">
+									<Grid.Column>
+										<Header as="h3" dividing>
+											Members
+										</Header>
+										<List animated verticalAlign="middle">
+											{this._renderMembers()}
+										</List>
+									</Grid.Column>
+									<Grid.Column>
+										<Header as="h3" dividing>
+											Labels
+										</Header>
+										<List animated verticalAlign="middle">
+											{this._renderLabels()}
+										</List>
+									</Grid.Column>
+								</Grid>
+								<Divider vertical>And</Divider>
+							</Segment>
+						</Item.Extra>
+					</Item>
 				</React.Fragment>
 			);
 		}
-		return (
-			<Modal.Content>
-				<Spinner loading />
-			</Modal.Content>
-		);
+		return null;
+	};
+
+	_closeModal = () => {
+		this.setState({ loading: true });
+		this.props.close();
 	};
 
 	render() {
@@ -145,9 +149,12 @@ export class CardDetail extends Component<CardDetailProps> {
 				size="tiny"
 				dimmer="blurring"
 				open={this.props.open}
-				onClose={this.props.close}
+				onClose={this._closeModal}
 			>
-				{this._renderCardContent()}
+				<Modal.Content style={{ textAlign: 'center' }}>
+					<Spinner loading={this.state.loading} />
+					{this._renderCardContent()}
+				</Modal.Content>
 			</Modal>
 		);
 	}

@@ -4,17 +4,24 @@ import globalState from '../../../types/states/globalState';
 import cardState from '../../../types/states/cardState';
 import Spinner from '../../general/Spinner';
 import { Label, Card, List, Statistic } from 'semantic-ui-react';
+import { closedCardDetails } from '../../../actions/trello';
 import CardDetail from './CardDetail';
 
 interface CardsListProps {
 	cards?: Array<cardState>;
+	closedCardDetails?: () => any;
 }
 
 class CardsList extends Component<CardsListProps> {
 	state = { detailOpen: false, cardId: null };
 
 	show = (cardId: string) => this.setState({ detailOpen: true, cardId });
-	close = () => this.setState({ detailOpen: false, cardId: null });
+	close = () => {
+		this.setState({ detailOpen: false, cardId: null });
+		if (this.props.closedCardDetails) {
+			this.props.closedCardDetails();
+		}
+	};
 
 	_renderHeader = () => {
 		const { cards } = this.props;
@@ -43,6 +50,7 @@ class CardsList extends Component<CardsListProps> {
 		}
 		return null;
 	};
+	
 	_displayContent = () => {
 		const { cards } = this.props;
 
@@ -98,5 +106,7 @@ const mapStateToProps = (state: globalState) => {
 
 export default connect(
 	mapStateToProps,
-	{}
+	{
+		closedCardDetails
+	}
 )(CardsList);
