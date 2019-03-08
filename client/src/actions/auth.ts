@@ -1,8 +1,11 @@
 import tribe from '../api/tribe';
 import { AUTH_USER, AUTH_ERROR, AUTH_LOGOUT } from './types';
 import history from '../history';
+import actionType from '../types/actionType';
 
-export const signUp = (formProps: any) => async (dispatch: any) => {
+export const signUp = (formProps: any) => async (
+	dispatch: (source: actionType) => any
+) => {
 	try {
 		const { data } = await tribe.post('/auth/signup', {
 			email: formProps.email,
@@ -19,7 +22,9 @@ export const signUp = (formProps: any) => async (dispatch: any) => {
 	}
 };
 
-export const signIn = (formProps: any) => async (dispatch: any) => {
+export const signIn = (formProps: any) => async (
+	dispatch: (source: actionType) => any
+) => {
 	try {
 		const { data } = await tribe.post('/auth/signin', {
 			email: formProps.email,

@@ -3,6 +3,8 @@ import { FETCH_USER, EDIT_USER } from './types';
 import tribe from '../api/tribe';
 import { signout } from './auth';
 import history from '../history';
+import globalState from '../types/states/globalState';
+import actionType from '../types/actionType';
 
 const _uploadFile = async (file: any, accessToken: string) => {
 	const uploadConfig: any = await tribe.get(
@@ -22,7 +24,10 @@ const _uploadFile = async (file: any, accessToken: string) => {
 	return key;
 };
 
-export const fetchUser = () => async (dispatch: any, getState: any) => {
+export const fetchUser = () => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
 	const accessToken = getState().auth.authenticated;
 
 	try {
@@ -38,8 +43,8 @@ export const fetchUser = () => async (dispatch: any, getState: any) => {
 };
 
 export const editUser = (formProps: any, file: any) => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	let avatarUrl;
 	const accessToken = getState().auth.authenticated;
@@ -61,8 +66,8 @@ export const editUser = (formProps: any, file: any) => async (
 };
 
 export const patchUser = (values: any) => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	let avatarUrl: any = null;
 	const accessToken = getState().auth.authenticated;

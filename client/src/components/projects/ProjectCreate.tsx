@@ -12,7 +12,7 @@ interface ProjectCreateProps extends InjectedFormProps {
 	createProject: (formValues: any, file: any) => boolean;
 }
 
-export class ProjectCreate extends Component<ProjectCreateProps> {
+class ProjectCreate extends Component<ProjectCreateProps> {
 	private form: any;
 	state = {
 		open: false,

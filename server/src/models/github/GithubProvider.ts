@@ -42,7 +42,8 @@ GithubProvider.prototype.createRepo = async function(project: projectType) {
 			private: data.private,
 			htmlUrl: data.html_url,
 			cloneUrl: data.ssh_url,
-			subscribersCount: data.subscribers_count
+			subscribersCount: data.subscribers_count,
+			accessToken: this.accessToken
 		});
 		return githubRepo;
 	} catch (e) {

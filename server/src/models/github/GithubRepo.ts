@@ -33,6 +33,10 @@ const GithubRepo: any = sequelize.define('GithubRepo', {
 	subscribersCount: {
 		type: Sequelize.INTEGER,
 		allowNull: false
+	},
+	accessToken: {
+		type: Sequelize.STRING,
+		allowNull: false
 	}
 });
 

@@ -1,14 +1,23 @@
 import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 
-const GoogleDriveFolder: any = sequelize.define('GoogleDriveFolder', {
-	googleId: {
+const TrelloCard = sequelize.define('TrelloCard', {
+	id: {
 		type: Sequelize.STRING,
+		unique: true,
+		primaryKey: true,
 		allowNull: false
 	},
 	name: {
 		type: Sequelize.STRING,
-		unique: true,
+		allowNull: false
+	},
+	description: {
+		type: Sequelize.STRING,
+		allowNull: true
+	},
+	url: {
+		type: Sequelize.STRING,
 		allowNull: true
 	},
 	accessToken: {
@@ -17,4 +26,4 @@ const GoogleDriveFolder: any = sequelize.define('GoogleDriveFolder', {
 	}
 });
 
-export default GoogleDriveFolder;
+export default TrelloCard;

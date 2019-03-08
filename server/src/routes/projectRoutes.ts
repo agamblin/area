@@ -20,7 +20,7 @@ router.post(
 );
 
 router.get('/', projectController.getProjects);
-
+router.get('/:projectId', projectController.getProject);
 router.get('/upload/image', projectController.getS3Link);
 
 export default router;

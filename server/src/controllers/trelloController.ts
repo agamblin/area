@@ -3,6 +3,9 @@ import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import TrelloBoard from '../models/trello/TrelloBoard';
+import trelloBoardType from 'trello/trelloBoardType';
+import trelloCardType from 'trello/trelloCardType';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -73,4 +76,41 @@ export const resetTrelloService = async (
 	const err: any = new Error('No provider for trello renseigned');
 	err.statusCode = 404;
 	return next(err);
+};
+
+export const fetchBoard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		await rawBoard.fetchBoard();
+		const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
+		const cards = rawCards.map((card: trelloCardType) => {
+			return _.pick(card, 'id', 'name', 'description', 'url');
+		});
+		const url: string = rawBoard.url;
+		return res.status(200).json({ cards, url });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCards = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const cards = await board.fetchBoard();
+		return res.status(200).json(cards);
+	} catch (err) {
+		return next(err);
+	}
 };

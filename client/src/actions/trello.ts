@@ -1,10 +1,12 @@
 import tribe from '../api/tribe';
-import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR } from './types';
+import { TRELLO_FETCH, TRELLO_RESET, TRELLO_ERROR, BOARD_FETCH } from './types';
 import history from '../history';
+import globalState from '../types/states/globalState';
+import actionType from '../types/actionType';
 
 export const registerTrelloService = (accessTokenTrello: string) => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -28,8 +30,8 @@ export const registerTrelloService = (accessTokenTrello: string) => async (
 };
 
 export const fetchTrelloService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -46,8 +48,8 @@ export const fetchTrelloService = () => async (
 };
 
 export const resetTrelloService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -61,4 +63,37 @@ export const resetTrelloService = () => async (
 	} catch (e) {
 		alert('Failed to reset trello service');
 	}
+};
+
+export const fetchBoard = (boardId: number) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	const accessToken = getState().auth.authenticated;
+
+	try {
+		const { data } = await tribe.get(`trello/boards/${boardId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		console.log(data);
+		dispatch({ type: BOARD_FETCH, payload: data });
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const fetchBoardCards = (boardId: number) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	const accessToken = getState().auth.authenticated;
+
+	const { data } = await tribe.get(`trello/boards/${boardId}/cards`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`
+		}
+	});
+	console.log(data);
 };
