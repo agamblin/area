@@ -30,6 +30,19 @@ class CardsList extends Component<CardsListProps> {
 		}
 	};
 
+	_renderCardDescription = (card: cardState) => {
+		if (card.description) {
+			return (
+				<Card.Content
+					onClick={() => this.show(card.id)}
+					style={{ cursor: 'pointer' }}
+				>
+					<Card.Description>{card.description}</Card.Description>
+				</Card.Content>
+			);
+		}
+		return null;
+	};
 	_displayContent = () => {
 		const { cards } = this.props;
 
@@ -51,12 +64,7 @@ class CardsList extends Component<CardsListProps> {
 							>
 								<Card.Header as="h5">{card.name}</Card.Header>
 							</Card.Content>
-							<Card.Content
-								onClick={() => this.show(card.id)}
-								style={{ cursor: 'pointer' }}
-							>
-								<Card.Description>{card.description}</Card.Description>
-							</Card.Content>
+							{this._renderCardDescription(card)}
 						</Card>
 					</List.Item>
 				);

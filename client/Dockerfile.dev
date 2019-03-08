@@ -1,4 +1,7 @@
 FROM node:alpine
+
+ENV NODE_VERSION 11.10.1
+
 WORKDIR /app
 COPY ./package.json ./
 RUN yarn install
