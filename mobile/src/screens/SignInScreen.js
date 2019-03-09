@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-02-20 18:03:36
+ * @Last Modified time: 2019-03-09 17:12:18
  */
 
 //@flow
@@ -10,10 +10,10 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView, Text, StyleSheet } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
-import axios from 'axios';
 import { material, systemWeights } from 'react-native-typography';
 
 import { Input } from '@components';
+import { signIn } from '@utils';
 
 type Props = NavigationScreenProps & {};
 
@@ -21,13 +21,6 @@ type State = {
     email: string,
     password: string
 };
-
-const instance = axios.create({
-    baseURL: 'https://tribe.eu-west-3.elasticbeanstalk.com/api',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-});
 
 export default class SignInScreen extends Component<Props, State> {
     usernameRef: any;
@@ -42,12 +35,17 @@ export default class SignInScreen extends Component<Props, State> {
         };
     }
 
-    onSignUp: Function = () => {};
+    onSignIn: Function = () => {
+        const { email, password } = this.state;
+        signIn(email, password)
+            .then(() => this.props.navigation.navigate('Home'))
+            .catch(error => console.warn(error));
+    };
 
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <Text style={styles.titleStyle}>Sign Up to Tribe</Text>
+                <Text style={styles.titleStyle}>Sign In to Tribe</Text>
                 <Input
                     label="EMAIL"
                     placeholder="Enter your email"
@@ -66,7 +64,7 @@ export default class SignInScreen extends Component<Props, State> {
                     value={this.state.password}
                     secureTextEntry
                     onChangeText={password => this.setState({ password })}
-                    onSubmitEditing={this.onSignUp}
+                    onSubmitEditing={this.onSignIn}
                     ref={ref => (ref = this.passwordRef)}
                 />
             </SafeAreaView>

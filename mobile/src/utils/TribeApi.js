@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 15:33:53
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-02-20 17:13:08
+ * @Last Modified time: 2019-03-09 17:23:04
  */
 
 //@flow
@@ -11,7 +11,7 @@ import axios from 'axios';
 import { storeItem } from './StorageUtils';
 
 const instance = axios.create({
-    baseURL: 'http://tribe.eu-west-3.elasticbeanstalk.com/api',
+    baseURL: 'http://localhost:8081/api',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -21,7 +21,7 @@ export const signUp: Function = (email: string, username: string, password: stri
     return new Promise(async (resolve, reject) => {
         instance
             .post(
-                '/signup',
+                '/auth/signup',
                 JSON.stringify({
                     email,
                     username,
@@ -33,6 +33,7 @@ export const signUp: Function = (email: string, username: string, password: stri
                 resolve();
             })
             .catch(error => {
+                console.log(error);
                 reject(error);
             });
     });
@@ -42,7 +43,7 @@ export const signIn: Function = (email: string, password: string) => {
     return new Promise(async (resolve, reject) => {
         instance
             .post(
-                '/signin',
+                '/auth/signin',
                 JSON.stringify({
                     email,
                     password
@@ -53,6 +54,7 @@ export const signIn: Function = (email: string, password: string) => {
                 resolve();
             })
             .catch(error => {
+                console.log(error);
                 reject(error);
             });
     });
