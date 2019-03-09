@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { getProject } from '../../actions/projects';
 import requireAuth from '../auth/requireAuth';
 import globalState from '../../types/states/globalState';
-import { Segment, Header, Image, Tab } from 'semantic-ui-react';
+import { Segment, Header, Image, Tab, Button } from 'semantic-ui-react';
 import Spinner from '../general/Spinner';
 import TrelloDetails from './trello/TrelloDetails';
 import selectedProjectState from '../../types/states/selectedProjectState';
+import history from '../../history';
 
 interface ProjectDetailProps {
 	projectId?: number | null;
@@ -61,6 +62,14 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 		}
 		return (
 			<React.Fragment>
+				<Button
+					floated="left"
+					icon="arrow left"
+					basic
+					color="black"
+					size="tiny"
+					onClick={() => history.goBack()}
+				/>
 				<Header as="h1" dividing>
 					<Image circular src={project.imageUrl} inline />
 					<Header.Content>{project.name}</Header.Content>
