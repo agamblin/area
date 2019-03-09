@@ -10,6 +10,10 @@ const GoogleDriveFolder: any = sequelize.define('GoogleDriveFolder', {
 		type: Sequelize.STRING,
 		unique: true,
 		allowNull: true
+	},
+	accessToken: {
+		type: Sequelize.STRING,
+		allowNull: false
 	}
 });
 

@@ -1,9 +1,11 @@
 import tribe from '../api/tribe';
 import { GITHUB_FETCH, GITHUB_RESET, TRELLO_ERROR } from './types';
+import globalState from '../types/states/globalState';
+import actionType from '../types/actionType';
 
 export const fetchGithubService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;
@@ -19,8 +21,8 @@ export const fetchGithubService = () => async (
 };
 
 export const resetGithubService = () => async (
-	dispatch: any,
-	getState: any
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
 ) => {
 	try {
 		const accessToken = getState().auth.authenticated;

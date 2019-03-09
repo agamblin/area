@@ -1,10 +1,5 @@
 import { GOOGLE_FETCH, GOOGLE_RESET, GOOGLE_ERROR } from '../actions/types';
-
-interface googleState {
-	id?: number;
-	name: string;
-	accessToken: string;
-}
+import googleState from '../types/states/googleState';
 
 export default (state = {} as googleState, action: any) => {
 	switch (action.type) {

@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { Modal, Button, Ref, Form, Grid, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { createProject } from '../../actions/project';
-import { reduxForm, Field } from 'redux-form';
+import { createProject } from '../../actions/projects';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import { compose } from 'redux';
 import Spinner from '../general/Spinner';
 import ImageProject from './ImageProject';
 import './css/ProjectCreate.css';
 
-export class ProjectCreate extends Component<any> {
+interface ProjectCreateProps extends InjectedFormProps {
+	createProject: (formValues: any, file: any) => boolean;
+}
+
+class ProjectCreate extends Component<ProjectCreateProps> {
 	private form: any;
-	state = { open: false, dimmer: undefined, file: null, loading: false };
+	state = {
+		open: false,
+		dimmer: undefined,
+		file: null,
+		loading: false,
+		error: false
+	};
 
 	show = (dimmer: any) => () => this.setState({ dimmer, open: true });
 	close = () => {
@@ -70,13 +80,34 @@ export class ProjectCreate extends Component<any> {
 	// Form related
 	onSubmit = async (formValues: any) => {
 		this.setState({ loading: true });
-		await this.props.createProject(formValues, this.state.file);
-		this.setState({ loading: false, file: null });
-		this.close();
+		const error: boolean = await this.props.createProject(
+			formValues,
+			this.state.file
+		);
+		this.setState({ loading: false, file: null, error });
+		console.log(error);
+		if (!error) {
+			this.close();
+		}
 	};
 
 	submitForm = () => {
 		this.form.current.dispatchEvent(new Event('submit'));
+	};
+
+	_renderErrorMessageHeader = () => {
+		if (this.state.error) {
+			return (
+				<Message
+					style={{ textAlign: 'center' }}
+					warning
+					size="small"
+					header="Missing some services"
+					content="Check services page to see if Github, Trello and Google are enabled"
+				/>
+			);
+		}
+		return null;
 	};
 
 	_renderModalContent = () => {
@@ -85,6 +116,7 @@ export class ProjectCreate extends Component<any> {
 				<Modal.Header className="centered">Add a new project</Modal.Header>
 				<Modal.Content>
 					<Spinner loading={this.state.loading} />
+					{this._renderErrorMessageHeader()}
 					<Grid divided="vertically">
 						<Grid.Row columns={2}>
 							<Grid.Column width={4} textAlign="center">

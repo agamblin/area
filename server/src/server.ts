@@ -14,6 +14,9 @@ import GithubRepo from './models/github/GithubRepo';
 
 import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
+import TrelloCard from './models/trello/TrelloCard';
+import TrelloMember from './models/trello/TrelloMember';
+import TrelloAction from './models/trello/TrelloAction';
 
 // UTILS
 import sequelize from './utils/database';
@@ -83,6 +86,15 @@ GithubRepo.belongsTo(Project);
 
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
+
+TrelloBoard.hasMany(TrelloCard);
+TrelloCard.belongsTo(TrelloBoard);
+
+TrelloBoard.hasMany(TrelloMember);
+TrelloMember.belongsTo(TrelloBoard);
+
+TrelloMember.hasMany(TrelloAction);
+TrelloAction.belongsTo(TrelloMember);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

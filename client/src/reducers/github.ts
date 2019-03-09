@@ -1,10 +1,5 @@
 import { GITHUB_FETCH, GITHUB_RESET, GITHUB_ERROR } from '../actions/types';
-
-interface githubState {
-	id?: number;
-	name: string;
-	accessToken: string;
-}
+import githubState from '../types/states/githubState';
 
 export default (state = {} as githubState, action: any) => {
 	switch (action.type) {

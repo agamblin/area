@@ -3,6 +3,13 @@ import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import TrelloBoard from '../models/trello/TrelloBoard';
+import trelloBoardType from 'trello/trelloBoardType';
+import trelloCardType from 'trello/trelloCardType';
+import TrelloCard from '../models/trello/TrelloCard';
+import TrelloMember from '../models/trello/TrelloMember';
+import trelloMemberType from 'trello/trelloMemberType';
+import TrelloAction from '../models/trello/TrelloAction';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -73,4 +80,108 @@ export const resetTrelloService = async (
 	const err: any = new Error('No provider for trello renseigned');
 	err.statusCode = 404;
 	return next(err);
+};
+
+export const fetchBoard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		await rawBoard.fetchBoard();
+		const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
+		const rawMembers: Array<
+			trelloMemberType
+		> = await rawBoard.getTrelloMembers();
+
+		const members = await Promise.all(
+			rawMembers.map(async member => {
+				return {
+					..._.pick(member, 'id', 'fullName', 'avatarUrl'),
+					activityCount: await TrelloAction.count({
+						where: { TrelloMemberId: member.id }
+					})
+				};
+			})
+		);
+		const cards = rawCards.map((card: trelloCardType) => {
+			return _.pick(card, 'id', 'name', 'description', 'url');
+		});
+		const activity = await TrelloAction.fetchFeed();
+		const url: string = rawBoard.url;
+		return res.status(200).json({ cards, activity, url, members });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCards = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const cards = await board.fetchBoard();
+		return res.status(200).json(cards);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { cardId } = req.params;
+
+	try {
+		const rawCard: trelloCardType = await TrelloCard.findByPk(cardId);
+		const rawCardInfo = await rawCard.fetchInfo();
+		const membersArray = await Promise.all(
+			rawCardInfo.members.map(async (memberId: any) => {
+				const member = await TrelloMember.findByPk(memberId.id);
+				return {
+					id: member.id,
+					fullName: member.fullName,
+					avatarUrl: member.avatarUrl
+				};
+			})
+		);
+		const cardInfo = {
+			...rawCardInfo,
+			members: membersArray
+		};
+		const card = _.pick(rawCard, 'id', 'name', 'description', 'url');
+		return res.status(200).json({ ...card, ...cardInfo });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchMember = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { memberId } = req.params;
+
+	try {
+		const member: trelloMemberType = await TrelloMember.findByPk(memberId);
+		const actions = await member.getActions();
+		return res.status(200).json({
+			id: member.id,
+			fullName: member.fullName,
+			avatarUrl: member.avatarUrl,
+			activity: actions
+		});
+	} catch (err) {
+		return next(err);
+	}
 };

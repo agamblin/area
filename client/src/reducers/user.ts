@@ -11,15 +11,7 @@ import {
 	GITHUB_ERROR,
 	TRELLO_ERROR
 } from '../actions/types';
-
-interface userState {
-	email: string;
-	username: string;
-	avatarUrl: string;
-	googleService: boolean;
-	githubService: boolean;
-	trelloService: boolean;
-}
+import userState from '../types/states/userState';
 
 export default (state = {} as userState, action: any) => {
 	switch (action.type) {
