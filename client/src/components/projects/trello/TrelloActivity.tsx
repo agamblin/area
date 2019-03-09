@@ -16,7 +16,7 @@ class TrelloActivity extends Component<TrelloActivityProps> {
 			return (
 				<Statistic
 					horizontal
-					label={activity.length > 0 ? 'actions' : 'action'}
+					label={activity.length > 1 ? 'actions' : 'action'}
 					value={activity.length}
 				/>
 			);

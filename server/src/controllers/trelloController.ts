@@ -97,13 +97,22 @@ export const fetchBoard = async (
 			trelloMemberType
 		> = await rawBoard.getTrelloMembers();
 
-		rawMembers;
+		const members = await Promise.all(
+			rawMembers.map(async member => {
+				return {
+					..._.pick(member, 'id', 'fullName', 'avatarUrl'),
+					activityCount: await TrelloAction.count({
+						where: { TrelloMemberId: member.id }
+					})
+				};
+			})
+		);
 		const cards = rawCards.map((card: trelloCardType) => {
 			return _.pick(card, 'id', 'name', 'description', 'url');
 		});
 		const activity = await TrelloAction.fetchFeed();
 		const url: string = rawBoard.url;
-		return res.status(200).json({ cards, activity, url });
+		return res.status(200).json({ cards, activity, url, members });
 	} catch (err) {
 		return next(err);
 	}
