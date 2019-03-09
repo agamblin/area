@@ -84,7 +84,6 @@ export const fetchBoard = (boardId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		console.log(data);
 		dispatch({ type: BOARD_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);
@@ -125,5 +124,4 @@ export const fetchBoardCards = (boardId: number) => async (
 			Authorization: `Bearer ${accessToken}`
 		}
 	});
-	console.log(data);
 };

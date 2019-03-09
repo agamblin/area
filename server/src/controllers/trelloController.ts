@@ -97,6 +97,7 @@ export const fetchBoard = async (
 			trelloMemberType
 		> = await rawBoard.getTrelloMembers();
 
+		rawMembers;
 		const cards = rawCards.map((card: trelloCardType) => {
 			return _.pick(card, 'id', 'name', 'description', 'url');
 		});
