@@ -46,17 +46,14 @@ TrelloMember.prototype.getActions = async function() {
 			return {
 				id: action.id,
 				type: action.type,
-				member: _.pick(member, 'fullName', 'avatarUrl'),
-				card: _.pick(card, 'name')
+				date: action.date,
+				member: _.pick(this, 'fullName', 'avatarUrl'),
+				targetMember: _.pick(member, 'fullName', 'avatarUrl'),
+				targetCard: _.pick(card, 'name')
 			};
 		})
 	);
-	return actions.map((action: any) => {
-		return {
-			fullName: this.fullName,
-			action
-		};
-	});
+	return actions;
 };
 
 export default TrelloMember;

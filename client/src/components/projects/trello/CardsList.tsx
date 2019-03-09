@@ -50,7 +50,7 @@ class CardsList extends Component<CardsListProps> {
 		}
 		return null;
 	};
-	
+
 	_displayContent = () => {
 		const { cards } = this.props;
 
@@ -85,7 +85,11 @@ class CardsList extends Component<CardsListProps> {
 		return (
 			<div>
 				{this._renderHeader()}
-				<List animated verticalAlign="middle">
+				<List
+					style={{ overflow: 'auto', maxHeight: '400px' }}
+					animated
+					verticalAlign="middle"
+				>
 					{this._displayContent()}
 				</List>
 				<CardDetail

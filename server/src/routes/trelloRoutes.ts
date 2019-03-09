@@ -10,6 +10,8 @@ router.delete('/', trelloController.resetTrelloService);
 router.get('/boards/:boardId', trelloController.fetchBoard);
 router.get('/boards/:boardId/cards', trelloController.fetchCards);
 
+router.get('/members/:memberId', trelloController.fetchMember);
+
 router.get('/cards/:cardId', trelloController.fetchCard);
 
 export default router;

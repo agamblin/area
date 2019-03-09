@@ -3,12 +3,25 @@ import { connect } from 'react-redux';
 import { Statistic, List, Image, Label, Segment } from 'semantic-ui-react';
 import globalState from '../../../types/states/globalState';
 import trelloMemberState from '../../../types/states/trelloMemberState';
+import { closedMemberDetails } from '../../../actions/trello';
+import MemberDetail from './MemberDetail';
 
 interface TrelloMembersListProps {
 	members: Array<trelloMemberState>;
+	closedMemberDetails?: () => any;
 }
 
 class TrelloMembersList extends Component<TrelloMembersListProps> {
+	state = { detailOpen: false, memberId: null };
+
+	show = (memberId: string) => this.setState({ detailOpen: true, memberId });
+	close = () => {
+		this.setState({ detailOpen: false, memberId: null });
+		if (this.props.closedMemberDetails) {
+			this.props.closedMemberDetails();
+		}
+	};
+
 	_renderHeader = () => {
 		const { members } = this.props;
 
@@ -30,7 +43,7 @@ class TrelloMembersList extends Component<TrelloMembersListProps> {
 		if (members) {
 			return members.map(member => {
 				return (
-					<List.Item key={member.id}>
+					<List.Item key={member.id} onClick={() => this.show(member.id)}>
 						<Label circular style={{ float: 'right' }} color="red">
 							{member.activityCount}
 						</Label>
@@ -52,6 +65,11 @@ class TrelloMembersList extends Component<TrelloMembersListProps> {
 						{this._renderMemberList()}
 					</List>
 				</Segment>
+				<MemberDetail
+					open={this.state.detailOpen}
+					memberId={this.state.memberId}
+					close={this.close}
+				/>
 			</div>
 		);
 	}
@@ -63,4 +81,9 @@ const mapStateToProps = (state: globalState) => {
 	};
 };
 
-export default connect(mapStateToProps)(TrelloMembersList);
+export default connect(
+	mapStateToProps,
+	{
+		closedMemberDetails
+	}
+)(TrelloMembersList);

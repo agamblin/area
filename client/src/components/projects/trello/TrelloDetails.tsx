@@ -5,8 +5,8 @@ import { fetchBoard } from '../../../actions/trello';
 import globalState from '../../../types/states/globalState';
 import boardState from '../../../types/states/boardState';
 import CardsList from './CardsList';
-import TrelloActivity from './TrelloActivity';
-import TrelloMembersList from './TrelloMembersList';
+import TrelloActivity from './ActivityList';
+import TrelloMembersList from './MemberList';
 import { Grid, Header, Label, Segment } from 'semantic-ui-react';
 
 interface TrelloDetailsProps {

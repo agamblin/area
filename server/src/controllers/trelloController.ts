@@ -141,7 +141,6 @@ export const fetchCard = async (
 ) => {
 	const { cardId } = req.params;
 
-	console.log('fetching card');
 	try {
 		const rawCard: trelloCardType = await TrelloCard.findByPk(cardId);
 		const rawCardInfo = await rawCard.fetchInfo();
@@ -161,6 +160,27 @@ export const fetchCard = async (
 		};
 		const card = _.pick(rawCard, 'id', 'name', 'description', 'url');
 		return res.status(200).json({ ...card, ...cardInfo });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchMember = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { memberId } = req.params;
+
+	try {
+		const member: trelloMemberType = await TrelloMember.findByPk(memberId);
+		const actions = await member.getActions();
+		return res.status(200).json({
+			id: member.id,
+			fullName: member.fullName,
+			avatarUrl: member.avatarUrl,
+			activity: actions
+		});
 	} catch (err) {
 		return next(err);
 	}

@@ -25,3 +25,6 @@ export const BOARD_FETCH = 'BOARD_FETCH';
 
 export const CARD_FETCH = 'CARD_FETCH';
 export const CARD_EMPTY = 'CARD_EMPTY';
+
+export const MEMBER_FETCH = 'MEMBER_FETCH';
+export const MEMBER_EMPTY = 'MEMBER_EMPTY';
