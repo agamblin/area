@@ -9,6 +9,7 @@ import trello from './trello';
 import projects from './projects';
 import selectedProject from './selectedProject';
 import selectedCard from './selectedCard';
+import selectedMember from './selectedMember';
 
 const appReducer = combineReducers({
 	auth,
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
 	projects,
 	selectedProject,
 	selectedCard,
+	selectedMember,
 	form: formReducer
 });
 

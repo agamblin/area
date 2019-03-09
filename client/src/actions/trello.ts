@@ -5,7 +5,9 @@ import {
 	TRELLO_ERROR,
 	BOARD_FETCH,
 	CARD_FETCH,
-	CARD_EMPTY
+	CARD_EMPTY,
+	MEMBER_EMPTY,
+	MEMBER_FETCH
 } from './types';
 import history from '../history';
 import globalState from '../types/states/globalState';
@@ -96,7 +98,6 @@ export const fetchCard = (cardId: string) => async (
 ) => {
 	const accessToken = getState().auth.authenticated;
 
-	console.log('fetching card');
 	try {
 		const { data } = await tribe.get(`trello/cards/${cardId}`, {
 			headers: {
@@ -111,6 +112,29 @@ export const fetchCard = (cardId: string) => async (
 
 export const closedCardDetails = () => {
 	return { type: CARD_EMPTY };
+};
+
+export const fetchMember = (memberId: string) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	const accessToken = getState().auth.authenticated;
+
+	try {
+		const { data } = await tribe.get(`trello/members/${memberId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		console.log(data);
+		dispatch({ type: MEMBER_FETCH, payload: data });
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export const closedMemberDetails = () => {
+	return { type: MEMBER_EMPTY };
 };
 
 export const fetchBoardCards = (boardId: number) => async (
