@@ -22,3 +22,6 @@ export const PROJECTS_FETCH = 'PROJECTS_FETCH';
 export const PROJECT_FETCH = 'PROJECT_FETCH';
 
 export const BOARD_FETCH = 'BOARD_FETCH';
+
+export const CARD_FETCH = 'CARD_FETCH';
+export const CARD_EMPTY = 'CARD_EMPTY';

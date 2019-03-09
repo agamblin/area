@@ -8,9 +8,9 @@ import CardsList from './CardsList';
 import { Grid, Header, Label, Segment } from 'semantic-ui-react';
 
 interface TrelloDetailsProps {
-	boardId: number;
+	boardId: string;
 	board?: boardState;
-	fetchBoard?: (boardId: number) => any;
+	fetchBoard?: (boardId: string) => any;
 }
 
 class TrelloDetails extends Component<TrelloDetailsProps> {

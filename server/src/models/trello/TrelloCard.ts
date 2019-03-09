@@ -1,7 +1,11 @@
 import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
+import * as qs from 'query-string';
+import * as keys from '../../keys';
+import * as _ from 'lodash';
+import trello from '../../api/trello';
 
-const TrelloCard = sequelize.define('TrelloCard', {
+const TrelloCard: any = sequelize.define('TrelloCard', {
 	id: {
 		type: Sequelize.STRING,
 		unique: true,
@@ -25,5 +29,40 @@ const TrelloCard = sequelize.define('TrelloCard', {
 		allowNull: false
 	}
 });
+
+TrelloCard.prototype.fetchInfo = async function() {
+	const querystring = qs.stringify({
+		attachments: true,
+		attachment_fields: 'all',
+		key: keys.trelloKey,
+		token: this.accessToken,
+		fields: 'all',
+		members: true,
+		member_fields: 'id',
+		list: true,
+		stickers: true,
+		sticker_fields: 'all'
+	});
+	try {
+		const { data } = await trello.get(`/cards/${this.id}?${querystring}`);
+		const rawCard = _.pick(
+			data,
+			'due',
+			'labels',
+			'members',
+			'dateLastActivity'
+		);
+		const card = {
+			...rawCard,
+			labels: rawCard.labels.map(label => {
+				return { id: label.id, name: label.name, color: label.color };
+			})
+		};
+		return card;
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
+};
 
 export default TrelloCard;

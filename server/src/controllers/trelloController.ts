@@ -6,6 +6,8 @@ import { requestType } from '../types/requestType';
 import TrelloBoard from '../models/trello/TrelloBoard';
 import trelloBoardType from 'trello/trelloBoardType';
 import trelloCardType from 'trello/trelloCardType';
+import TrelloCard from '../models/trello/TrelloCard';
+import TrelloMember from '../models/trello/TrelloMember';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -110,6 +112,38 @@ export const fetchCards = async (
 		const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
 		const cards = await board.fetchBoard();
 		return res.status(200).json(cards);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { cardId } = req.params;
+
+	console.log('fetching card');
+	try {
+		const rawCard: trelloCardType = await TrelloCard.findByPk(cardId);
+		const rawCardInfo = await rawCard.fetchInfo();
+		const membersArray = await Promise.all(
+			rawCardInfo.members.map(async (memberId: any) => {
+				const member = await TrelloMember.findByPk(memberId.id);
+				return {
+					id: member.id,
+					fullName: member.fullName,
+					avatarUrl: member.avatarUrl
+				};
+			})
+		);
+		const cardInfo = {
+			...rawCardInfo,
+			members: membersArray
+		};
+		const card = _.pick(rawCard, 'id', 'name', 'description', 'url');
+		return res.status(200).json({ ...card, ...cardInfo });
 	} catch (err) {
 		return next(err);
 	}

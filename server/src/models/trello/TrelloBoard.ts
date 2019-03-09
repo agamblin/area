@@ -4,6 +4,7 @@ import * as qs from 'query-string';
 import * as keys from '../../keys';
 import trello from '../../api/trello';
 import TrelloCard from './TrelloCard';
+import TrelloMember from './TrelloMember';
 
 const TrelloBoard: any = sequelize.define('TrelloBoard', {
 	id: {
@@ -57,6 +58,19 @@ TrelloBoard.prototype.fetchBoard = async function() {
 				url: card.shortUrl,
 				TrelloBoardId: this.id
 			};
+		});
+		const members = data.members.map((member: any) => {
+			return {
+				id: member.id,
+				fullName: member.fullName,
+				username: member.username,
+				avatarUrl: member.avatarUrl,
+				accessToken: this.accessToken,
+				TrelloBoardId: this.id
+			};
+		});
+		await TrelloMember.bulkCreate(members, {
+			updateOnDuplicate: ['fullName', 'username', 'avatarUrl', 'accessToken']
 		});
 		await TrelloCard.bulkCreate(cards, {
 			updateOnDuplicate: ['name', 'description', 'accessToken']

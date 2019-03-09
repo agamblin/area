@@ -3,19 +3,54 @@ import { connect } from 'react-redux';
 import globalState from '../../../types/states/globalState';
 import cardState from '../../../types/states/cardState';
 import Spinner from '../../general/Spinner';
-import { Label, Card, Header, List } from 'semantic-ui-react';
+import { Label, Card, List, Statistic } from 'semantic-ui-react';
+import { closedCardDetails } from '../../../actions/trello';
 import CardDetail from './CardDetail';
 
 interface CardsListProps {
 	cards?: Array<cardState>;
+	closedCardDetails?: () => any;
 }
 
 class CardsList extends Component<CardsListProps> {
 	state = { detailOpen: false, cardId: null };
 
 	show = (cardId: string) => this.setState({ detailOpen: true, cardId });
-	close = () => this.setState({ detailOpen: false });
+	close = () => {
+		this.setState({ detailOpen: false, cardId: null });
+		if (this.props.closedCardDetails) {
+			this.props.closedCardDetails();
+		}
+	};
 
+	_renderHeader = () => {
+		const { cards } = this.props;
+
+		if (cards) {
+			return (
+				<Statistic
+					horizontal
+					label={cards.length > 1 ? 'cards' : 'card'}
+					value={cards.length}
+				/>
+			);
+		}
+	};
+
+	_renderCardDescription = (card: cardState) => {
+		if (card.description) {
+			return (
+				<Card.Content
+					onClick={() => this.show(card.id)}
+					style={{ cursor: 'pointer' }}
+				>
+					<Card.Description>{card.description}</Card.Description>
+				</Card.Content>
+			);
+		}
+		return null;
+	};
+	
 	_displayContent = () => {
 		const { cards } = this.props;
 
@@ -23,14 +58,13 @@ class CardsList extends Component<CardsListProps> {
 			return cards.map((card: cardState) => {
 				return (
 					<List.Item key={card.id} style={{ marginBottom: '2.5%' }}>
-						<Card centered>
+						<Card centered raised>
 							<Label
 								as="a"
 								href={card.url}
-								ribbon
+								corner
 								icon="trello"
 								color="green"
-								content="Trello"
 							/>
 							<Card.Content
 								onClick={() => this.show(card.id)}
@@ -38,12 +72,7 @@ class CardsList extends Component<CardsListProps> {
 							>
 								<Card.Header as="h5">{card.name}</Card.Header>
 							</Card.Content>
-							<Card.Content
-								onClick={() => this.show(card.id)}
-								style={{ cursor: 'pointer' }}
-							>
-								<Card.Description>{card.description}</Card.Description>
-							</Card.Content>
+							{this._renderCardDescription(card)}
 						</Card>
 					</List.Item>
 				);
@@ -55,9 +84,7 @@ class CardsList extends Component<CardsListProps> {
 	render() {
 		return (
 			<div>
-				<Header as="h2" dividing>
-					Last cards
-				</Header>
+				{this._renderHeader()}
 				<List animated verticalAlign="middle">
 					{this._displayContent()}
 				</List>
@@ -79,5 +106,7 @@ const mapStateToProps = (state: globalState) => {
 
 export default connect(
 	mapStateToProps,
-	{}
+	{
+		closedCardDetails
+	}
 )(CardsList);

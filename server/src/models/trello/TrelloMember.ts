@@ -2,7 +2,7 @@ import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 
 const TrelloMember: any = sequelize.define('TrelloMember', {
-	idd: {
+	id: {
 		type: Sequelize.STRING,
 		unique: true,
 		allowNull: false,
