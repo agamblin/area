@@ -16,6 +16,7 @@ import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
 import TrelloCard from './models/trello/TrelloCard';
 import TrelloMember from './models/trello/TrelloMember';
+import TrelloAction from './models/trello/TrelloAction';
 
 // UTILS
 import sequelize from './utils/database';
@@ -91,6 +92,9 @@ TrelloCard.belongsTo(TrelloBoard);
 
 TrelloBoard.hasMany(TrelloMember);
 TrelloMember.belongsTo(TrelloBoard);
+
+TrelloMember.hasMany(TrelloAction);
+TrelloAction.belongsTo(TrelloMember);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

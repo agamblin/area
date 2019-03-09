@@ -8,6 +8,8 @@ import trelloBoardType from 'trello/trelloBoardType';
 import trelloCardType from 'trello/trelloCardType';
 import TrelloCard from '../models/trello/TrelloCard';
 import TrelloMember from '../models/trello/TrelloMember';
+import trelloMemberType from 'trello/trelloMemberType';
+import TrelloAction from '../models/trello/TrelloAction';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -91,11 +93,17 @@ export const fetchBoard = async (
 		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
 		await rawBoard.fetchBoard();
 		const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
+		const rawMembers: Array<
+			trelloMemberType
+		> = await rawBoard.getTrelloMembers();
+
+		rawMembers;
 		const cards = rawCards.map((card: trelloCardType) => {
 			return _.pick(card, 'id', 'name', 'description', 'url');
 		});
+		const activity = await TrelloAction.fetchFeed();
 		const url: string = rawBoard.url;
-		return res.status(200).json({ cards, url });
+		return res.status(200).json({ cards, activity, url });
 	} catch (err) {
 		return next(err);
 	}

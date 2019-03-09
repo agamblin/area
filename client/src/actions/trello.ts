@@ -124,5 +124,4 @@ export const fetchBoardCards = (boardId: number) => async (
 			Authorization: `Bearer ${accessToken}`
 		}
 	});
-	console.log(data);
 };
