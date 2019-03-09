@@ -13,6 +13,7 @@ export default (state = {} as selectedProjectState, action: any) => {
 				board: {
 					...state.board,
 					cards: action.payload.cards,
+					activity: action.payload.activity.reverse(),
 					url: action.payload.url
 				}
 			};

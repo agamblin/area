@@ -5,6 +5,7 @@ import * as keys from '../../keys';
 import trello from '../../api/trello';
 import TrelloCard from './TrelloCard';
 import TrelloMember from './TrelloMember';
+import TrelloAction from './TrelloAction';
 
 const TrelloBoard: any = sequelize.define('TrelloBoard', {
 	id: {
@@ -69,12 +70,34 @@ TrelloBoard.prototype.fetchBoard = async function() {
 				TrelloBoardId: this.id
 			};
 		});
+		console.log(data.actions);
+		const activity = data.actions.map((activity: any) => {
+			let targetCard = null;
+			let targetMember = null;
+
+			if (activity.data.card) {
+				targetCard = activity.data.card.id;
+			}
+			if (activity.data.member) {
+				targetMember = activity.data.member.id;
+			}
+			return {
+				id: activity.id,
+				type: activity.type,
+				idTargetMember: targetMember,
+				idTargetCard: targetCard,
+				date: activity.date.split('T')[0],
+				TrelloMemberId: activity.idMemberCreator
+			};
+		});
+
 		await TrelloMember.bulkCreate(members, {
 			updateOnDuplicate: ['fullName', 'username', 'avatarUrl', 'accessToken']
 		});
 		await TrelloCard.bulkCreate(cards, {
 			updateOnDuplicate: ['name', 'description', 'accessToken']
 		});
+		await TrelloAction.bulkCreate(activity, { updateOnDuplicate: ['type'] });
 	} catch (e) {
 		console.log(e);
 	}

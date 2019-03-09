@@ -5,6 +5,7 @@ import { fetchBoard } from '../../../actions/trello';
 import globalState from '../../../types/states/globalState';
 import boardState from '../../../types/states/boardState';
 import CardsList from './CardsList';
+import TrelloActivity from './TrelloActivity';
 import { Grid, Header, Label, Segment } from 'semantic-ui-react';
 
 interface TrelloDetailsProps {
@@ -42,7 +43,7 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 							<CardsList />
 						</Grid.Column>
 						<Grid.Column>
-							<div>Activity</div>
+							<TrelloActivity />
 						</Grid.Column>
 						<Grid.Column>
 							<div>Members</div>
