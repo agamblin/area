@@ -29,7 +29,6 @@ class TrelloActivity extends Component<TrelloActivityProps> {
 		const { activity } = this.props;
 
 		if (activity) {
-			console.log(activity);
 			return activity.map(action => (
 				<FeedItem key={action.id} action={action} />
 			));

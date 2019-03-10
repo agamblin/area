@@ -1,7 +1,10 @@
+import googleDriveFileType from './googleDriveFileType';
+
 export default interface googleDriveFolderType {
-	id?: number;
+	id: string;
 	name: string;
-	googleId: string;
 	accessToken: string;
+	fetchFiles?: () => any;
+	getGoogleDriveFiles?: (options?: any) => Array<googleDriveFileType>;
 	destroy?: () => any;
 }

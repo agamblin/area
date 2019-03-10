@@ -6,6 +6,7 @@ import globalState from '../../types/states/globalState';
 import { Segment, Header, Image, Tab, Button } from 'semantic-ui-react';
 import Spinner from '../general/Spinner';
 import TrelloDetails from './trello/TrelloDetails';
+import FileList from './google/FileList';
 import selectedProjectState from '../../types/states/selectedProjectState';
 import history from '../../history';
 
@@ -35,6 +36,15 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 		return <Spinner loading />;
 	};
 
+	_renderGoogleDetails = () => {
+		const { project } = this.props;
+
+		if (project.folder) {
+			return <FileList folderId={project.folder.id} />;
+		}
+		return <Spinner loading />;
+	};
+
 	_displayContent = () => {
 		const { project } = this.props;
 
@@ -45,7 +55,7 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 			},
 			{
 				menuItem: { key: 'drive', icon: 'google drive', content: 'Drive' },
-				render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>
+				render: () => <Tab.Pane>{this._renderGoogleDetails()}</Tab.Pane>
 			},
 			{
 				menuItem: {

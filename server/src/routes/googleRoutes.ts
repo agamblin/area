@@ -6,5 +6,8 @@ const router: Router = Router();
 router.post('/', googleController.registerService);
 router.get('/', googleController.fetchService);
 router.delete('/', googleController.resetService);
+
 router.get('/files', googleController.fetchFiles);
+router.get('/folders/:folderId', googleController.fetchFolder);
+router.post('/upload/file', googleController.uploadGoogleFile);
 export default router;
