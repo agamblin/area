@@ -27,18 +27,6 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 		}
 	}
 
-	_displayInfo = () => {
-		const { board } = this.props;
-
-		if (board) {
-			return (
-				<Label as="a" href={board.url} color="green" attached="top left">
-					Trello
-				</Label>
-			);
-		}
-	};
-
 	_displayContent = () => {
 		if (this.props.board) {
 			return (
@@ -63,7 +51,14 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 	render() {
 		return (
 			<Segment raised loading={this.state.loading}>
-				{this._displayInfo()}
+				<Label
+					icon="trello"
+					as="a"
+					href={this.props.board ? this.props.board.url : null}
+					color="green"
+					attached="top left"
+					content="Trello"
+				/>
 				<Header style={{ margin: '2.5% 0' }} as="h2" dividing>
 					Trello board
 				</Header>

@@ -39,7 +39,13 @@ class FileList extends Component<FileListProps> {
 		const { files } = this.props;
 
 		if (files) {
-			return <Statistic horizontal label="files" value={files.length} />;
+			return (
+				<Statistic
+					horizontal
+					label={files.length > 1 ? 'files' : 'file'}
+					value={files.length}
+				/>
+			);
 		}
 		return null;
 	};
@@ -131,7 +137,7 @@ class FileList extends Component<FileListProps> {
 					href={`https://drive.google.com/drive/folders/${this.props.folderId}`}
 					icon="google drive"
 					content="Drive"
-					color="blue"
+					color="red"
 				/>
 				<Header style={{ margin: '2.5% 0' }} dividing>
 					{this._renderHeader()}
@@ -142,7 +148,7 @@ class FileList extends Component<FileListProps> {
 					htmlFor="upload"
 					style={{ marginTop: '2.5%' }}
 					attached="bottom"
-					color="blue"
+					color="red"
 				>
 					<Icon name="cloud upload" />
 					<input

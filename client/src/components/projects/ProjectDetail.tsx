@@ -72,7 +72,7 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 					icon: 'git square',
 					content: 'Github'
 				},
-				render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>
+				render: () => <Tab.Pane>{this._renderGithubDetails()}</Tab.Pane>
 			}
 		];
 
