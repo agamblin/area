@@ -2,13 +2,13 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 20:28:10
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 21:03:15
+ * @Last Modified time: 2019-03-10 21:30:34
  */
 
 //@flow
 
 import React, { Component } from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { material, systemWeights } from 'react-native-typography';
 import { connect } from 'react-redux';
 import NavigationScreenProps from 'react-navigation';
@@ -21,7 +21,7 @@ type Props = NavigationScreenProps & {};
 class ProfileScreen extends Component<Props> {
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, marginHorizontal: 20, marginTop: 60 }}>
+            <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, marginTop: Platform.OS === 'ios' ? 60 : 30 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
                     <Text style={styles.titleStyle}>Profile</Text>
                     <TouchableOpacity onPress={() => this.props.logout()}>

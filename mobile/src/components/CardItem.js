@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 20:15:32
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 21:19:26
+ * @Last Modified time: 2019-03-10 21:34:14
  */
 
 //@flow
@@ -39,12 +39,14 @@ const styles = {
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 1
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        padding: 15
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+        padding: 15,
+        margin: 5
     },
     titleStyle: {
         ...material.titleObject

@@ -2,13 +2,13 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-06 18:26:01
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 21:00:12
+ * @Last Modified time: 2019-03-10 21:31:12
  */
 
 //@flow
 
 import React, { Component } from 'react';
-import { SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import NavigationScreenProps from 'react-navigation';
 import { Icon, Button } from 'react-native-elements';
 import { systemWeights, material } from 'react-native-typography';
@@ -43,7 +43,7 @@ class ServicesScreen extends Component<Props> {
     render() {
         const { currentProviders } = this.props;
         return (
-            <SafeAreaView style={{ flex: 1, marginTop: 60, marginHorizontal: 20 }}>
+            <SafeAreaView style={{ flex: 1, marginTop: Platform.OS === 'ios' ? 60 : 30, paddingHorizontal: 20 }}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={styles.titleStyle}>Services</Text>

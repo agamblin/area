@@ -2,17 +2,18 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:42
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 21:19:31
+ * @Last Modified time: 2019-03-10 22:48:07
  */
 
 //@flow
 
 import React, { Component } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { material, systemWeights } from 'react-native-typography';
+import { Button } from 'react-native-elements';
 
 import { CardItem } from '@components';
 import { getProjects } from '@actions';
@@ -29,11 +30,15 @@ class HomeScreen extends Component<Props> {
     componentWillUnmount() {
         this._navListener.remove();
     }
+
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, marginTop: 60, paddingHorizontal: 20 }}>
+            <SafeAreaView style={{ flex: 1, marginTop: Platform.OS === 'ios' ? 60 : 30, paddingHorizontal: 20 }}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('NewProject')}>
+                            <Icon iconStyle={{ marginTop: -20 }} type="material" name="add" size={40} />
+                        </TouchableOpacity>
                         <Text style={styles.titleStyle}>Projects</Text>
                         <TouchableOpacity onPress={() => this.props.getProjects()}>
                             <Icon
@@ -72,6 +77,10 @@ const styles = StyleSheet.create({
     descriptionStyle: {
         ...material.headlineObject,
         ...systemWeights.thin
+    },
+    buttonStyle: {
+        alignSelf: 'center',
+        color: 'black'
     }
 });
 

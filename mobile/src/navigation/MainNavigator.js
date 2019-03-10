@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:37:41
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 21:11:51
+ * @Last Modified time: 2019-03-10 21:46:05
  */
 
 //@flow
@@ -11,7 +11,7 @@ import React from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import { HomeScreen, ServicesScreen, ProfileScreen } from '@screens';
+import { HomeScreen, ServicesScreen, ProfileScreen, NewProjectScreen } from '@screens';
 
 const MainStack = createBottomTabNavigator(
     {
@@ -46,9 +46,11 @@ const MainStack = createBottomTabNavigator(
 
 export default createStackNavigator(
     {
-        Main: MainStack
+        Main: MainStack,
+        NewProject: NewProjectScreen
     },
     {
-        headerMode: 'none'
+        headerMode: 'none',
+        mode: 'modal'
     }
 );

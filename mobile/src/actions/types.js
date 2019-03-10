@@ -25,5 +25,8 @@ export const LINK_TRELLO_FAILURE = 'link_trello_failure';
 export const GET_PROJECTS = 'get_projects';
 export const GET_PROJECTS_SUCCESS = 'get_projects_success';
 export const GET_PROJECTS_FAILURE = 'get_projects_failure';
+export const CREATE_PROJECT = 'create_project';
+export const CREATE_PROJECT_SUCCESS = 'create_project_success';
+export const CREATE_PROJECT_FAILURE = 'create_project_failure';
 
 export const LOGOUT = 'logout';

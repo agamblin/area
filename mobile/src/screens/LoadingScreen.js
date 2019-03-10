@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:09
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 19:32:39
+ * @Last Modified time: 2019-03-10 21:29:55
  */
 
 //@flow
@@ -23,7 +23,7 @@ class LoadingScreen extends Component<Props> {
             } else {
                 this.props.navigation.navigate('Auth');
             }
-        }, 2000);
+        }, 1000);
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: 'space-around', backgroundColor: 'white' }}>
                 <Text style={styles.titleStyle}>TRIBE</Text>
