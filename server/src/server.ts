@@ -12,6 +12,7 @@ import GoogleDriveFile from './models/google/GoogleDriveFile';
 
 import GithubProvider from './models/github/GithubProvider';
 import GithubRepo from './models/github/GithubRepo';
+import GithubMember from './models/github/GithubMember';
 
 import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
@@ -85,6 +86,9 @@ TrelloBoard.belongsTo(Project);
 Project.hasOne(GithubRepo);
 GithubRepo.belongsTo(Project);
 
+GithubRepo.hasMany(GithubMember);
+GithubMember.belongsTo(GithubRepo);
+
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
 
@@ -97,6 +101,7 @@ TrelloCard.belongsTo(TrelloBoard);
 TrelloBoard.hasMany(TrelloMember);
 TrelloMember.belongsTo(TrelloBoard);
 
+TrelloBoard.hasMany(TrelloAction);
 TrelloMember.hasMany(TrelloAction);
 TrelloAction.belongsTo(TrelloMember);
 

@@ -1,7 +1,8 @@
 import trelloActionType from './trelloActionType';
 
 export default interface trelloMemberType {
-	id: string;
+	id: number;
+	trelloId: string;
 	fullName?: string;
 	username?: string;
 	avatarUrl?: string;

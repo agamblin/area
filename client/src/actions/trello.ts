@@ -86,6 +86,7 @@ export const fetchBoard = (boardId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
+		console.log(data);
 		dispatch({ type: BOARD_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);
@@ -114,7 +115,7 @@ export const closedCardDetails = () => {
 	return { type: CARD_EMPTY };
 };
 
-export const fetchMember = (memberId: string) => async (
+export const fetchMember = (memberId: number) => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
@@ -126,7 +127,6 @@ export const fetchMember = (memberId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		console.log(data);
 		dispatch({ type: MEMBER_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);

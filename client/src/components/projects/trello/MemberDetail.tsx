@@ -18,8 +18,8 @@ import FeedItem from './FeedItem';
 interface MemberDetailProps {
 	open: any;
 	close: any;
-	memberId: string | null;
-	fetchMember: (memberId: string) => any;
+	memberId: number | null;
+	fetchMember: (memberId: number) => any;
 	selectedMember?: selectedMemberState;
 }
 

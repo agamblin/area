@@ -2,13 +2,12 @@ import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 import * as _ from 'lodash';
 import TrelloCard from './TrelloCard';
+import trelloMemberType from 'trello/trelloMemberType';
 
 const TrelloMember: any = sequelize.define('TrelloMember', {
-	id: {
+	trelloId: {
 		type: Sequelize.STRING,
-		unique: true,
-		allowNull: false,
-		primaryKey: true
+		allowNull: false
 	},
 	fullName: {
 		type: Sequelize.STRING,
@@ -37,7 +36,9 @@ TrelloMember.prototype.getActions = async function() {
 			let card = null;
 
 			if (action.idTargetMember) {
-				member = await TrelloMember.findByPk(action.idTargetMember);
+				member = await TrelloMember.findOne({
+					where: { trelloId: action.idTargetMember }
+				});
 			}
 
 			if (action.idTargetCard) {
@@ -55,5 +56,26 @@ TrelloMember.prototype.getActions = async function() {
 	);
 	return actions;
 };
+
+TrelloMember.createMultiple = async function(
+	trelloBoardId: string,
+	source: Array<trelloMemberType>
+) {
+	await Promise.all(
+		source.map(async member => {
+			const exist = await this.findOne({
+				where: { TrelloBoardId: trelloBoardId, trelloId: member.trelloId }
+			});
+			if (!exist) {
+				return await this.create(member);
+			}
+			return {};
+		})
+	);
+	return {};
+};
+TrelloMember.beforeCreate(member => {
+	console.log(member);
+});
 
 export default TrelloMember;

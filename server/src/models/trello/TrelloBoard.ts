@@ -60,9 +60,12 @@ TrelloBoard.prototype.fetchBoard = async function() {
 				TrelloBoardId: this.id
 			};
 		});
+		await TrelloCard.bulkCreate(cards, {
+			updateOnDuplicate: ['name', 'description', 'accessToken']
+		});
 		const members = data.members.map((member: any) => {
 			return {
-				id: member.id,
+				trelloId: member.id,
 				fullName: member.fullName,
 				username: member.username,
 				avatarUrl: member.avatarUrl,
@@ -70,32 +73,33 @@ TrelloBoard.prototype.fetchBoard = async function() {
 				TrelloBoardId: this.id
 			};
 		});
-		const activity = data.actions.map((activity: any) => {
-			let targetCard = null;
-			let targetMember = null;
+		await TrelloMember.createMultiple(this.id, members);
+		const activity = await Promise.all(
+			data.actions.map(async (activity: any) => {
+				let targetCard = null;
+				let targetMember = null;
 
-			if (activity.data.card) {
-				targetCard = activity.data.card.id;
-			}
-			if (activity.data.member) {
-				targetMember = activity.data.member.id;
-			}
-			return {
-				id: activity.id,
-				type: activity.type,
-				idTargetMember: targetMember,
-				idTargetCard: targetCard,
-				date: activity.date.split('T')[0],
-				TrelloMemberId: activity.idMemberCreator
-			};
-		});
+				if (activity.data.card) {
+					targetCard = activity.data.card.id;
+				}
+				if (activity.data.member) {
+					targetMember = activity.data.member.id;
+				}
 
-		await TrelloMember.bulkCreate(members, {
-			updateOnDuplicate: ['fullName', 'username', 'avatarUrl', 'accessToken']
-		});
-		await TrelloCard.bulkCreate(cards, {
-			updateOnDuplicate: ['name', 'description', 'accessToken']
-		});
+				const creator = await TrelloMember.findOne({
+					where: { trelloBoardId: this.id, trelloId: activity.idMemberCreator }
+				});
+				return {
+					id: activity.id,
+					type: activity.type,
+					idTargetMember: targetMember,
+					idTargetCard: targetCard,
+					date: activity.date.split('T')[0],
+					TrelloMemberId: creator.id,
+					TrelloBoardId: this.id
+				};
+			})
+		);
 		await TrelloAction.bulkCreate(activity, { updateOnDuplicate: ['type'] });
 	} catch (e) {
 		console.log(e);
