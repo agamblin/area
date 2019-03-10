@@ -67,8 +67,7 @@ class FileList extends Component<FileListProps> {
 
 		if (uploadGoogleFile && fetchFolderFiles) {
 			this.setState({ loading: true });
-			const ok = await uploadGoogleFile(e.target.files[0], folderId);
-			fetchFolderFiles(folderId);
+			await uploadGoogleFile(e.target.files[0], folderId);
 			this.setState({ loading: false });
 		}
 	};

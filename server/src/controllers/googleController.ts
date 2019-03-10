@@ -6,6 +6,7 @@ import googleDrive from '../api/googleDrive';
 import GoogleDriveFolder from '../models/google/GoogleDriveFolder';
 import googleDriveFolderType from 'google/googleDriveFolderType';
 import GoogleProvider from '../models/google/GoogleProvider';
+import googleDriveFile from '../models/google/GoogleDriveFile';
 
 export const registerService = async (
 	req: requestType,
@@ -135,7 +136,7 @@ export const uploadGoogleFile = async (
 		});
 
 		const { data } = await googleDrive.post(
-			'/files?uploadType',
+			'/files',
 			{
 				name,
 				mimeType: type,
@@ -147,9 +148,44 @@ export const uploadGoogleFile = async (
 				}
 			}
 		);
+		const folder: googleDriveFolderType = await GoogleDriveFolder.findByPk(
+			folderId
+		);
+		await folder.fetchFiles();
 		return res
 			.status(201)
 			.json({ ...data, accessToken: googleProvider.accessToken });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchFile = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { fileId } = req.params;
+
+	try {
+		const file = await googleDriveFile.findByPk(fileId);
+		return res
+			.status(200)
+			.json(
+				_.pick(
+					file,
+					'id',
+					'name',
+					'downloadUrl',
+					'contentUrl',
+					'iconUrl',
+					'thumbnailUrl',
+					'createdDate',
+					'modifiedDate',
+					'fileExtension',
+					'size'
+				)
+			);
 	} catch (err) {
 		return next(err);
 	}

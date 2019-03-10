@@ -100,6 +100,6 @@ TrelloMember.belongsTo(TrelloBoard);
 TrelloMember.hasMany(TrelloAction);
 TrelloAction.belongsTo(TrelloMember);
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');
 });

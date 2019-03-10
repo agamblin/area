@@ -1,4 +1,9 @@
-import { PROJECT_FETCH, BOARD_FETCH, FOLDER_FETCH } from '../actions/types';
+import {
+	PROJECT_FETCH,
+	BOARD_FETCH,
+	FOLDER_FETCH,
+	FILE_FETCH
+} from '../actions/types';
 import selectedProjectState from '../types/states/selectedProjectState';
 
 export default (state = {} as selectedProjectState, action: any) => {
@@ -24,6 +29,13 @@ export default (state = {} as selectedProjectState, action: any) => {
 				folder: {
 					...state.folder,
 					files: action.payload.files
+				}
+			};
+		case FILE_FETCH:
+			return {
+				...state,
+				folder: {
+					files: [...state.folder.files, action.payload]
 				}
 			};
 		default:

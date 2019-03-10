@@ -2,7 +2,8 @@ import {
 	GOOGLE_FETCH,
 	GOOGLE_RESET,
 	GOOGLE_ERROR,
-	FOLDER_FETCH
+	FOLDER_FETCH,
+	FILE_FETCH
 } from './types';
 import tribe from '../api/tribe';
 import globalState from '../types/states/globalState';
@@ -79,6 +80,7 @@ export const fetchFolderFiles = (folderId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
+		console.log(data);
 		dispatch({ type: FOLDER_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);
@@ -90,7 +92,6 @@ export const uploadGoogleFile = (file: any, folderId: string) => async (
 	getState: () => globalState
 ) => {
 	try {
-		console.log(file);
 		const accessToken = getState().auth.authenticated;
 
 		const { data } = await tribe.post(
@@ -106,8 +107,7 @@ export const uploadGoogleFile = (file: any, folderId: string) => async (
 				}
 			}
 		);
-		console.log(data);
-		await Axios.put(
+		await Axios.patch(
 			`https://www.googleapis.com/upload/drive/v3/files/${data.id}`,
 			file,
 			{
@@ -117,7 +117,13 @@ export const uploadGoogleFile = (file: any, folderId: string) => async (
 				}
 			}
 		);
-		return true;
+		return dispatch(fetchFolderFiles(folderId));
+		// const _file = await tribe.get(`/google/files/${googleRes.data.id}`, {
+		// 	headers: {
+		// 		Authorization: `Bearer ${accessToken}`
+		// 	}
+		// });
+		// dispatch({ type: FILE_FETCH, payload: _file.data });
 	} catch (err) {
 		console.log(err);
 		return false;
