@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:10:28
+ * @Last Modified time: 2019-03-10 20:41:49
  */
 
 //@flow
@@ -14,15 +14,14 @@ import { material, systemWeights } from 'react-native-typography';
 import { connect } from 'react-redux';
 
 import { Input } from '@components';
-import { signUp } from '@actions';
+import { signUp, getUser } from '@actions';
 
 type Props = NavigationScreenProps & {};
 
 type State = {
     email: string,
     username: string,
-    password: string,
-    token: string
+    password: string
 };
 
 class SignUpScreen extends Component<Props, State> {
@@ -35,8 +34,7 @@ class SignUpScreen extends Component<Props, State> {
         this.state = {
             email: '',
             username: '',
-            password: '',
-            token: ''
+            password: ''
         };
         this.onSignUp = this.onSignUp.bind(this);
     }
@@ -51,7 +49,7 @@ class SignUpScreen extends Component<Props, State> {
 
     onSignUp: Function = () => {
         const { email, username, password } = this.state;
-        this.props.signUp(email, username, password);
+        this.props.signUp(email, username, password).then(() => this.props.getUser());
     };
 
     render() {
@@ -114,5 +112,5 @@ const mapStateToProps = ({ user }) => {
 
 export default connect(
     mapStateToProps,
-    { signUp }
+    { signUp, getUser }
 )(SignUpScreen);

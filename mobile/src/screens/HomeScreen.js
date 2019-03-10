@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:42
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:03:11
+ * @Last Modified time: 2019-03-10 21:19:31
  */
 
 //@flow
@@ -14,6 +14,7 @@ import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { material, systemWeights } from 'react-native-typography';
 
+import { CardItem } from '@components';
 import { getProjects } from '@actions';
 
 type Props = NavigationScreenProps & {};
@@ -32,7 +33,7 @@ class HomeScreen extends Component<Props> {
         return (
             <SafeAreaView style={{ flex: 1, marginTop: 60, paddingHorizontal: 20 }}>
                 <View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
                         <Text style={styles.titleStyle}>Projects</Text>
                         <TouchableOpacity onPress={() => this.props.getProjects()}>
                             <Icon
@@ -44,6 +45,11 @@ class HomeScreen extends Component<Props> {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <FlatList
+                    data={this.props.projects}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => <CardItem item={item} />}
+                />
             </SafeAreaView>
         );
     }

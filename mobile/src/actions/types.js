@@ -5,6 +5,10 @@ export const SIGN_UP = 'sign_up';
 export const SIGN_UP_SUCCESS = 'sign_up_success';
 export const SIGN_UP_FAILURE = 'sign_up_failure';
 
+export const GET_USER = 'get_user';
+export const GET_USER_FAILURE = 'get_user_failure';
+export const GET_USER_SUCCESS = 'get_user_success';
+
 export const LINK_PROVIDERS = 'link_providers';
 export const LINK_PROVIDERS_FINISHED = 'link_providers_finished';
 

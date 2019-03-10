@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-06 18:26:01
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:13:52
+ * @Last Modified time: 2019-03-10 21:00:12
  */
 
 //@flow
@@ -15,7 +15,7 @@ import { systemWeights, material } from 'react-native-typography';
 import { connect } from 'react-redux';
 
 import { remove } from '@utils';
-import { linkProviders, logout } from '@actions';
+import { linkProviders } from '@actions';
 import { Loading } from '@components';
 
 type Props = NavigationScreenProps & {};
@@ -43,7 +43,7 @@ class ServicesScreen extends Component<Props> {
     render() {
         const { currentProviders } = this.props;
         return (
-            <SafeAreaView style={{ flex: 1, marginTop: 60, marginHorizontal: 15 }}>
+            <SafeAreaView style={{ flex: 1, marginTop: 60, marginHorizontal: 20 }}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={styles.titleStyle}>Services</Text>
@@ -105,12 +105,7 @@ class ServicesScreen extends Component<Props> {
                         </View>
                     </View>
                 </View>
-                <Button
-                    onPress={() => {
-                        this.props.logout();
-                        this.props.navigation.navigate('Auth');
-                    }}
-                />
+
                 <Loading visible={this.props.isLoading} />
             </SafeAreaView>
         );
@@ -150,5 +145,5 @@ const mapStateToProps = ({ user, providers }) => {
 
 export default connect(
     mapStateToProps,
-    { linkProviders, logout }
+    { linkProviders }
 )(ServicesScreen);
