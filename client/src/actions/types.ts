@@ -32,4 +32,7 @@ export const MEMBER_EMPTY = 'MEMBER_EMPTY';
 
 export const FOLDER_FETCH = 'FOLDER_FETCH';
 
+export const REPO_FETCH = 'REPO_FETCH';
+export const REPO_MERGE = 'REPO_MERGE';
+
 export const FILE_FETCH = 'FILE_FETCH';

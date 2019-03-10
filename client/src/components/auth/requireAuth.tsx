@@ -7,7 +7,7 @@ export default (ChildComponent: any) => {
 	const ComposedComponent = (props: any) => {
 		useEffect(() => {
 			if (!props.isLoggedIn) {
-				history.push('/');
+				history.push('/signin');
 			}
 		}, [props.isLoggedIn]);
 		return <ChildComponent {...props} />;

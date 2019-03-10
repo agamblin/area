@@ -72,10 +72,7 @@ TrelloMember.createMultiple = async function(
 			return {};
 		})
 	);
-	return {};
+	return true;
 };
-TrelloMember.beforeCreate(member => {
-	console.log(member);
-});
 
 export default TrelloMember;

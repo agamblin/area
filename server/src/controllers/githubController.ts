@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
 import GithubRepo from '../models/github/GithubRepo';
 import githubRepoType from 'github/githubRepoType';
+import GithubPullRequest from '../models/github/GithubPullRequest';
 
 export const fetchService = async (
 	req: requestType,
@@ -60,8 +61,31 @@ export const fetchRepo = async (
 			error.statusCode = 401;
 			return next(error);
 		}
-		await repo.fetchInfo();
-		return res.status(200).json('ok');
+		const data = await repo.fetchInfo();
+
+		return res.status(200).json({
+			..._.pick(repo, 'htmlUrl', 'cloneUrl', 'subscribersCount'),
+			...data
+		});
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const mergeRequest = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { pullRequestId } = req.params;
+
+	try {
+		const pullRequest = await GithubPullRequest.findByPk(pullRequestId);
+		const ok = await pullRequest.merge();
+		if (ok) {
+			return res.status(200).json('Merged');
+		}
+		return res.status(500).json('Failed');
 	} catch (err) {
 		return next(err);
 	}
