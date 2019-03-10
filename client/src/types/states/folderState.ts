@@ -1,4 +1,6 @@
+import fileState from './fileState';
+
 export default interface folderState {
-	id?: number;
-	googleId?: string;
+	id: string;
+	files: Array<fileState>;
 }

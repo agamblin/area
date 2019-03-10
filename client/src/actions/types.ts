@@ -28,3 +28,7 @@ export const CARD_EMPTY = 'CARD_EMPTY';
 
 export const MEMBER_FETCH = 'MEMBER_FETCH';
 export const MEMBER_EMPTY = 'MEMBER_EMPTY';
+
+export const FOLDER_FETCH = 'FOLDER_FETCH';
+
+export const FILE_FETCH = 'FILE_FETCH';

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import globalState from '../../../types/states/globalState';
 import cardState from '../../../types/states/cardState';
-import Spinner from '../../general/Spinner';
 import { Label, Card, List, Statistic } from 'semantic-ui-react';
 import { closedCardDetails } from '../../../actions/trello';
 import CardDetail from './CardDetail';
@@ -78,7 +77,7 @@ class CardsList extends Component<CardsListProps> {
 				);
 			});
 		}
-		return <Spinner loading />;
+		return null;
 	};
 
 	render() {

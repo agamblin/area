@@ -8,6 +8,7 @@ import Project from './models/Project';
 
 import GoogleProvider from './models/google/GoogleProvider';
 import GoogleDriveFolder from './models/google/GoogleDriveFolder';
+import GoogleDriveFile from './models/google/GoogleDriveFile';
 
 import GithubProvider from './models/github/GithubProvider';
 import GithubRepo from './models/github/GithubRepo';
@@ -86,6 +87,9 @@ GithubRepo.belongsTo(Project);
 
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
+
+GoogleDriveFolder.hasMany(GoogleDriveFile);
+GoogleDriveFile.belongsTo(GoogleDriveFolder);
 
 TrelloBoard.hasMany(TrelloCard);
 TrelloCard.belongsTo(TrelloBoard);
