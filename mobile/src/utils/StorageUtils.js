@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 10:59:14
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-09 17:00:00
+ * @Last Modified time: 2019-03-10 04:12:45
  */
 
 //@flow
@@ -30,7 +30,7 @@ export const storeItem: Function = async (key: string, item: any) => {
 
 export const remove: Function = async () => {
     try {
-        await AsyncStorage.multiRemove(['ACCESS_TOKEN', 'USER_EMAIL']);
+        await AsyncStorage.clear();
     } catch (error) {
         console.warn(error);
     }

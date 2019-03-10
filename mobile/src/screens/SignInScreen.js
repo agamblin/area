@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-09 17:12:18
+ * @Last Modified time: 2019-03-10 02:42:27
  */
 
 //@flow
@@ -11,9 +11,10 @@ import React, { Component } from 'react';
 import { View, SafeAreaView, Text, StyleSheet } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { material, systemWeights } from 'react-native-typography';
+import { connect } from 'react-redux';
 
 import { Input } from '@components';
-import { signIn } from '@utils';
+import { signIn } from '@actions';
 
 type Props = NavigationScreenProps & {};
 
@@ -22,7 +23,7 @@ type State = {
     password: string
 };
 
-export default class SignInScreen extends Component<Props, State> {
+class SignInScreen extends Component<Props, State> {
     usernameRef: any;
     passwordRef: any;
 
@@ -35,11 +36,16 @@ export default class SignInScreen extends Component<Props, State> {
         };
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        console.log(nextProps);
+        if (nextProps.currentUser) {
+            this.props.navigation.navigate('Main');
+        }
+    }
+
     onSignIn: Function = () => {
         const { email, password } = this.state;
-        signIn(email, password)
-            .then(() => this.props.navigation.navigate('Home'))
-            .catch(error => console.warn(error));
+        this.props.signIn(email, password);
     };
 
     render() {
@@ -80,3 +86,17 @@ const styles = StyleSheet.create({
         marginLeft: 15
     }
 });
+
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isLoading, error } = user;
+    return {
+        currentUser,
+        isLoading,
+        error
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    { signIn }
+)(SignInScreen);
