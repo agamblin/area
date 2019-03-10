@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 21:37:32
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 22:50:58
+ * @Last Modified time: 2019-03-10 22:59:25
  */
 
 //@flow
@@ -76,20 +76,20 @@ class NewProjectScreen extends Component<Props, State> {
                 <View>
                     <Input
                         label="TITLE"
-                        placeholder="Enter your email"
-                        keyboardType="email-address"
+                        placeholder="Provide a title (min. 3 characters)"
                         value={this.state.title}
                         onChangeText={this.onTitleChange}
                         onSubmitEditing={() => this.descRef.focus()}
                     />
                     <Input
                         label="DESCRIPTION"
-                        placeholder="Enter your email"
+                        placeholder="Please provide a description (min. 20 characters)"
                         value={this.state.description}
                         onChangeText={this.onDescChange}
                         onSubmitEditing={this.create}
                         containerStyle={{ flexGrow: 1 }}
                         multiline
+                        ref={ref => (this.descRef = ref)}
                     />
                 </View>
             </SafeAreaView>
