@@ -128,9 +128,7 @@ class FileList extends Component<FileListProps> {
 				<Header style={{ margin: '2.5% 0' }} dividing>
 					{this._renderHeader()}
 				</Header>
-				<Grid columns={3} stretched verticalAlign="middle">
-					{this._renderFiles()}
-				</Grid>
+				<Grid columns={3}>{this._renderFiles()}</Grid>
 				<Button
 					as="label"
 					htmlFor="upload"
