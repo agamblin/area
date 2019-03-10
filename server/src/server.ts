@@ -13,6 +13,9 @@ import GoogleDriveFile from './models/google/GoogleDriveFile';
 import GithubProvider from './models/github/GithubProvider';
 import GithubRepo from './models/github/GithubRepo';
 import GithubMember from './models/github/GithubMember';
+import GithubCommit from './models/github/GithubCommit';
+import GithubBranch from './models/github/GithubBranch';
+import GithubPullRequest from './models/github/GithubPullRequest';
 
 import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
@@ -43,6 +46,51 @@ app.get('/', (req: any, res: any) => {
 	req;
 	res.send('hoa');
 });
+
+app.get('/about.json', (req: any, res: any) => {
+	res.status(200).json({
+		client: {
+			host: '10.103.14.56'
+		},
+		server: {
+			current_time: Date.now(),
+			services: [
+				{
+					name: 'Github',
+					actions: [
+						{
+							name: 'Create repository',
+							description: 'Create a repository'
+						},
+						{
+							name: 'List commits',
+							description: 'List commits'
+						},
+						{
+							name: 'List merge requests',
+							description: 'List merge requests'
+						},
+						{
+							name: 'List members',
+							description: 'Create a repository'
+						}
+					]
+				},
+				{
+					name: 'Trello',
+					actions: [
+						{ name: 'Create a board', description: 'Create a board' },
+						{
+							name: 'Fetch all cards',
+							description: 'Fetch all the cards present'
+						}
+					]
+				},
+				{ name: 'Google' }
+			]
+		}
+	});
+})
 
 app.use('/auth', authRoutes);
 app.use('/users', requireAuth, userRoutes);
@@ -87,7 +135,14 @@ Project.hasOne(GithubRepo);
 GithubRepo.belongsTo(Project);
 
 GithubRepo.hasMany(GithubMember);
-GithubMember.belongsTo(GithubRepo);
+GithubRepo.hasMany(GithubBranch);
+GithubRepo.hasMany(GithubPullRequest);
+GithubPullRequest.belongsTo(GithubRepo);
+GithubBranch.belongsTo(GithubRepo);
+
+GithubMember.hasMany(GithubCommit);
+GithubRepo.hasMany(GithubCommit);
+GithubCommit.belongsTo(GithubMember);
 
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
@@ -97,10 +152,8 @@ GoogleDriveFile.belongsTo(GoogleDriveFolder);
 
 TrelloBoard.hasMany(TrelloCard);
 TrelloCard.belongsTo(TrelloBoard);
-
 TrelloBoard.hasMany(TrelloMember);
 TrelloMember.belongsTo(TrelloBoard);
-
 TrelloBoard.hasMany(TrelloAction);
 TrelloMember.hasMany(TrelloAction);
 TrelloAction.belongsTo(TrelloMember);
