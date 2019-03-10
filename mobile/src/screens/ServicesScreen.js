@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-06 18:26:01
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:02:24
+ * @Last Modified time: 2019-03-10 20:13:52
  */
 
 //@flow
@@ -41,8 +41,7 @@ class ServicesScreen extends Component<Props> {
     }
 
     render() {
-        const { googleToken, githubToken, trelloToken } = this.props.currentProviders;
-
+        const { currentProviders } = this.props;
         return (
             <SafeAreaView style={{ flex: 1, marginTop: 60, marginHorizontal: 15 }}>
                 <View>
@@ -68,21 +67,39 @@ class ServicesScreen extends Component<Props> {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 50 }}>
                     <View>
                         <View
-                            style={[styles.iconBox, { opacity: !!trelloToken ? 0.5 : 1, backgroundColor: '#006BA7' }]}
+                            style={[
+                                styles.iconBox,
+                                {
+                                    opacity: currentProviders && currentProviders.trelloToken !== null ? 0.5 : 1,
+                                    backgroundColor: '#006BA7'
+                                }
+                            ]}
                         >
                             <Icon type="material-community" name="trello" color="white" />
                         </View>
                     </View>
                     <View>
                         <View
-                            style={[styles.iconBox, { opacity: !!githubToken ? 0.5 : 1, backgroundColor: '#23292d' }]}
+                            style={[
+                                styles.iconBox,
+                                {
+                                    opacity: currentProviders && currentProviders.githubToken !== null ? 0.5 : 1,
+                                    backgroundColor: '#23292d'
+                                }
+                            ]}
                         >
                             <Icon type="material-community" name="github-circle" color="white" />
                         </View>
                     </View>
                     <View>
                         <View
-                            style={[styles.iconBox, { opacity: !!googleToken ? 0.5 : 1, backgroundColor: '#dd4b39' }]}
+                            style={[
+                                styles.iconBox,
+                                {
+                                    opacity: currentProviders && currentProviders.googleToken !== null ? 0.5 : 1,
+                                    backgroundColor: '#dd4b39'
+                                }
+                            ]}
                         >
                             <Icon type="font-awesome" name="google" color="white" />
                         </View>

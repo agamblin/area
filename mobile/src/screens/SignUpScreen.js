@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 19:35:54
+ * @Last Modified time: 2019-03-10 20:10:28
  */
 
 //@flow
@@ -50,8 +50,8 @@ class SignUpScreen extends Component<Props, State> {
     }
 
     onSignUp: Function = () => {
-        const { email, password } = this.state;
-        this.props.signUp(email, password);
+        const { email, username, password } = this.state;
+        this.props.signUp(email, username, password);
     };
 
     render() {
