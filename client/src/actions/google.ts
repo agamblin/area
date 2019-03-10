@@ -80,7 +80,6 @@ export const fetchFolderFiles = (folderId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		console.log(data);
 		dispatch({ type: FOLDER_FETCH, payload: data });
 	} catch (err) {
 		console.log(err);

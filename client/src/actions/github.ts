@@ -36,3 +36,21 @@ export const resetGithubService = () => async (
 		alert('Some error occured');
 	}
 };
+
+export const fetchRepo = (repoId: string) => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	try {
+		const accessToken = getState().auth.authenticated;
+
+		const { data } = await tribe.get(`/github/repos/${repoId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		console.log(data);
+	} catch (err) {
+		console.log(err);
+	}
+};

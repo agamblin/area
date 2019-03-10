@@ -1,6 +1,7 @@
 import { Response, NextFunction } from 'express';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import GithubRepo from '../models/github/GithubRepo';
 
 export const fetchService = async (
 	req: requestType,
@@ -41,4 +42,21 @@ export const removeProvider = async (
 	const err: any = new Error('No provider for github renseigned');
 	err.statusCode = 404;
 	return next(err);
+};
+
+export const fetchRepo = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { repoId } = req.params;
+
+	const repo = await GithubRepo.findByPk(repoId);
+	const project = await repo.getProject();
+	if (project.userId !== req.user.id) {
+		const error: any = new Error('Unauthorized');
+		error.statusCode = 401;
+		return next(error);
+	}
+	return res.status(200).json('ok');
 };

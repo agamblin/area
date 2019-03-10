@@ -83,6 +83,7 @@ export const fetchFiles = async (
 ) => {
 	if (req.user.googleService) {
 		const googleProvider = await req.user.getGoogleProvider();
+
 		const files = await googleProvider.fetchFiles();
 		return res.status(200).json(files);
 	}
@@ -102,6 +103,12 @@ export const fetchFolder = async (
 		const folder: googleDriveFolderType = await GoogleDriveFolder.findByPk(
 			folderId
 		);
+		const project = await folder.getProject();
+		if (project.userId !== req.user.id) {
+			const error: any = new Error('Unauthorized');
+			error.statusCode = 401;
+			return next(error);
+		}
 		await folder.fetchFiles();
 		const files = await folder.getGoogleDriveFiles({
 			attributes: [
