@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-06 18:26:01
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 15:18:03
+ * @Last Modified time: 2019-03-10 20:02:24
  */
 
 //@flow
@@ -21,26 +21,30 @@ import { Loading } from '@components';
 type Props = NavigationScreenProps & {};
 
 class ServicesScreen extends Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
+    _navListener: Function;
 
     componentDidMount() {
-        this.props.linkProviders();
+        this._navListener = this.props.navigation.addListener('didFocus', () => this.props.linkProviders());
+    }
+
+    componentWillUnmount() {
+        this._navListener.remove();
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        console.log(nextProps);
         if (nextProps.currentUser) {
             this.props.currentUser = nextProps.currentUser;
+        }
+        if (nextProps.currentProviders) {
+            this.props.currentProviders = nextProps.currentProviders;
         }
     }
 
     render() {
-        const { googleToken, githubToken, trelloToken } = this.props.currentUser;
+        const { googleToken, githubToken, trelloToken } = this.props.currentProviders;
 
         return (
-            <SafeAreaView style={{ flex: 1, marginTop: 60, paddingHorizontal: 20 }}>
+            <SafeAreaView style={{ flex: 1, marginTop: 60, marginHorizontal: 15 }}>
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={styles.titleStyle}>Services</Text>
@@ -116,12 +120,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, providers }) => {
     const { currentUser, isLoading, error } = user;
+    const { currentProviders } = providers;
     return {
         currentUser,
         isLoading,
-        error
+        error,
+        currentProviders
     };
 };
 

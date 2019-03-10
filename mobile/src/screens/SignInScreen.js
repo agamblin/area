@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 05:42:50
+ * @Last Modified time: 2019-03-10 19:57:28
  */
 
 //@flow
@@ -14,7 +14,7 @@ import { material, systemWeights } from 'react-native-typography';
 import { connect } from 'react-redux';
 
 import { Input } from '@components';
-import { signIn } from '@actions';
+import { signIn, linkProviders, getProjects } from '@actions';
 
 type Props = NavigationScreenProps & {};
 
@@ -39,12 +39,17 @@ class SignInScreen extends Component<Props, State> {
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.currentUser) {
             this.props.navigation.navigate('Main');
+        } else if (nextProps.error) {
+            alert(nextProps.error);
         }
     }
 
     onSignIn: Function = () => {
         const { email, password } = this.state;
-        this.props.signIn(email, password);
+        this.props.signIn(email, password).then(() => {
+            this.props.linkProviders();
+            this.props.getProjects();
+        });
     };
 
     render() {
@@ -97,5 +102,5 @@ const mapStateToProps = ({ user }) => {
 
 export default connect(
     mapStateToProps,
-    { signIn }
+    { signIn, linkProviders, getProjects }
 )(SignInScreen);

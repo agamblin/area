@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-02-20 18:05:50
+ * @Last Modified time: 2019-03-10 19:35:54
  */
 
 //@flow
@@ -11,10 +11,10 @@ import React, { Component } from 'react';
 import { View, SafeAreaView, Text, StyleSheet } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { material, systemWeights } from 'react-native-typography';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
 import { Input } from '@components';
-import { signUp, retrieveItem } from '@utils';
+import { signUp } from '@actions';
 
 type Props = NavigationScreenProps & {};
 
@@ -25,7 +25,7 @@ type State = {
     token: string
 };
 
-export default class SignUpScreen extends Component<Props, State> {
+class SignUpScreen extends Component<Props, State> {
     usernameRef: any;
     passwordRef: any;
 
@@ -41,11 +41,17 @@ export default class SignUpScreen extends Component<Props, State> {
         this.onSignUp = this.onSignUp.bind(this);
     }
 
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.currentUser) {
+            this.props.navigation.navigate('Main');
+        } else if (nextProps.error) {
+            alert(nextProps.error);
+        }
+    }
+
     onSignUp: Function = () => {
-        const { email, username, password } = this.state;
-        signUp(email, username, password)
-            .then(() => this.props.navigation.navigate('Home'))
-            .catch(error => console.warn(error));
+        const { email, password } = this.state;
+        this.props.signUp(email, password);
     };
 
     render() {
@@ -96,3 +102,17 @@ const styles = StyleSheet.create({
         marginLeft: 15
     }
 });
+
+const mapStateToProps = ({ user }) => {
+    const { currentUser, isLoading, error } = user;
+    return {
+        currentUser,
+        isLoading,
+        error
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    { signUp }
+)(SignUpScreen);

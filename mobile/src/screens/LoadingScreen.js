@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:09
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 05:08:30
+ * @Last Modified time: 2019-03-10 19:32:39
  */
 
 //@flow
@@ -12,8 +12,6 @@ import { SafeAreaView, View, ActivityIndicator, Text, StyleSheet } from 'react-n
 import { NavigationScreenProps } from 'react-navigation';
 import { systemWeights } from 'react-native-typography';
 import { connect } from 'react-redux';
-
-import { retrieveItem } from '@utils';
 
 type Props = NavigationScreenProps & {};
 
