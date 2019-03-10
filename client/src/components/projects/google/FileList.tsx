@@ -125,6 +125,14 @@ class FileList extends Component<FileListProps> {
 	render() {
 		return (
 			<Segment raised loading={this.state.loading}>
+				<Label
+					attached="top left"
+					as="a"
+					href={`https://drive.google.com/drive/folders/${this.props.folderId}`}
+					icon="google drive"
+					content="Drive"
+					color="blue"
+				/>
 				<Header style={{ margin: '2.5% 0' }} dividing>
 					{this._renderHeader()}
 				</Header>

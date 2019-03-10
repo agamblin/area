@@ -1,6 +1,5 @@
 export default interface githubRepoType {
-	id?: number;
-	githubId: string;
+	id: string;
 	nodeId: string;
 	name: string;
 	description: string;

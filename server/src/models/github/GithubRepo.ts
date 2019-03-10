@@ -2,9 +2,10 @@ import sequelize from '../../utils/database';
 import * as Sequelize from 'sequelize';
 
 const GithubRepo: any = sequelize.define('GithubRepo', {
-	githubId: {
+	id: {
 		type: Sequelize.STRING,
-		allowNull: false
+		allowNull: false,
+		primaryKey: true
 	},
 	nodeId: {
 		type: Sequelize.STRING,
