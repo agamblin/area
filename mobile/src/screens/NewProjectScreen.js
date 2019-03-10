@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 21:37:32
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 22:59:25
+ * @Last Modified time: 2019-03-10 23:01:00
  */
 
 //@flow
@@ -41,7 +41,7 @@ class NewProjectScreen extends Component<Props, State> {
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isLoading) {
             if (nextProps.error) {
-                alert('Title must be at least 3 chars and description 20');
+                alert('Title must be at least 3 characters and description 20\nOr check your services');
             } else {
                 this.props.navigation.goBack();
             }
