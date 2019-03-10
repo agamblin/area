@@ -100,7 +100,7 @@ class FileList extends Component<FileListProps> {
 									<Label
 										style={{ float: 'left' }}
 										icon="cloud download"
-										color="red"
+										color="blue"
 										as="a"
 										href={file.downloadUrl}
 										corner="left"
@@ -137,7 +137,7 @@ class FileList extends Component<FileListProps> {
 					href={`https://drive.google.com/drive/folders/${this.props.folderId}`}
 					icon="google drive"
 					content="Drive"
-					color="red"
+					color="blue"
 				/>
 				<Header style={{ margin: '2.5% 0' }} dividing>
 					{this._renderHeader()}
@@ -148,7 +148,7 @@ class FileList extends Component<FileListProps> {
 					htmlFor="upload"
 					style={{ marginTop: '2.5%' }}
 					attached="bottom"
-					color="red"
+					color="blue"
 				>
 					<Icon name="cloud upload" />
 					<input
