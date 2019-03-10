@@ -2,20 +2,20 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 21:37:32
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 23:01:00
+ * @Last Modified time: 2019-03-10 23:11:27
  */
 
 //@flow
 
 import React, { Component } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import NavigationScreenProps from 'react-navigation';
 import { connect } from 'react-redux';
 import { material, systemWeights } from 'react-native-typography';
 
 import { createProject } from '@actions';
-import { Input } from '@components';
+import { Input, Loading } from '@components';
 
 type State = {
     title: string,
@@ -86,12 +86,18 @@ class NewProjectScreen extends Component<Props, State> {
                         placeholder="Please provide a description (min. 20 characters)"
                         value={this.state.description}
                         onChangeText={this.onDescChange}
-                        onSubmitEditing={this.create}
                         containerStyle={{ flexGrow: 1 }}
                         multiline
                         ref={ref => (this.descRef = ref)}
                     />
                 </View>
+                <Button
+                    onPress={this.create}
+                    title="CREATE NEW PROJECT"
+                    containerStyle={{ flex: 1, justifyContent: 'flex-end', marginBottom: 40 }}
+                    buttonStyle={{ alignSelf: 'center', marginHorizontal: 40, backgroundColor: 'black' }}
+                />
+                <Loading visible={this.props.isLoading} />
             </SafeAreaView>
         );
     }
