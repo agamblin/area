@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:09
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 04:14:21
+ * @Last Modified time: 2019-03-10 05:08:30
  */
 
 //@flow
@@ -20,7 +20,6 @@ type Props = NavigationScreenProps & {};
 class LoadingScreen extends Component<Props> {
     render() {
         setTimeout(() => {
-            console.log(this.props.currentUser);
             if (this.props.currentUser) {
                 this.props.navigation.navigate('Main');
             } else {

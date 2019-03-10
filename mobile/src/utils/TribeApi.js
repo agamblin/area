@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 15:33:53
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 04:03:03
+ * @Last Modified time: 2019-03-10 04:34:12
  */
 
 //@flow
@@ -25,12 +25,12 @@ export const getProviderToken: Function = (provider: string) => {
     if (currentUser.token) {
         const token = currentUser.token;
         instance.defaults.headers['Authorization'] = `Bearer ${token}`;
-        instance
+        return instance
             .get(`/${provider}`)
             .then(res => {
-                console.log(res.data.accessToken);
                 return res.data.accessToken;
             })
             .catch(error => console.warn(error));
     }
+    return '';
 };

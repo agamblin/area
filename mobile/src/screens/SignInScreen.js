@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 02:42:27
+ * @Last Modified time: 2019-03-10 05:42:50
  */
 
 //@flow
@@ -37,7 +37,6 @@ class SignInScreen extends Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        console.log(nextProps);
         if (nextProps.currentUser) {
             this.props.navigation.navigate('Main');
         }

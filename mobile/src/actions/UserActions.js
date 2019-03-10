@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 01:41:37
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 04:12:15
+ * @Last Modified time: 2019-03-10 15:07:18
  */
 
 //@flow
@@ -17,9 +17,17 @@ import {
     SIGN_UP_SUCCESS,
     SIGN_UP_FAILURE,
     LINK_PROVIDERS,
+    LINK_PROVIDERS_FINISHED,
+    LINK_GOOGLE,
+    LINK_TRELLO,
+    LINK_GITHUB,
+    LINK_GOOGLE_FAILURE,
+    LINK_GITHUB_FAILURE,
+    LINK_TRELLO_FAILURE,
     LOGOUT
 } from './types';
 import { storeItem, getProviderToken, remove } from '@utils';
+import { store } from '@store';
 
 const instance = axios.create({
     baseURL: 'http://localhost:8081/api',
@@ -71,7 +79,7 @@ export const signIn: Function = (email: string, password: string) => {
             )
             .then(res => {
                 storeItem('USER_TOKEN', res.data);
-                console.log(res.data);
+                dispatch(linkProviders());
                 dispatch({
                     type: SIGN_IN_SUCCESS,
                     payload: {
@@ -90,25 +98,102 @@ export const signIn: Function = (email: string, password: string) => {
     };
 };
 
+const linkGoogle: Function = () => {
+    return (dispatch: Function) => {
+        const { currentUser } = store.getState().user;
+
+        if (currentUser.token) {
+            const token = currentUser.token;
+            instance.defaults.headers['Authorization'] = `Bearer ${token}`;
+            instance
+                .get(`/google`)
+                .then(res => {
+                    dispatch({
+                        type: LINK_GOOGLE,
+                        payload: {
+                            data: res.data.accessToken
+                        }
+                    });
+                })
+                .catch(error =>
+                    dispatch({
+                        type: LINK_GOOGLE_FAILURE,
+                        payload: {
+                            error: error.data
+                        }
+                    })
+                );
+        }
+    };
+};
+
+const linkGithub: Function = () => {
+    return (dispatch: Function) => {
+        const { currentUser } = store.getState().user;
+
+        if (currentUser.token) {
+            const token = currentUser.token;
+            instance.defaults.headers['Authorization'] = `Bearer ${token}`;
+            instance
+                .get('/github')
+                .then(res => {
+                    dispatch({
+                        type: LINK_GITHUB,
+                        payload: {
+                            data: res.data.accessToken
+                        }
+                    });
+                })
+                .catch(error => {
+                    dispatch({
+                        type: LINK_GITHUB_FAILURE,
+                        payload: {
+                            error: error.data
+                        }
+                    });
+                });
+        }
+    };
+};
+
+const linkTrello: Function = () => {
+    return (dispatch: Function) => {
+        const { currentUser } = store.getState().user;
+
+        if (currentUser.token) {
+            const token = currentUser.token;
+            instance.defaults.headers['Authorization'] = `Bearer ${token}`;
+            instance
+                .get('/trello')
+                .then(res => {
+                    dispatch({
+                        type: LINK_TRELLO,
+                        payload: {
+                            data: res.data.accessToken
+                        }
+                    });
+                })
+                .catch(error =>
+                    dispatch({
+                        type: LINK_TRELLO_FAILURE,
+                        payload: {
+                            error: error.data
+                        }
+                    })
+                );
+        }
+    };
+};
+
 export const linkProviders: Function = () => {
     return (dispatch: Function) => {
-        const googleToken = getProviderToken('google');
-        const githubToken = getProviderToken('github');
-        const trelloToken = getProviderToken('trello');
-        console.log(googleToken);
-        console.log(githubToken);
-        console.log(trelloToken);
+        console.log('linking providers');
 
-        dispatch({
-            type: LINK_PROVIDERS,
-            payload: {
-                data: {
-                    googleToken,
-                    githubToken,
-                    trelloToken
-                }
-            }
-        });
+        dispatch({ type: LINK_PROVIDERS });
+        dispatch(linkGoogle());
+        dispatch(linkGithub());
+        dispatch(linkTrello());
+        dispatch({ type: LINK_PROVIDERS_FINISHED });
     };
 };
 
