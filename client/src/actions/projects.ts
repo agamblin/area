@@ -1,7 +1,12 @@
 import { reset } from 'redux-form';
 import tribe from '../api/tribe';
 import Axios from 'axios';
-import { PROJECT_CREATE, PROJECTS_FETCH, PROJECT_FETCH } from './types';
+import {
+	PROJECT_CREATE,
+	PROJECTS_FETCH,
+	PROJECT_FETCH,
+	PROJECT_CLEAR
+} from './types';
 import globalState from '../types/states/globalState';
 import actionType from '../types/actionType';
 
@@ -98,4 +103,8 @@ export const getProjects = () => async (
 	} catch (e) {
 		return;
 	}
+};
+
+export const clearSelectedProject = () => {
+	return { type: PROJECT_CLEAR };
 };

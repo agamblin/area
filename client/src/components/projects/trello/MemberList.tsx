@@ -14,7 +14,7 @@ interface TrelloMembersListProps {
 class TrelloMembersList extends Component<TrelloMembersListProps> {
 	state = { detailOpen: false, memberId: null };
 
-	show = (memberId: string) => this.setState({ detailOpen: true, memberId });
+	show = (memberId: number) => this.setState({ detailOpen: true, memberId });
 	close = () => {
 		this.setState({ detailOpen: false, memberId: null });
 		if (this.props.closedMemberDetails) {

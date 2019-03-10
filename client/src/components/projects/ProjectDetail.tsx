@@ -7,6 +7,7 @@ import { Segment, Header, Image, Tab, Button } from 'semantic-ui-react';
 import Spinner from '../general/Spinner';
 import TrelloDetails from './trello/TrelloDetails';
 import FileList from './google/FileList';
+import GithubDetails from './github/GithubDetails';
 import selectedProjectState from '../../types/states/selectedProjectState';
 import history from '../../history';
 
@@ -45,6 +46,14 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 		return <Spinner loading />;
 	};
 
+	_renderGithubDetails = () => {
+		const { project } = this.props;
+
+		if (project.repo) {
+			return <GithubDetails repoId={project.repo.id} />;
+		}
+	};
+
 	_displayContent = () => {
 		const { project } = this.props;
 
@@ -63,7 +72,7 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 					icon: 'git square',
 					content: 'Github'
 				},
-				render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>
+				render: () => <Tab.Pane>{this._renderGithubDetails()}</Tab.Pane>
 			}
 		];
 

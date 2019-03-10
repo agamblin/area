@@ -1,5 +1,6 @@
 export default interface trelloMemberState {
-	id: string;
+	id: number;
+	trelloId: string;
 	fullName: string;
 	avatarUrl: string;
 	activityCount?: number;

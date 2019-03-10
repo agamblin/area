@@ -39,7 +39,13 @@ class FileList extends Component<FileListProps> {
 		const { files } = this.props;
 
 		if (files) {
-			return <Statistic horizontal label="files" value={files.length} />;
+			return (
+				<Statistic
+					horizontal
+					label={files.length > 1 ? 'files' : 'file'}
+					value={files.length}
+				/>
+			);
 		}
 		return null;
 	};
@@ -94,7 +100,7 @@ class FileList extends Component<FileListProps> {
 									<Label
 										style={{ float: 'left' }}
 										icon="cloud download"
-										color="red"
+										color="blue"
 										as="a"
 										href={file.downloadUrl}
 										corner="left"
@@ -125,6 +131,14 @@ class FileList extends Component<FileListProps> {
 	render() {
 		return (
 			<Segment raised loading={this.state.loading}>
+				<Label
+					attached="top left"
+					as="a"
+					href={`https://drive.google.com/drive/folders/${this.props.folderId}`}
+					icon="google drive"
+					content="Drive"
+					color="blue"
+				/>
 				<Header style={{ margin: '2.5% 0' }} dividing>
 					{this._renderHeader()}
 				</Header>

@@ -5,4 +5,5 @@ export default interface trelloActionType {
 	idTargetMember?: string;
 	idTargetCard?: string;
 	TrelloMemberId: string;
+	TrelloBoardId: string;
 }

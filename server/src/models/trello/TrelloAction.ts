@@ -29,8 +29,11 @@ const TrelloAction: any = sequelize.define('TrelloAction', {
 	}
 });
 
-TrelloAction.fetchFeed = async function() {
-	const rawActions = await this.findAll({ include: TrelloMember });
+TrelloAction.fetchFeed = async function(boardId: string) {
+	const rawActions = await this.findAll({
+		where: { TrelloBoardId: boardId },
+		include: TrelloMember
+	});
 	const actions = await Promise.all(
 		rawActions.map(async (action: any) => {
 			let member = null;
