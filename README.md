@@ -1,7 +1,7 @@
 
 
 # Action REAction (AREA)
-Dans le cadre de notre 3ème année l'AREA est un projet Epitech compris dans le module de développement web.
+Dans le cadre de notre 3ème année l'AREA est un projet Epitech compris dans le module de développement web
 
 ## SOMMAIRE
 - **Information général**
@@ -22,7 +22,7 @@ Dans le cadre de notre 3ème année l'AREA est un projet Epitech compris dans le
 
 > Application web  [link](http://localhost/8081).
 >  Application mobile.
-> Api web [link](http://github.com).
+> Api web [link](http://localhost/api).
 
 ```mermaid
 graph LR
@@ -66,7 +66,9 @@ graph LR
 A --> B
 A((AREA)) --> C
 B[App mobile] --> E{React native}
-C[App web] --> D{Node.js}
+A --> F[Api]
+F --> G{Node.js}
+C[App web] --> D{React}
 ```
 
 ### Test
@@ -82,7 +84,7 @@ C[App web] --> D{Yarn}
   > Docker
 
 - Etape 1.
-  > /sudo docker-compose up --build
+  > sudo docker-compose up --build
 
 - Etape 2.
   > Lancer [AREA](http://localhost/8081)

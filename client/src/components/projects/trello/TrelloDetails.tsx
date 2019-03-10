@@ -16,10 +16,14 @@ interface TrelloDetailsProps {
 }
 
 class TrelloDetails extends Component<TrelloDetailsProps> {
-	componentDidMount() {
+	state = { loading: false };
+
+	async componentDidMount() {
 		const { boardId } = this.props;
 		if (this.props.fetchBoard) {
-			this.props.fetchBoard(boardId);
+			this.setState({ loading: true });
+			await this.props.fetchBoard(boardId);
+			this.setState({ loading: false });
 		}
 	}
 
@@ -58,7 +62,7 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 
 	render() {
 		return (
-			<Segment raised>
+			<Segment raised loading={this.state.loading}>
 				{this._displayInfo()}
 				<Header style={{ margin: '2.5% 0' }} as="h2" dividing>
 					Trello board

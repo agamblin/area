@@ -1,4 +1,9 @@
-import { PROJECT_FETCH, BOARD_FETCH } from '../actions/types';
+import {
+	PROJECT_FETCH,
+	BOARD_FETCH,
+	FOLDER_FETCH,
+	FILE_FETCH
+} from '../actions/types';
 import selectedProjectState from '../types/states/selectedProjectState';
 
 export default (state = {} as selectedProjectState, action: any) => {
@@ -16,6 +21,21 @@ export default (state = {} as selectedProjectState, action: any) => {
 					activity: action.payload.activity.reverse(),
 					members: action.payload.members,
 					url: action.payload.url
+				}
+			};
+		case FOLDER_FETCH:
+			return {
+				...state,
+				folder: {
+					...state.folder,
+					files: action.payload.files
+				}
+			};
+		case FILE_FETCH:
+			return {
+				...state,
+				folder: {
+					files: [...state.folder.files, action.payload]
 				}
 			};
 		default:
