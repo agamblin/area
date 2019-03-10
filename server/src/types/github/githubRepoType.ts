@@ -1,3 +1,5 @@
+import projectType from 'projectType';
+
 export default interface githubRepoType {
 	id: string;
 	nodeId: string;
@@ -8,5 +10,7 @@ export default interface githubRepoType {
 	cloneUrl: string;
 	subscribersCount: number;
 	accessToken: string;
+	getProject?: () => projectType;
+	fetchInfo?: () => any;
 	destroy?: () => any;
 }

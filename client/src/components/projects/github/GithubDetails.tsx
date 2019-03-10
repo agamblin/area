@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchRepo } from '../../../actions/github';
+import { Segment, Label } from 'semantic-ui-react';
 
 interface GithubDetailsProps {
 	repoId: string;
@@ -17,7 +18,18 @@ class GithubDetails extends Component<GithubDetailsProps> {
 	}
 
 	render() {
-		return <div>GithubDetails</div>;
+		return (
+			<Segment>
+				<Label
+					content="Github"
+					icon="github"
+					color="black"
+					attached="top left"
+					as="a"
+					href="https://github.com/agamblin/github-repo-test"
+				/>
+			</Segment>
+		);
 	}
 }
 

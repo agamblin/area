@@ -49,7 +49,6 @@ export const fetchRepo = (repoId: string) => async (
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
-		console.log(data);
 	} catch (err) {
 		console.log(err);
 	}

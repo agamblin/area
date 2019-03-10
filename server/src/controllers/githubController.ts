@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
 import GithubRepo from '../models/github/GithubRepo';
+import githubRepoType from 'github/githubRepoType';
 
 export const fetchService = async (
 	req: requestType,
@@ -51,12 +52,17 @@ export const fetchRepo = async (
 ) => {
 	const { repoId } = req.params;
 
-	const repo = await GithubRepo.findByPk(repoId);
-	const project = await repo.getProject();
-	if (project.userId !== req.user.id) {
-		const error: any = new Error('Unauthorized');
-		error.statusCode = 401;
-		return next(error);
+	try {
+		const repo: githubRepoType = await GithubRepo.findByPk(repoId);
+		const project = await repo.getProject();
+		if (project.userId !== req.user.id) {
+			const error: any = new Error('Unauthorized');
+			error.statusCode = 401;
+			return next(error);
+		}
+		await repo.fetchInfo();
+		return res.status(200).json('ok');
+	} catch (err) {
+		return next(err);
 	}
-	return res.status(200).json('ok');
 };

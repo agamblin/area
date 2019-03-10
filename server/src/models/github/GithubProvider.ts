@@ -36,7 +36,7 @@ GithubProvider.prototype.createRepo = async function(project: projectType) {
 		);
 		const githubRepo = await project.createGithubRepo({
 			id: data.id,
-			name,
+			name: data.full_name,
 			description,
 			nodeId: data.node_id,
 			private: data.private,
