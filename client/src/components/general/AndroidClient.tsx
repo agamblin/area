@@ -5,9 +5,14 @@ export class AndroidClient extends Component {
 	render() {
 		return (
 			<div>
-				<a href="/test.pdf" download>
-					Download
-				</a>
+				<Button
+					positive
+					as="a"
+					href="/var/www/release/app-release.apk"
+					download
+				>
+					Download APK
+				</Button>
 			</div>
 		);
 	}
