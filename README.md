@@ -79,6 +79,30 @@ A((AREA)) --> C
 B[App mobile] --> E{Yarn}
 C[App web] --> D{Yarn}
 ```
+
+## GRAPHIQUE DATABASE
+```mermaid
+graph LR
+A((Projets)) --> B[Trello]
+A --> C[Dossier]
+A --> D[Dossier drive]
+A --> E((User))
+E --> F[Google provider]
+D --> F
+C --> F
+B --> F
+D --> G
+C --> G
+B --> G
+D --> H
+C --> H
+B --> H
+E --> G[Github provider]
+E --> H[Trello provider]
+G --> I{Token}
+H --> I
+F --> I
+```
 # Installation
 - Prérequis.
   > Docker
