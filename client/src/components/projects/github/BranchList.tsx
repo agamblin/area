@@ -43,7 +43,9 @@ class BranchList extends Component<BranchListProps> {
 		return (
 			<Segment>
 				{this._renderHeader()}
-				<List animated>{this._renderBranches()}</List>
+				<List style={{ textAlign: 'left' }} animated>
+					{this._renderBranches()}
+				</List>
 			</Segment>
 		);
 	}

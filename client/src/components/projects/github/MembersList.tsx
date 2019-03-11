@@ -45,7 +45,9 @@ class MembersList extends Component<MemberListProps> {
 		return (
 			<Segment>
 				{this._renderHeader()}
-				<List animated>{this._renderMembers()}</List>
+				<List style={{ textAlign: 'left' }} animated>
+					{this._renderMembers()}
+				</List>
 			</Segment>
 		);
 	}
