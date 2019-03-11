@@ -5,7 +5,7 @@ export class AndroidClient extends Component {
 	render() {
 		return (
 			<div>
-				<a href="/var/www/release/app-release.apk" download>
+				<a href="/test.pdf" download>
 					Download
 				</a>
 			</div>
