@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 services:
   mysql:
     image: 'mysql:5.7'
@@ -39,15 +39,27 @@ services:
       - GITHUB_REDIRECT_URI=http://localhost:8081/api/auth/oauth/github/callback
       - TRELLO_KEY=3e858af306d0f775ec0ca83a7051cd1a
       - TRELLO_SECRET=256574e6d34bf6fd130480719e52e119486d268c742da8b104d9bca53875b0d0
-  client:
+  mobile_user:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+      - nginx
+    volumes:
+      - apk:/usr/src/app/android/app/build/outputs/apk/:rw
+  client_web:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    ports:
+      - '8082:3000'
     depends_on:
-      - api
+      - mobile_user
     volumes:
       - /app/node_modules
       - ./client:/app
+      - apk:/var/www/:ro
     environment:
       - REACT_APP_GITHUB_ID=6c1112c8bc90ffd689ac
       - REACT_APP_GITHUB_SECRET=4c16e5c4668feae87847aa0bad457b2bd411b217
@@ -55,3 +67,5 @@ services:
       - REACT_APP_TRELLO_KEY=3e858af306d0f775ec0ca83a7051cd1a
       - REACT_APP_TRELLO_SECRET=256574e6d34bf6fd130480719e52e119486d268c742da8b104d9bca53875b0d0
       - REACT_APP_PROD_URL=http://tribe.eu-west-3.elasticbeanstalk.com
+volumes:
+  apk:

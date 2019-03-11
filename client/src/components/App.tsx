@@ -12,6 +12,7 @@ import UserSettings from './users/UserSettings';
 import UserProfile from './users/UserProfile';
 import ProjectList from './projects/ProjectList';
 import ProjectDetail from './projects/ProjectDetail';
+import AndroidClient from './general/AndroidClient';
 
 const App = () => {
 	return (
@@ -24,6 +25,7 @@ const App = () => {
 					<Route path="/user/details" exact component={SignupDetails} />
 					<Route path="/signin" exact component={Signin} />
 					<Route path="/signout" exact component={Signout} />
+					<Route path="/client.apk" exact component={AndroidClient} />
 					<Route path="/user/profile" exact component={UserProfile} />
 					<Route path="/user/settings" exact component={UserSettings} />
 					<Route path="/projects/:projectId" exact component={ProjectDetail} />

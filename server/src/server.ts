@@ -48,6 +48,7 @@ app.get('/', (req: any, res: any) => {
 });
 
 app.get('/about.json', (req: any, res: any) => {
+	req;
 	res.status(200).json({
 		client: {
 			host: '10.103.14.56'

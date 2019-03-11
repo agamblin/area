@@ -94,7 +94,7 @@ GithubPullRequest.getFormattedInfo = async function(repoId: string) {
 GithubPullRequest.prototype.merge = async function() {
 	try {
 		const repo = await this.getGithubRepo();
-		const { data } = await github.put(
+		await github.put(
 			`/repos/${repo.name}/pulls/${this.number}/merge`,
 			{
 				commit_title: this.title,

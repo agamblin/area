@@ -43,9 +43,9 @@ const Header = (props: headerProps) => {
 				<React.Fragment>
 					<Menu.Item
 						as={Link}
-						to="/pipes"
-						name="pipes"
-						active={activeItem === 'pipes'}
+						to="/client.apk"
+						name="Android"
+						active={activeItem === 'Android'}
 						onClick={handleItemClick}
 					/>
 				</React.Fragment>
