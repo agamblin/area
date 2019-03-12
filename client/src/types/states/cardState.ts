@@ -3,4 +3,5 @@ export default interface cardState {
 	name: string;
 	description: string;
 	url: string;
+	list: string;
 }

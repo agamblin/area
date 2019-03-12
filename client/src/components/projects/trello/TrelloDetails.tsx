@@ -7,6 +7,7 @@ import boardState from '../../../types/states/boardState';
 import CardsList from './CardsList';
 import TrelloActivity from './ActivityList';
 import TrelloMembersList from './MemberList';
+import TrelloLists from './ListsList';
 import { Grid, Header, Label, Segment } from 'semantic-ui-react';
 
 interface TrelloDetailsProps {
@@ -28,7 +29,9 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 	}
 
 	_displayContent = () => {
-		if (this.props.board) {
+		const { board } = this.props;
+
+		if (board) {
 			return (
 				<Grid columns={3} divided stretched>
 					<Grid.Row>
@@ -40,6 +43,7 @@ class TrelloDetails extends Component<TrelloDetailsProps> {
 						</Grid.Column>
 						<Grid.Column>
 							<TrelloMembersList />
+							<TrelloLists lists={board.lists} />
 						</Grid.Column>
 					</Grid.Row>
 				</Grid>

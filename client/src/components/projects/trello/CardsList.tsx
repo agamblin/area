@@ -69,6 +69,12 @@ class CardsList extends Component<CardsListProps> {
 								onClick={() => this.show(card.id)}
 								style={{ cursor: 'pointer' }}
 							>
+								<Label
+									color="green"
+									style={{ float: 'left' }}
+									content={card.list}
+									size="tiny"
+								/>
 								<Card.Header as="h5">{card.name}</Card.Header>
 							</Card.Content>
 							{this._renderCardDescription(card)}

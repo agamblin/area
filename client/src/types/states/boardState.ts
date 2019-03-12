@@ -1,6 +1,7 @@
 import cardState from './cardState';
 import trelloActivityState from './trelloActivityState';
 import trelloMemberState from './trelloMemberState';
+import trelloListState from './trelloListState';
 
 export default interface boardState {
 	id: string;
@@ -8,4 +9,5 @@ export default interface boardState {
 	cards: Array<cardState>;
 	activity: Array<trelloActivityState>;
 	members: Array<trelloMemberState>;
+	lists: Array<trelloListState>;
 }
