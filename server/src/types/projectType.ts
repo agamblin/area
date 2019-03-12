@@ -25,4 +25,5 @@ export default interface projectType {
 	destroy?: () => any;
 	save?: () => any;
 	launchPrTrelloInterval?: () => any;
+	launchIssuesTrelloInterval?: () => any;
 }
