@@ -156,22 +156,29 @@ GithubPullRequest.fetchPullRequests = async function(
 			};
 		})
 	);
-	await this.bulkCreate(rawRequests, {
-		individualHooks: true,
-		ignoreDuplicates: false,
-		updateOnDuplicate: ['title', 'body', 'url', 'state', 'updatedDate']
-	});
+	if (triggered) {
+		await this.bulkCreate(rawRequests, {
+			individualHooks: true,
+			ignoreDuplicates: false
+		});
+	} else {
+		await this.bulkCreate(rawRequests, {
+			updateOnDuplicate: ['title', 'body', 'url', 'state', 'updatedDate']
+		});
+	}
 };
 
 GithubPullRequest.afterCreate(async (pullRequest: githubPullRequestType) => {
 	const repo = await GithubRepo.findByPk(pullRequest.GithubRepoId);
 	const project = await Project.findByPk(repo.ProjectId);
 	const board = await project.getTrelloBoard();
-	await board.createNewCard(
-		`PR #${pullRequest.number}: ${pullRequest.title}`,
-		`${pullRequest.body} (${pullRequest.origin} => ${pullRequest.target})`,
-		pullRequest.url
-	);
+	if (pullRequest.state === 'open') {
+		await board.createNewCard(
+			`PR #${pullRequest.number}: ${pullRequest.title}`,
+			`${pullRequest.body} (${pullRequest.origin} => ${pullRequest.target})`,
+			pullRequest.url
+		);
+	}
 });
 
 export default GithubPullRequest;

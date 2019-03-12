@@ -157,7 +157,9 @@ GithubRepo.prototype.fetchInfo = async function() {
 	const members = await this.fetchCollaborators();
 	const commits = await this.fetchCommits();
 	const branches = await this.fetchBranches();
+	console.log('WORKING');
 	const pullRequests = await this.fetchPullRequests();
+	console.log('FAILING');
 	return {
 		members,
 		commits,
