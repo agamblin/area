@@ -108,3 +108,24 @@ export const getProjects = () => async (
 export const clearSelectedProject = () => {
 	return { type: PROJECT_CLEAR };
 };
+
+export const githubIssuesTrigger = () => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	console.log('GITHUBISSUESTRIGGER');
+};
+
+export const githubPrTrigger = () => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	console.log('GITHUBPRTRIGGER');
+};
+
+export const trelloCardTrigger = () => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	console.log('TRELLOCARDTRIGGER');
+};

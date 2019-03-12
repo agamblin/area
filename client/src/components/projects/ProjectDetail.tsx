@@ -10,6 +10,7 @@ import FileList from './google/FileList';
 import GithubDetails from './github/GithubDetails';
 import selectedProjectState from '../../types/states/selectedProjectState';
 import history from '../../history';
+import TriggersList from './TriggersList';
 
 interface ProjectDetailProps {
 	projectId?: number | null;
@@ -89,12 +90,13 @@ class ProjectDetail extends Component<ProjectDetailProps> {
 					size="tiny"
 					onClick={() => history.goBack()}
 				/>
+				<TriggersList />
 				<Header as="h1" dividing>
 					<Image circular src={project.imageUrl} inline />
 					<Header.Content>{project.name}</Header.Content>
 					<Header.Subheader>{project.description}</Header.Subheader>
 				</Header>
-				<Tab panes={panes} style={{ marginTop: '2.5%' }} />
+				<Tab menuPosition="left" panes={panes} style={{ marginTop: '2.5%' }} />
 			</React.Fragment>
 		);
 	};

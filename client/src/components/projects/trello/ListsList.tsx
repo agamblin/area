@@ -29,7 +29,7 @@ class TrelloLists extends Component<TrelloListsProps> {
 		if (lists) {
 			return lists.map(list => {
 				return (
-					<List.Item icon="circle outline" key={list.id}>
+					<List.Item key={list.id}>
 						<Icon
 							name="circle outline"
 							color="green"

@@ -118,7 +118,7 @@ class FileList extends Component<FileListProps> {
 									<Label
 										attached="bottom"
 										color="green"
-										content={`${file.size}mb / ${file.fileExtension}`}
+										content={`${file.size}b / ${file.fileExtension}`}
 									/>
 								</Card.Content>
 							</Card.Content>
