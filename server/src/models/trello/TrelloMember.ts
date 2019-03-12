@@ -3,6 +3,7 @@ import * as Sequelize from 'sequelize';
 import * as _ from 'lodash';
 import TrelloCard from './TrelloCard';
 import trelloMemberType from 'trello/trelloMemberType';
+import TrelloAction from './TrelloAction';
 
 const TrelloMember: any = sequelize.define('TrelloMember', {
 	trelloId: {
@@ -26,6 +27,23 @@ const TrelloMember: any = sequelize.define('TrelloMember', {
 		allowNull: false
 	}
 });
+
+TrelloMember.getFormattedMembers = async function(boardId: string) {
+	const rawMembers: Array<trelloMemberType> = await this.findAll({
+		where: { TrelloBoardId: boardId }
+	});
+	const members = await Promise.all(
+		rawMembers.map(async member => {
+			return {
+				..._.pick(member, 'id', 'fullName', 'avatarUrl'),
+				activityCount: await TrelloAction.count({
+					where: { TrelloMemberId: member.id, TrelloBoardId: boardId }
+				})
+			};
+		})
+	);
+	return members;
+};
 
 TrelloMember.prototype.getActions = async function() {
 	const rawActions = await this.getTrelloActions();

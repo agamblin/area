@@ -22,6 +22,7 @@ import TrelloBoard from './models/trello/TrelloBoard';
 import TrelloCard from './models/trello/TrelloCard';
 import TrelloMember from './models/trello/TrelloMember';
 import TrelloAction from './models/trello/TrelloAction';
+import TrelloList from './models/trello/TrelloList';
 
 // UTILS
 import sequelize from './utils/database';
@@ -91,7 +92,7 @@ app.get('/about.json', (req: any, res: any) => {
 			]
 		}
 	});
-})
+});
 
 app.use('/auth', authRoutes);
 app.use('/users', requireAuth, userRoutes);
@@ -158,6 +159,8 @@ TrelloMember.belongsTo(TrelloBoard);
 TrelloBoard.hasMany(TrelloAction);
 TrelloMember.hasMany(TrelloAction);
 TrelloAction.belongsTo(TrelloMember);
+TrelloBoard.hasMany(TrelloList);
+TrelloList.belongsTo(TrelloBoard);
 
 sequelize.sync().then(() => {
 	app.listen(8080, () => 'listening on port 8080');

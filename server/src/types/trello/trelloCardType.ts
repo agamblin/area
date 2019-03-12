@@ -6,6 +6,7 @@ export default interface trelloCardType {
 	description?: string;
 	accessToken: string;
 	url: string;
+	listId: string;
 	fetchInfo?: () => any;
 	members?: Array<trelloMemberType>;
 }

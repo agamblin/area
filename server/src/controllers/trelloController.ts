@@ -92,27 +92,16 @@ export const fetchBoard = async (
 	try {
 		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
 		await rawBoard.fetchBoard();
-		const rawCards: Array<trelloCardType> = await rawBoard.getTrelloCards();
-		const rawMembers: Array<
-			trelloMemberType
-		> = await rawBoard.getTrelloMembers();
-
-		const members = await Promise.all(
-			rawMembers.map(async member => {
-				return {
-					..._.pick(member, 'id', 'fullName', 'avatarUrl'),
-					activityCount: await TrelloAction.count({
-						where: { TrelloMemberId: member.id, TrelloBoardId: rawBoard.id }
-					})
-				};
-			})
+		const cards: Array<trelloCardType> = await TrelloCard.getFormattedCards(
+			boardId
 		);
-		const cards = rawCards.map((card: trelloCardType) => {
-			return _.pick(card, 'id', 'name', 'description', 'url');
-		});
+		const members: Array<
+			trelloMemberType
+		> = await TrelloMember.getFormattedMembers(boardId);
 		const activity = await TrelloAction.fetchFeed(boardId);
-		const url: string = rawBoard.url;
-		return res.status(200).json({ cards, activity, url, members });
+		return res
+			.status(200)
+			.json({ cards, activity, url: rawBoard.url, members });
 	} catch (err) {
 		return next(err);
 	}

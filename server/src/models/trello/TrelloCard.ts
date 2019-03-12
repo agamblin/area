@@ -4,6 +4,8 @@ import * as qs from 'query-string';
 import * as keys from '../../keys';
 import * as _ from 'lodash';
 import trello from '../../api/trello';
+import trelloCardType from 'trello/trelloCardType';
+import TrelloList from './TrelloList';
 
 const TrelloCard: any = sequelize.define('TrelloCard', {
 	id: {
@@ -20,6 +22,10 @@ const TrelloCard: any = sequelize.define('TrelloCard', {
 		type: Sequelize.STRING,
 		allowNull: true
 	},
+	listId: {
+		type: Sequelize.STRING,
+		allowNull: false
+	},
 	url: {
 		type: Sequelize.STRING,
 		allowNull: true
@@ -29,6 +35,25 @@ const TrelloCard: any = sequelize.define('TrelloCard', {
 		allowNull: false
 	}
 });
+
+TrelloCard.getFormattedCards = async function(boardId: string) {
+	const rawCards: Array<trelloCardType> = await this.findAll({
+		where: { TrelloBoardId: boardId }
+	});
+	const cards = await Promise.all(
+		rawCards.map(async card => {
+			const rawList = await TrelloList.findByPk(card.listId);
+			return {
+				id: card.id,
+				name: card.name,
+				description: card.description,
+				url: card.url,
+				list: _.pick(rawList, 'name')
+			};
+		})
+	);
+	return cards;
+};
 
 TrelloCard.prototype.fetchInfo = async function() {
 	const querystring = qs.stringify({
