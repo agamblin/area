@@ -136,7 +136,16 @@ TrelloBoard.prototype.createNewCard = async function(
 		token: this.accessToken
 	});
 	try {
-		await trello.post(`cards?${querystring}`);
+		const { data } = await trello.post(`cards?${querystring}`);
+		await TrelloCard.create({
+			id: data.id,
+			name: data.name,
+			description: data.desc,
+			accessToken: this.accessToken,
+			url: data.url,
+			listId: data.idList,
+			TrelloBoardId: this.id
+		});
 	} catch (err) {
 		console.log(err);
 	}
