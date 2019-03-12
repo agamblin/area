@@ -16,6 +16,7 @@ import GithubMember from './models/github/GithubMember';
 import GithubCommit from './models/github/GithubCommit';
 import GithubBranch from './models/github/GithubBranch';
 import GithubPullRequest from './models/github/GithubPullRequest';
+import GithubIssue from './models/github/GithubIssue';
 
 import TrelloProvider from './models/trello/TrelloProvider';
 import TrelloBoard from './models/trello/TrelloBoard';
@@ -135,20 +136,19 @@ TrelloBoard.belongsTo(Project);
 
 Project.hasOne(GithubRepo);
 GithubRepo.belongsTo(Project);
-
 GithubRepo.hasMany(GithubMember);
 GithubRepo.hasMany(GithubBranch);
 GithubRepo.hasMany(GithubPullRequest);
 GithubPullRequest.belongsTo(GithubRepo);
 GithubBranch.belongsTo(GithubRepo);
-
 GithubMember.hasMany(GithubCommit);
 GithubRepo.hasMany(GithubCommit);
 GithubCommit.belongsTo(GithubMember);
+GithubRepo.hasMany(GithubIssue);
+GithubIssue.belongsTo(GithubRepo);
 
 Project.hasOne(GoogleDriveFolder);
 GoogleDriveFolder.belongsTo(Project);
-
 GoogleDriveFolder.hasMany(GoogleDriveFile);
 GoogleDriveFile.belongsTo(GoogleDriveFolder);
 

@@ -9,6 +9,7 @@ import googleProviderType from 'google/googleProviderType';
 import GithubPullRequest from './github/GithubPullRequest';
 import GithubRepo from './github/GithubRepo';
 import githubRepoType from 'github/githubRepoType';
+import GithubIssue from './github/GithubIssue';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -70,15 +71,16 @@ Project.afterCreate(async function(project: projectType) {
 	return project;
 });
 
-async function PrTrellointervalFunc(
+// PULL REQUESTS CREATE A TRELLO CARD
+async function prTrellointervalFunc(
 	projectId: number,
 	repoId: string,
 	repoName: string,
 	accessToken: string
 ) {
-	const project = await Project.findByPk(projectId);
+	const project: projectType = await Project.findByPk(projectId);
 	if (project.triggerPrCards) {
-		console.log('Fetching requests...');
+		console.log('Fetching PR...');
 		await GithubPullRequest.fetchPullRequests(
 			repoId,
 			repoName,
@@ -97,8 +99,40 @@ Project.prototype.launchPrTrelloInterval = async function() {
 	});
 
 	setInterval(
-		PrTrellointervalFunc,
-		15000,
+		prTrellointervalFunc,
+		7000,
+		this.id,
+		repo.id,
+		repo.name,
+		repo.accessToken
+	);
+};
+
+// ISSUES CREATE A TRELLO CARD
+async function issuesTrelloInterval(
+	projectId: number,
+	repoId: string,
+	repoName: string,
+	accessToken: string
+) {
+	const project: projectType = await Project.findByPk(projectId);
+	if (project.triggerIssuesCards) {
+		console.log('Fetching issues...');
+		await GithubIssue.fetchIssues(repoId, repoName, accessToken);
+	} else {
+		console.log('CLEARING');
+		clearInterval(this);
+	}
+}
+
+Project.prototype.launchIssuesTrelloInterval = async function() {
+	const repo: githubRepoType = await GithubRepo.findOne({
+		where: { ProjectId: this.id }
+	});
+
+	setInterval(
+		issuesTrelloInterval,
+		7000,
 		this.id,
 		repo.id,
 		repo.name,

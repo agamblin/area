@@ -179,6 +179,9 @@ export const githubIssuesTrigger = async (
 		const project: projectType = await Project.findByPk(projectId);
 		project.triggerIssuesCards = value;
 		await project.save();
+		if (value === true) {
+			project.launchIssuesTrelloInterval();
+		}
 		return res.status(201).json(value);
 	} catch (err) {
 		return next(err);

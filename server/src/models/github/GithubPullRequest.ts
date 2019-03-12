@@ -121,6 +121,21 @@ GithubPullRequest.prototype.merge = async function() {
 	}
 };
 
+GithubPullRequest.createMultiple = async function(
+	pullRequests: Array<githubPullRequestType>
+) {
+	await Promise.all(
+		pullRequests.map(async pr => {
+			const existing = await this.findByPk(pr.id);
+			if (!existing) {
+				this.create(pr);
+			} else {
+				this.upsert(pr);
+			}
+		})
+	);
+};
+
 GithubPullRequest.fetchPullRequests = async function(
 	repoId: string,
 	repoName: string,
@@ -155,16 +170,7 @@ GithubPullRequest.fetchPullRequests = async function(
 			};
 		})
 	);
-	if (triggered) {
-		await this.bulkCreate(rawRequests, {
-			individualHooks: true,
-			ignoreDuplicates: false
-		});
-	} else {
-		await this.bulkCreate(rawRequests, {
-			updateOnDuplicate: ['title', 'body', 'url', 'state', 'updatedDate']
-		});
-	}
+	await this.createMultiple(rawRequests);
 };
 
 GithubPullRequest.afterCreate(async (pullRequest: githubPullRequestType) => {
