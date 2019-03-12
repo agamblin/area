@@ -80,36 +80,12 @@ GithubRepo.prototype.fetchCollaborators = async function() {
 
 GithubRepo.prototype.fetchPullRequests = async function() {
 	try {
-		const { data } = await github.get(`/repos/${this.name}/pulls`, {
-			headers: {
-				Authorization: `Bearer ${this.accessToken}`
-			}
-		});
-		const rawRequests = await Promise.all(
-			data.map(async (pullRequest: any) => {
-				const opener = await GithubMember.findOne({
-					where: { githubId: pullRequest.user.id, GithubRepoId: this.id }
-				});
-				return {
-					id: pullRequest.id,
-					title: pullRequest.title,
-					body: pullRequest.body,
-					url: pullRequest.url,
-					sha: pullRequest.merge_commit_sha,
-					number: pullRequest.number,
-					state: pullRequest.state,
-					userId: opener.id,
-					origin: pullRequest.head.ref,
-					target: pullRequest.base.ref,
-					createdDate: pullRequest.created_at.split('T')[0],
-					updatedDate: pullRequest.updated_at.split('T')[0],
-					GithubRepoId: this.id
-				};
-			})
+		await GithubPullRequest.fetchPullRequests(
+			this.id,
+			this.name,
+			this.accessToken,
+			false
 		);
-		await GithubPullRequest.bulkCreate(rawRequests, {
-			updateOnDuplicate: ['title', 'body', 'url', 'state', 'updatedDate']
-		});
 		const pullRequests = await GithubPullRequest.getFormattedInfo(this.id);
 		return pullRequests;
 	} catch (err) {
@@ -181,7 +157,9 @@ GithubRepo.prototype.fetchInfo = async function() {
 	const members = await this.fetchCollaborators();
 	const commits = await this.fetchCommits();
 	const branches = await this.fetchBranches();
+	console.log('WORKING');
 	const pullRequests = await this.fetchPullRequests();
+	console.log('FAILING');
 	return {
 		members,
 		commits,

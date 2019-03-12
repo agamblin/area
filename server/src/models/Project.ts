@@ -6,6 +6,9 @@ import projectType from '../types/projectType';
 import githubProviderType from '../types/github/githubProviderType';
 import trelloProviderType from 'trello/trelloProviderType';
 import googleProviderType from 'google/googleProviderType';
+import GithubPullRequest from './github/GithubPullRequest';
+import GithubRepo from './github/GithubRepo';
+import githubRepoType from 'github/githubRepoType';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -20,6 +23,18 @@ const Project: any = sequelize.define('Project', {
 	imageUrl: {
 		type: Sequelize.STRING,
 		allowNull: true
+	},
+	triggerPrCards: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	},
+	triggerIssuesCards: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	},
+	triggerCardsPr: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 
@@ -40,7 +55,7 @@ Project.beforeCreate(async (project: projectType) => {
 	return project;
 });
 
-Project.afterCreate(async (project: projectType) => {
+Project.afterCreate(async function(project: projectType) {
 	const user: userType = await User.findByPk(project.userId);
 
 	// FETCH PROVIDERS
@@ -54,5 +69,41 @@ Project.afterCreate(async (project: projectType) => {
 	await githubProvider.createRepo(project);
 	return project;
 });
+
+async function PrTrellointervalFunc(
+	projectId: number,
+	repoId: string,
+	repoName: string,
+	accessToken: string
+) {
+	const project = await Project.findByPk(projectId);
+	if (project.triggerPrCards) {
+		console.log('Fetching requests...');
+		await GithubPullRequest.fetchPullRequests(
+			repoId,
+			repoName,
+			accessToken,
+			true
+		);
+	} else {
+		console.log('CLEARING');
+		clearInterval(this);
+	}
+}
+
+Project.prototype.launchPrTrelloInterval = async function() {
+	const repo: githubRepoType = await GithubRepo.findOne({
+		where: { ProjectId: this.id }
+	});
+
+	setInterval(
+		PrTrellointervalFunc,
+		15000,
+		this.id,
+		repo.id,
+		repo.name,
+		repo.accessToken
+	);
+};
 
 export default Project;

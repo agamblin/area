@@ -21,6 +21,16 @@ router.post(
 
 router.get('/', projectController.getProjects);
 router.get('/:projectId', projectController.getProject);
+
+router.post('/:projectId/triggers/githubPr', projectController.githubPrTrigger);
+router.post(
+	'/:projectId/triggers/githubIssues',
+	projectController.githubIssuesTrigger
+);
+router.post(
+	'/:projectId/triggers/trelloPr',
+	projectController.trelloCardsPrTrigger
+);
 router.get('/upload/image', projectController.getS3Link);
 
 export default router;

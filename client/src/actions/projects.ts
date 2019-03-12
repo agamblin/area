@@ -5,7 +5,10 @@ import {
 	PROJECT_CREATE,
 	PROJECTS_FETCH,
 	PROJECT_FETCH,
-	PROJECT_CLEAR
+	PROJECT_CLEAR,
+	TRIGGER_ISSUES_CARDS,
+	TRIGGER_PR_CARDS,
+	TRIGGER_CARDS_PR
 } from './types';
 import globalState from '../types/states/globalState';
 import actionType from '../types/actionType';
@@ -113,19 +116,90 @@ export const githubIssuesTrigger = () => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
-	console.log('GITHUBISSUESTRIGGER');
+	const accessToken = getState().auth.authenticated;
+	const value = !getState().selectedProject.triggerIssuesCards;
+	const projectId = getState().selectedProject.id;
+	let launched = true;
+	try {
+		await tribe.post(
+			`/projects/${projectId}/triggers/githubIssues`,
+			{
+				value
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			}
+		);
+	} catch (err) {
+		launched = false;
+	} finally {
+		if (launched) {
+			dispatch({ type: TRIGGER_ISSUES_CARDS, payload: value });
+		}
+		return;
+	}
 };
 
 export const githubPrTrigger = () => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
-	console.log('GITHUBPRTRIGGER');
+	const accessToken = getState().auth.authenticated;
+	const value = !getState().selectedProject.triggerPrCards;
+	const projectId = getState().selectedProject.id;
+	let launched = true;
+	try {
+		await tribe.post(
+			`/projects/${projectId}/triggers/githubPr`,
+			{
+				value
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			}
+		);
+	} catch (err) {
+		console.log(err);
+		launched = false;
+	} finally {
+		if (launched) {
+			dispatch({ type: TRIGGER_PR_CARDS, payload: value });
+		}
+		return;
+	}
 };
 
 export const trelloCardTrigger = () => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
-	console.log('TRELLOCARDTRIGGER');
+	const accessToken = getState().auth.authenticated;
+	const value = !getState().selectedProject.triggerCardsPr;
+	const projectId = getState().selectedProject.id;
+	let launched = true;
+	try {
+		await tribe.post(
+			`/projects/${projectId}/triggers/trelloPr`,
+			{
+				value
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			}
+		);
+	} catch (err) {
+		console.log(err);
+		launched = false;
+	} finally {
+		if (launched) {
+			dispatch({ type: TRIGGER_CARDS_PR, payload: value });
+		}
+		return;
+	}
 };

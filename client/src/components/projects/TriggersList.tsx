@@ -6,23 +6,28 @@ import {
 	githubPrTrigger,
 	trelloCardTrigger
 } from '../../actions/projects';
+import globalState from '../../types/states/globalState';
+import selectedProject from '../../reducers/selectedProject';
+import selectedProjectState from '../../types/states/selectedProjectState';
 
 interface TriggersListProps {
 	githubIssuesTrigger?: () => any;
 	githubPrTrigger?: () => any;
 	trelloCardTrigger?: () => any;
+	selectedProject?: selectedProjectState;
 }
 
 class TriggersList extends Component<TriggersListProps> {
 	_renderGithubTrelloIssuesTrigger = () => {
-		const { githubIssuesTrigger } = this.props;
+		const { githubIssuesTrigger, selectedProject } = this.props;
 
-		if (githubIssuesTrigger) {
+		if (githubIssuesTrigger && selectedProject) {
 			return (
 				<div>
 					<Checkbox
 						toggle
-						label="Create Trello cards depending on new Github issues"
+						checked={selectedProject.triggerIssuesCards}
+						label="Github issues create new trello cards"
 						onChange={githubIssuesTrigger}
 					/>
 					<Label color="black" style={{ float: 'right' }}>
@@ -37,14 +42,15 @@ class TriggersList extends Component<TriggersListProps> {
 	};
 
 	_renderGithubTrelloPrTrigger = () => {
-		const { githubPrTrigger } = this.props;
+		const { githubPrTrigger, selectedProject } = this.props;
 
-		if (githubPrTrigger) {
+		if (githubPrTrigger && selectedProject) {
 			return (
 				<div style={{ marginTop: '2.5%' }}>
 					<Checkbox
 						toggle
-						label="Create Trello cards depending on new Github PR"
+						checked={selectedProject.triggerPrCards}
+						label="Github PR create new trello cards"
 						onChange={githubPrTrigger}
 					/>
 					<Label color="black" style={{ float: 'right' }}>
@@ -59,14 +65,15 @@ class TriggersList extends Component<TriggersListProps> {
 	};
 
 	_renderTrelloGithubTrigger = () => {
-		const { trelloCardTrigger } = this.props;
+		const { trelloCardTrigger, selectedProject } = this.props;
 
-		if (trelloCardTrigger) {
+		if (trelloCardTrigger && selectedProject) {
 			return (
 				<div style={{ marginTop: '2.5%' }}>
 					<Checkbox
 						toggle
-						label="Create Pull requests depending on Trello cards"
+						checked={selectedProject.triggerCardsPr}
+						label="Trello cards create new Github PR"
 						onChange={trelloCardTrigger}
 					/>
 					<Label color="green" style={{ float: 'right' }}>
@@ -107,8 +114,14 @@ class TriggersList extends Component<TriggersListProps> {
 	}
 }
 
+const mapStateToProps = (state: globalState) => {
+	return {
+		selectedProject: state.selectedProject
+	};
+};
+
 export default connect(
-	null,
+	mapStateToProps,
 	{
 		githubIssuesTrigger,
 		githubPrTrigger,
