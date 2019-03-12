@@ -10,6 +10,8 @@ import TrelloCard from '../models/trello/TrelloCard';
 import TrelloMember from '../models/trello/TrelloMember';
 import trelloMemberType from 'trello/trelloMemberType';
 import TrelloAction from '../models/trello/TrelloAction';
+import trelloListType from 'trello/trelloListType';
+import TrelloList from '../models/trello/TrelloList';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -91,8 +93,17 @@ export const fetchBoard = async (
 
 	try {
 		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const project = await rawBoard.getProject();
+		if (project.userId !== req.user.id) {
+			const err: any = new Error('Unauthorized');
+			err.statusCode = 401;
+			return next(err);
+		}
 		await rawBoard.fetchBoard();
 		const cards: Array<trelloCardType> = await TrelloCard.getFormattedCards(
+			boardId
+		);
+		const lists: Array<trelloListType> = await TrelloList.getFormattedLists(
 			boardId
 		);
 		const members: Array<
@@ -101,7 +112,7 @@ export const fetchBoard = async (
 		const activity = await TrelloAction.fetchFeed(boardId);
 		return res
 			.status(200)
-			.json({ cards, activity, url: rawBoard.url, members });
+			.json({ cards, activity, url: rawBoard.url, members, lists });
 	} catch (err) {
 		return next(err);
 	}

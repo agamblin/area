@@ -25,6 +25,7 @@ export default (state = {} as selectedProjectState, action: any) => {
 					cards: action.payload.cards,
 					activity: action.payload.activity.reverse(),
 					members: action.payload.members,
+					lists: action.payload.lists,
 					url: action.payload.url
 				}
 			};

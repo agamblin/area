@@ -42,13 +42,13 @@ TrelloCard.getFormattedCards = async function(boardId: string) {
 	});
 	const cards = await Promise.all(
 		rawCards.map(async card => {
-			const rawList = await TrelloList.findByPk(card.listId);
+			const list = await TrelloList.findByPk(card.listId);
 			return {
 				id: card.id,
 				name: card.name,
 				description: card.description,
 				url: card.url,
-				list: _.pick(rawList, 'name')
+				list: list.name
 			};
 		})
 	);
