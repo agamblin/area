@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import trello from '../../api/trello';
 import trelloCardType from 'trello/trelloCardType';
 import TrelloList from './TrelloList';
+import TrelloMember from './TrelloMember';
 
 const TrelloCard: any = sequelize.define('TrelloCard', {
 	id: {
@@ -77,8 +78,21 @@ TrelloCard.prototype.fetchInfo = async function() {
 			'members',
 			'dateLastActivity'
 		);
+		const members = await Promise.all(
+			rawCard.members.map(async (member: any) => {
+				const memberInfo = await TrelloMember.findOne({
+					where: { trelloId: member.id, TrelloBoardId: this.TrelloBoardId }
+				});
+				return {
+					id: memberInfo.id,
+					fullName: memberInfo.fullName,
+					avatarUrl: memberInfo.avatarUrl
+				};
+			})
+		);
 		const card = {
 			...rawCard,
+			members,
 			labels: rawCard.labels.map(label => {
 				return { id: label.id, name: label.name, color: label.color };
 			})
