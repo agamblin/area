@@ -132,7 +132,6 @@ GithubPullRequest.fetchPullRequests = async function(
 			Authorization: `Bearer ${accessToken}`
 		}
 	});
-
 	const rawRequests = await Promise.all(
 		data.map(async (pullRequest: any) => {
 			const opener = await GithubMember.findOne({
@@ -142,7 +141,7 @@ GithubPullRequest.fetchPullRequests = async function(
 				id: pullRequest.id,
 				title: pullRequest.title,
 				body: pullRequest.body,
-				url: pullRequest.url,
+				url: pullRequest._links.html.href,
 				sha: pullRequest.merge_commit_sha,
 				number: pullRequest.number,
 				state: pullRequest.state,
