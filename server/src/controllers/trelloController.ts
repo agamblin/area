@@ -143,21 +143,7 @@ export const fetchCard = async (
 
 	try {
 		const rawCard: trelloCardType = await TrelloCard.findByPk(cardId);
-		const rawCardInfo = await rawCard.fetchInfo();
-		const membersArray = await Promise.all(
-			rawCardInfo.members.map(async (memberId: any) => {
-				const member = await TrelloMember.findByPk(memberId.id);
-				return {
-					id: member.id,
-					fullName: member.fullName,
-					avatarUrl: member.avatarUrl
-				};
-			})
-		);
-		const cardInfo = {
-			...rawCardInfo,
-			members: membersArray
-		};
+		const cardInfo = await rawCard.fetchInfo();
 		const card = _.pick(rawCard, 'id', 'name', 'description', 'url');
 		return res.status(200).json({ ...card, ...cardInfo });
 	} catch (err) {
