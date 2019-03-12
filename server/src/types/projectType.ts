@@ -12,6 +12,9 @@ export default interface projectType {
 	GoogleDriveFolder?: googleDriveFolderType;
 	GithubRepo?: githubRepoType;
 	TrelloBoard?: trelloBoardType;
+	triggerPrCards?: boolean;
+	triggerIssuesCards?: boolean;
+	triggerCardsPr?: boolean;
 	createTrelloBoard?: (source: trelloBoardType) => trelloBoardType;
 	createGithubRepo?: (source: githubRepoType) => githubRepoType;
 	createGoogleDriveFolder?: (
@@ -20,4 +23,5 @@ export default interface projectType {
 	getTrelloBoard?: () => trelloBoardType;
 	getGithubRepo?: () => githubRepoType;
 	destroy?: () => any;
+	save?: () => any;
 }

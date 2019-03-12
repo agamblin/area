@@ -20,6 +20,18 @@ const Project: any = sequelize.define('Project', {
 	imageUrl: {
 		type: Sequelize.STRING,
 		allowNull: true
+	},
+	triggerPrCards: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	},
+	triggerIssuesCards: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
+	},
+	triggerCardsPr: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 

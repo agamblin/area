@@ -77,6 +77,9 @@ export const getProjects = async (
 				'description',
 				'imageUrl',
 				'userId',
+				'triggerPrCards',
+				'triggerIssuesCards',
+				'triggerCardsPr',
 				'createdAt'
 			);
 		});
@@ -111,6 +114,9 @@ export const getProject = async (
 			'description',
 			'imageUrl',
 			'userId',
+			'triggerPrCards',
+			'triggerIssuesCards',
+			'triggerCardsPr',
 			'createdAt'
 		),
 		board: _.pick(project.TrelloBoard, 'id'),
@@ -137,4 +143,59 @@ export const getS3Link = (req: requestType, res: Response) => {
 			res.status(200).json({ key, url });
 		}
 	);
+};
+
+export const githubPrTrigger = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { value } = req.body;
+	const { projectId } = req.params;
+
+	try {
+		const project: projectType = await Project.findByPk(projectId);
+		project.triggerPrCards = value;
+		await project.save();
+
+		return res.status(201).json(value);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const githubIssuesTrigger = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { value } = req.body;
+	const { projectId } = req.params;
+
+	try {
+		const project: projectType = await Project.findByPk(projectId);
+		project.triggerIssuesCards = value;
+		await project.save();
+		return res.status(201).json(value);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const trelloCardsPrTrigger = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { value } = req.body;
+	const { projectId } = req.params;
+
+	try {
+		const project: projectType = await Project.findByPk(projectId);
+		project.triggerCardsPr = value;
+		await project.save();
+		return res.status(201).json(value);
+	} catch (err) {
+		return next(err);
+	}
 };

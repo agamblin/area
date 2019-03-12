@@ -5,7 +5,10 @@ import {
 	FILE_FETCH,
 	PROJECT_CLEAR,
 	REPO_FETCH,
-	REPO_MERGE
+	REPO_MERGE,
+	TRIGGER_ISSUES_CARDS,
+	TRIGGER_PR_CARDS,
+	TRIGGER_CARDS_PR
 } from '../actions/types';
 import selectedProjectState from '../types/states/selectedProjectState';
 
@@ -69,6 +72,21 @@ export default (state = {} as selectedProjectState, action: any) => {
 				folder: {
 					files: [...state.folder.files, action.payload]
 				}
+			};
+		case TRIGGER_ISSUES_CARDS:
+			return {
+				...state,
+				triggerIssuesCards: action.payload
+			};
+		case TRIGGER_PR_CARDS:
+			return {
+				...state,
+				triggerPrCards: action.payload
+			};
+		case TRIGGER_CARDS_PR:
+			return {
+				...state,
+				triggerCardsPr: action.payload
 			};
 		default:
 			return state;

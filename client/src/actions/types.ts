@@ -36,3 +36,7 @@ export const REPO_FETCH = 'REPO_FETCH';
 export const REPO_MERGE = 'REPO_MERGE';
 
 export const FILE_FETCH = 'FILE_FETCH';
+
+export const TRIGGER_ISSUES_CARDS = 'TRIGGER_ISSUES_CARDS';
+export const TRIGGER_PR_CARDS = 'TRIGGER_PR_CARDS';
+export const TRIGGER_CARDS_PR = 'TRIGGER_CARDS_PR';
