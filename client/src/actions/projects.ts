@@ -122,7 +122,7 @@ export const githubIssuesTrigger = () => async (
 	let launched = true;
 	try {
 		await tribe.post(
-			`/projects/${projectId}/triggers/githubPr`,
+			`/projects/${projectId}/triggers/githubIssues`,
 			{
 				value
 			},
@@ -152,7 +152,7 @@ export const githubPrTrigger = () => async (
 	let launched = true;
 	try {
 		await tribe.post(
-			`/projects/${projectId}/triggers/githubIssues`,
+			`/projects/${projectId}/triggers/githubPr`,
 			{
 				value
 			},

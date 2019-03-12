@@ -7,6 +7,7 @@ import TrelloCard from './TrelloCard';
 import TrelloMember from './TrelloMember';
 import TrelloAction from './TrelloAction';
 import TrelloList from './TrelloList';
+import trelloListType from 'trello/trelloListType';
 
 const TrelloBoard: any = sequelize.define('TrelloBoard', {
 	id: {
@@ -113,6 +114,31 @@ TrelloBoard.prototype.fetchBoard = async function() {
 		await TrelloAction.bulkCreate(activity, { updateOnDuplicate: ['type'] });
 	} catch (e) {
 		console.log(e);
+	}
+};
+
+TrelloBoard.prototype.createNewCard = async function(
+	title: string,
+	body?: string,
+	url?: string
+) {
+	const list: trelloListType = await TrelloList.findOne({
+		where: { TrelloBoardId: this.id, name: 'To Do' }
+	});
+
+	const querystring = qs.stringify({
+		name: title,
+		desc: body,
+		urlSource: url,
+		idList: list.id,
+		pos: 'top',
+		key: keys.trelloKey,
+		token: this.accessToken
+	});
+	try {
+		await trello.post(`cards?${querystring}`);
+	} catch (err) {
+		console.log(err);
 	}
 };
 

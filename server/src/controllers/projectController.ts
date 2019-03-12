@@ -156,6 +156,9 @@ export const githubPrTrigger = async (
 	try {
 		const project: projectType = await Project.findByPk(projectId);
 		project.triggerPrCards = value;
+		if (value === true) {
+			project.launchPrTrelloInterval();
+		}
 		await project.save();
 
 		return res.status(201).json(value);

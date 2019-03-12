@@ -24,4 +24,5 @@ export default interface projectType {
 	getGithubRepo?: () => githubRepoType;
 	destroy?: () => any;
 	save?: () => any;
+	launchPrTrelloInterval?: () => any;
 }

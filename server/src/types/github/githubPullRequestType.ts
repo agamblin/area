@@ -9,6 +9,8 @@ export default interface githubPullRequestType {
 	url: string;
 	state: string;
 	userId: string;
+	triggered: boolean;
+	GithubRepoId: string;
 	createdDate: string;
 	updatedDate: string;
 	merge: () => boolean;
