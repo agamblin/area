@@ -20,9 +20,9 @@ Dans le cadre de notre 3ème année l'AREA est un projet Epitech compris dans le
 
 - **Environnement technique** :
 
-> Application web  [link](http://localhost/8081).
+> Application web  [link](https://7rib3.com/signin).
 >  Application mobile.
-> Api web [link](http://localhost/api).
+> Api web [link](https://documenter.getpostman.com/view/6448473/S11DVMpa).
 
 ```mermaid
 graph LR
