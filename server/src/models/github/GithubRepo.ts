@@ -8,6 +8,7 @@ import githubMemberType from 'github/githubMemberType';
 import GithubBranch from './GithubBranch';
 import githubBranchType from 'github/githubBranchType';
 import GithubPullRequest from './GithubPullRequest';
+import GithubIssue from './GithubIssue';
 
 const GithubRepo: any = sequelize.define('GithubRepo', {
 	id: {
@@ -166,6 +167,35 @@ GithubRepo.prototype.fetchInfo = async function() {
 	};
 };
 
+GithubRepo.prototype.createIssue = async function(title: string, body: string) {
+	try {
+		const { data } = await github.post(
+			`/repos/${this.name}/issues`,
+			{
+				title,
+				body
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${this.accessToken}`
+				}
+			}
+		);
+		await GithubIssue.create({
+			id: data.id,
+			url: data.html_url,
+			state: data.state,
+			number: data.number,
+			title: data.title,
+			body: data.body,
+			GithubRepoId: this.id
+		});
+	} catch (err) {
+		console.log(err);
+		return;
+	}
+};
+
 GithubRepo.prototype.createPullRequest = async function(
 	title: string,
 	origin: string,
@@ -173,7 +203,6 @@ GithubRepo.prototype.createPullRequest = async function(
 	body: string
 ) {
 	try {
-		console.log(`${title}${origin}${target}${body}`);
 		const { data } = await github.post(
 			`/repos/${this.name}/pulls`,
 			{

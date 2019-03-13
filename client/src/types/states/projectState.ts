@@ -7,5 +7,6 @@ export default interface projectState {
 	triggerPrCards: boolean;
 	triggerIssuesCards: boolean;
 	triggerCardsPr: boolean;
+	triggerCardsIssue: boolean;
 	createdAt: string;
 }

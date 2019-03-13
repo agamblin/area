@@ -129,13 +129,19 @@ TrelloCard.afterCreate(async (card: trelloCardType) => {
 
 	if (firstSplit[0] === 'PR' && project.triggerCardsPr) {
 		const secondSplit = firstSplit[1].split('(');
-		const name = secondSplit[0].trim();
+		const name = secondSplit[0];
 		const branches = secondSplit[1];
 		const origin = branches.split('=>')[0].trim();
 		const targetRaw = branches.split('=>')[1];
 		const target = targetRaw.split(')')[0].trim();
 		if (name && origin && target) {
 			await repo.createPullRequest(name, origin, target, card.url);
+		}
+	} else if (firstSplit[0] === 'FIX' && project.triggerCardsIssue) {
+		const secondSplit = firstSplit[1].split('(');
+		const title = secondSplit[0];
+		if (title) {
+			await repo.createIssue(title, card.url);
 		}
 	}
 });

@@ -4,16 +4,17 @@ import { connect } from 'react-redux';
 import {
 	githubIssuesTrigger,
 	githubPrTrigger,
-	trelloCardTrigger
+	trelloCardTriggerPr,
+	trelloCardTriggerIssue
 } from '../../actions/projects';
 import globalState from '../../types/states/globalState';
-import selectedProject from '../../reducers/selectedProject';
 import selectedProjectState from '../../types/states/selectedProjectState';
 
 interface TriggersListProps {
 	githubIssuesTrigger?: () => any;
 	githubPrTrigger?: () => any;
-	trelloCardTrigger?: () => any;
+	trelloCardTriggerPr?: () => any;
+	trelloCardTriggerIssue?: () => any;
 	selectedProject?: selectedProjectState;
 }
 
@@ -64,17 +65,46 @@ class TriggersList extends Component<TriggersListProps> {
 		return null;
 	};
 
-	_renderTrelloGithubTrigger = () => {
-		const { trelloCardTrigger, selectedProject } = this.props;
+	_renderTrelloGithubIssueTrigger = () => {
+		const { trelloCardTriggerIssue, selectedProject } = this.props;
 
-		if (trelloCardTrigger && selectedProject) {
+		if (trelloCardTriggerIssue && selectedProject) {
+			return (
+				<div style={{ marginTop: '2.5%' }}>
+					<Checkbox
+						toggle
+						checked={selectedProject.triggerCardsIssue}
+						label="Trello cards create new Github issue"
+						onChange={trelloCardTriggerIssue}
+					/>
+					<Popup
+						size="tiny"
+						trigger={
+							<Label color="green" style={{ float: 'right' }}>
+								<Icon name="trello" />
+								<Icon name="arrow right" />
+								<Icon name="github alternate" />
+							</Label>
+						}
+						content={<p>Must be of format: Title: "FIX: title"</p>}
+					/>
+				</div>
+			);
+		}
+		return null;
+	};
+
+	_renderTrelloGithubPrTrigger = () => {
+		const { trelloCardTriggerPr, selectedProject } = this.props;
+
+		if (trelloCardTriggerPr && selectedProject) {
 			return (
 				<div style={{ marginTop: '2.5%' }}>
 					<Checkbox
 						toggle
 						checked={selectedProject.triggerCardsPr}
 						label="Trello cards create new Github PR"
-						onChange={trelloCardTrigger}
+						onChange={trelloCardTriggerPr}
 					/>
 					<Popup
 						size="tiny"
@@ -114,7 +144,8 @@ class TriggersList extends Component<TriggersListProps> {
 					<Modal.Content>
 						{this._renderGithubTrelloIssuesTrigger()}
 						{this._renderGithubTrelloPrTrigger()}
-						{this._renderTrelloGithubTrigger()}
+						{this._renderTrelloGithubPrTrigger()}
+						{this._renderTrelloGithubIssueTrigger()}
 					</Modal.Content>
 				</Modal>
 			</div>
@@ -133,6 +164,7 @@ export default connect(
 	{
 		githubIssuesTrigger,
 		githubPrTrigger,
-		trelloCardTrigger
+		trelloCardTriggerPr,
+		trelloCardTriggerIssue
 	}
 )(TriggersList);

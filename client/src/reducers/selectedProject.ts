@@ -8,7 +8,8 @@ import {
 	REPO_MERGE,
 	TRIGGER_ISSUES_CARDS,
 	TRIGGER_PR_CARDS,
-	TRIGGER_CARDS_PR
+	TRIGGER_CARDS_PR,
+	TRIGGER_CARDS_ISSUE
 } from '../actions/types';
 import selectedProjectState from '../types/states/selectedProjectState';
 
@@ -87,6 +88,11 @@ export default (state = {} as selectedProjectState, action: any) => {
 			return {
 				...state,
 				triggerCardsPr: action.payload
+			};
+		case TRIGGER_CARDS_ISSUE:
+			return {
+				...state,
+				triggersCardsIssue: action.payload
 			};
 		default:
 			return state;

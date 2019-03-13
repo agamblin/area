@@ -19,4 +19,5 @@ export default interface githubRepoType {
 		target: string,
 		body: string
 	) => any;
+	createIssue?: (title: string, body: string) => any;
 }

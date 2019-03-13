@@ -8,7 +8,8 @@ import {
 	PROJECT_CLEAR,
 	TRIGGER_ISSUES_CARDS,
 	TRIGGER_PR_CARDS,
-	TRIGGER_CARDS_PR
+	TRIGGER_CARDS_PR,
+	TRIGGER_CARDS_ISSUE
 } from './types';
 import globalState from '../types/states/globalState';
 import actionType from '../types/actionType';
@@ -173,7 +174,38 @@ export const githubPrTrigger = () => async (
 	}
 };
 
-export const trelloCardTrigger = () => async (
+export const trelloCardTriggerIssue = () => async (
+	dispatch: (source: actionType) => any,
+	getState: () => globalState
+) => {
+	const accessToken = getState().auth.authenticated;
+	const value = !getState().selectedProject.triggerCardsIssue;
+	const projectId = getState().selectedProject.id;
+	let launched = true;
+	try {
+		await tribe.post(
+			`/projects/${projectId}/triggers/trelloIssues`,
+			{
+				value
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
+			}
+		);
+	} catch (err) {
+		console.log(err);
+		launched = false;
+	} finally {
+		if (launched) {
+			dispatch({ type: TRIGGER_CARDS_ISSUE, payload: value });
+		}
+		return;
+	}
+};
+
+export const trelloCardTriggerPr = () => async (
 	dispatch: (source: actionType) => any,
 	getState: () => globalState
 ) => {
