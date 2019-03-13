@@ -109,7 +109,8 @@ export const fetchFolder = async (
 			error.statusCode = 401;
 			return next(error);
 		}
-		await folder.fetchFiles();
+		const googleProvider = await req.user.getGoogleProvider();
+		await folder.fetchFiles(googleProvider.accessToken);
 		const files = await folder.getGoogleDriveFiles({
 			attributes: [
 				'id',
@@ -158,7 +159,7 @@ export const uploadGoogleFile = async (
 		const folder: googleDriveFolderType = await GoogleDriveFolder.findByPk(
 			folderId
 		);
-		await folder.fetchFiles();
+		await folder.fetchFiles(googleProvider.accessToken);
 		return res
 			.status(201)
 			.json({ ...data, accessToken: googleProvider.accessToken });

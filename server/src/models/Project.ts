@@ -10,6 +10,7 @@ import GithubPullRequest from './github/GithubPullRequest';
 import GithubRepo from './github/GithubRepo';
 import githubRepoType from 'github/githubRepoType';
 import GithubIssue from './github/GithubIssue';
+import trelloBoardType from 'trello/trelloBoardType';
 
 const Project: any = sequelize.define('Project', {
 	name: {
@@ -140,4 +141,22 @@ Project.prototype.launchIssuesTrelloInterval = async function() {
 	);
 };
 
+// WHEN POSTING A CARD WITH A CERTAIN FORMAT, IT CREATES A NEW PR
+
+async function cardsPrInterval(projectId: number) {
+	const project: projectType = await Project.findByPk(projectId);
+	const board: trelloBoardType = await project.getTrelloBoard();
+
+	if (project.triggerCardsPr) {
+		console.log('Fetching cards for pr...');
+		await board.fetchCards();
+	} else {
+		console.log('CLEARING');
+		clearInterval(this);
+	}
+}
+
+Project.prototype.launchCardsPrInterval = async function() {
+	setInterval(cardsPrInterval, 7000, this.id);
+};
 export default Project;

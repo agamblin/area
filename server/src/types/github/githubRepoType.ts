@@ -13,4 +13,10 @@ export default interface githubRepoType {
 	getProject?: () => projectType;
 	fetchInfo?: () => any;
 	destroy?: () => any;
+	createPullRequest?: (
+		title: string,
+		origin: string,
+		target: string,
+		body: string
+	) => any;
 }

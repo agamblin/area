@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Icon, Checkbox, Label } from 'semantic-ui-react';
+import { Modal, Button, Icon, Checkbox, Label, Popup } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
 	githubIssuesTrigger,
@@ -76,11 +76,19 @@ class TriggersList extends Component<TriggersListProps> {
 						label="Trello cards create new Github PR"
 						onChange={trelloCardTrigger}
 					/>
-					<Label color="green" style={{ float: 'right' }}>
-						<Icon name="trello" />
-						<Icon name="arrow right" />
-						<Icon name="github alternate" />
-					</Label>
+					<Popup
+						size="tiny"
+						trigger={
+							<Label color="green" style={{ float: 'right' }}>
+								<Icon name="trello" />
+								<Icon name="arrow right" />
+								<Icon name="github alternate" />
+							</Label>
+						}
+						content={
+							<p>Must be of format: Title: "PR: name ([origin] => [target])"</p>
+						}
+					/>
 				</div>
 			);
 		}

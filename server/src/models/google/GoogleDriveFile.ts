@@ -42,10 +42,6 @@ const googleDriveFile: any = sequelize.define('GoogleDriveFile', {
 	size: {
 		type: Sequelize.INTEGER,
 		allowNull: true
-	},
-	accessToken: {
-		type: Sequelize.STRING,
-		allowNull: false
 	}
 });
 

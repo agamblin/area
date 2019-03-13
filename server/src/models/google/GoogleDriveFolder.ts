@@ -13,20 +13,16 @@ const GoogleDriveFolder: any = sequelize.define('GoogleDriveFolder', {
 		type: Sequelize.STRING,
 		unique: true,
 		allowNull: true
-	},
-	accessToken: {
-		type: Sequelize.STRING,
-		allowNull: false
 	}
 });
 
-GoogleDriveFolder.prototype.fetchFiles = async function() {
+GoogleDriveFolder.prototype.fetchFiles = async function(googleToken: string) {
 	try {
 		const { data } = await googleDrive.get(
 			`files?q='${this.id}'+in+parents&fields=files(*)`,
 			{
 				headers: {
-					Authorization: `Bearer ${this.accessToken}`
+					Authorization: `Bearer ${googleToken}`
 				}
 			}
 		);
@@ -41,8 +37,7 @@ GoogleDriveFolder.prototype.fetchFiles = async function() {
 				createdDate: file.createdTime.split('T')[0],
 				modifiedDate: file.modifiedTime.split('T')[0],
 				fileExtension: file.fullFileExtension,
-				size: +file.size / 1000,
-				accessToken: this.accessToken,
+				size: file.size,
 				GoogleDriveFolderId: this.id
 			};
 		});

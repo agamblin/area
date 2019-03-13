@@ -7,6 +7,10 @@ import trello from '../../api/trello';
 import trelloCardType from 'trello/trelloCardType';
 import TrelloList from './TrelloList';
 import TrelloMember from './TrelloMember';
+import TrelloBoard from './TrelloBoard';
+import projectType from 'projectType';
+import trelloBoardType from 'trello/trelloBoardType';
+import githubRepoType from 'github/githubRepoType';
 
 const TrelloCard: any = sequelize.define('TrelloCard', {
 	id: {
@@ -54,6 +58,19 @@ TrelloCard.getFormattedCards = async function(boardId: string) {
 		})
 	);
 	return cards;
+};
+
+TrelloCard.createMultiple = async function(cards: Array<trelloCardType>) {
+	await Promise.all(
+		cards.map(async card => {
+			const existing = await this.findByPk(card.id);
+			if (!existing) {
+				this.create(card);
+			} else {
+				this.upsert(card);
+			}
+		})
+	);
 };
 
 TrelloCard.prototype.fetchInfo = async function() {
@@ -104,4 +121,22 @@ TrelloCard.prototype.fetchInfo = async function() {
 	}
 };
 
+TrelloCard.afterCreate(async (card: trelloCardType) => {
+	const board: trelloBoardType = await TrelloBoard.findByPk(card.TrelloBoardId);
+	const project: projectType = await board.getProject();
+	const repo: githubRepoType = await project.getGithubRepo();
+	const firstSplit = card.name.split(':');
+
+	if (firstSplit[0] === 'PR' && project.triggerCardsPr) {
+		const secondSplit = firstSplit[1].split('(');
+		const name = secondSplit[0].trim();
+		const branches = secondSplit[1];
+		const origin = branches.split('=>')[0].trim();
+		const targetRaw = branches.split('=>')[1];
+		const target = targetRaw.split(')')[0].trim();
+		if (name && origin && target) {
+			await repo.createPullRequest(name, origin, target, card.url);
+		}
+	}
+});
 export default TrelloCard;
