@@ -5,12 +5,7 @@ export class AndroidClient extends Component {
 	render() {
 		return (
 			<div>
-				<Button
-					positive
-					as="a"
-					href="/var/www/release/app-release.apk"
-					download
-				>
+				<Button positive as="a" href="/client.apk" download>
 					Download APK
 				</Button>
 			</div>

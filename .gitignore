@@ -2,3 +2,4 @@ client/node_modules
 server/node_modules
 server/build
 server/src/keysAws.ts
+client/public/client\.apk
