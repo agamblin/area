@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-19 12:50:09
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-13 16:58:28
+ * @Last Modified time: 2019-03-13 18:14:59
  */
 
 //@flow
@@ -18,7 +18,7 @@ type Props = NavigationScreenProps & {};
 class LoadingScreen extends Component<Props> {
     render() {
         setTimeout(() => {
-            if (this.props.currentUser.token) {
+            if (this.props.currentUser && this.props.currentUser.token) {
                 this.props.navigation.navigate('Main');
             } else {
                 this.props.navigation.navigate('Auth');
