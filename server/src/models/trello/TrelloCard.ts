@@ -126,7 +126,8 @@ TrelloCard.afterCreate(async (card: trelloCardType) => {
 	const project: projectType = await board.getProject();
 	const repo: githubRepoType = await project.getGithubRepo();
 	const firstSplit = card.name.split(':');
-	if (firstSplit[0] === 'PR') {
+
+	if (firstSplit[0] === 'PR' && project.triggerCardsPr) {
 		const secondSplit = firstSplit[1].split('(');
 		const name = secondSplit[0].trim();
 		const branches = secondSplit[1];
