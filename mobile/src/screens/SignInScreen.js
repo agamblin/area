@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-13 18:38:23
+ * @Last Modified time: 2019-03-13 18:42:58
  */
 
 //@flow
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         ...systemWeights.thin,
         marginVertical: 30,
         marginLeft: 15
-    }
+    },
     buttonStyle: {
         marginHorizontal: 30,
         marginBottom: 30
