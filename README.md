@@ -36,7 +36,7 @@ C[App web] --> D{Data}
 
 > Management du projet [Trello](https://trello.com/b/04fAMfBU/tribe).
 > Hébergement [Github](http://github.com) &  [Aws](http://github.com)
-> Documentation [Stackedit](stackedit.io) & [Postman](http://github.com)
+> Documentation [Stackedit](https://stackedit.io/app#) & [Postman](http://github.com)
 
 ```mermaid
 graph LR
