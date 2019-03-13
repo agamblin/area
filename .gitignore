@@ -3,3 +3,5 @@ server/node_modules
 server/build
 server/src/keysAws.ts
 client/public/client\.apk
+
+client/public/\.DS_Store
