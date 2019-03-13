@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-03-10 18:16:31
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 19:30:31
+ * @Last Modified time: 2019-03-13 17:30:59
  */
 
 //@flow
@@ -63,8 +63,6 @@ const linkTrello: Function = () => {
 
 export const linkProviders: Function = () => {
     return (dispatch: Function) => {
-        console.log('linking providers');
-
         dispatch({ type: LINK_PROVIDERS });
         Promise.all([dispatch(linkGoogle()), dispatch(linkGithub()), dispatch(linkTrello())]).then(() =>
             dispatch({ type: LINK_PROVIDERS_FINISHED })
