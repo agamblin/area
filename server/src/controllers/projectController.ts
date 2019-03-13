@@ -200,6 +200,9 @@ export const trelloCardsPrTrigger = async (
 		const project: projectType = await Project.findByPk(projectId);
 		project.triggerCardsPr = value;
 		await project.save();
+		if (value === true) {
+			project.launchCardsPrInterval();
+		}
 		return res.status(201).json(value);
 	} catch (err) {
 		return next(err);

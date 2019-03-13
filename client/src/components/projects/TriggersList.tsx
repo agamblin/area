@@ -77,6 +77,7 @@ class TriggersList extends Component<TriggersListProps> {
 						onChange={trelloCardTrigger}
 					/>
 					<Popup
+						size="tiny"
 						trigger={
 							<Label color="green" style={{ float: 'right' }}>
 								<Icon name="trello" />
@@ -84,9 +85,9 @@ class TriggersList extends Component<TriggersListProps> {
 								<Icon name="github alternate" />
 							</Label>
 						}
-						content={`Must be of format: 
-									Title: "PR: name ([origin] => [target])"
-									Description: [body]`}
+						content={
+							<p>Must be of format: Title: "PR: name ([origin] => [target])"</p>
+						}
 					/>
 				</div>
 			);

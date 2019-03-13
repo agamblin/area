@@ -155,15 +155,28 @@ TrelloBoard.prototype.fetchCards = async function() {
 	const querystring = qs.stringify({
 		key: keys.trelloKey,
 		token: this.accessToken,
+		fields:
+			'name,desc,idList,descData,closed,idOrganization,pinned,url,shortUrl,prefs,labelNames',
+		lists: 'open',
 		limit: 5,
-		members: true,
-		fields: 'name,desc'
+		members: true
 	});
 	try {
 		const { data } = await trello.get(
 			`/boards/${this.id}/cards/?${querystring}`
 		);
-		return data;
+		const cards = data.map((card: any) => {
+			return {
+				id: card.id,
+				name: card.name,
+				description: card.desc,
+				accessToken: this.accessToken,
+				listId: card.idList,
+				url: card.shortUrl,
+				TrelloBoardId: this.id
+			};
+		});
+		TrelloCard.createMultiple(cards);
 	} catch (e) {
 		console.log(e);
 	}

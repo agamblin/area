@@ -26,4 +26,5 @@ export default interface projectType {
 	save?: () => any;
 	launchPrTrelloInterval?: () => any;
 	launchIssuesTrelloInterval?: () => any;
+	launchCardsPrInterval?: () => any;
 }

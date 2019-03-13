@@ -8,5 +8,6 @@ export default interface trelloCardType {
 	url: string;
 	listId: string;
 	fetchInfo?: () => any;
+	TrelloBoardId?: string;
 	members?: Array<trelloMemberType>;
 }

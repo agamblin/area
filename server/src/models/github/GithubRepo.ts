@@ -157,9 +157,7 @@ GithubRepo.prototype.fetchInfo = async function() {
 	const members = await this.fetchCollaborators();
 	const commits = await this.fetchCommits();
 	const branches = await this.fetchBranches();
-	console.log('WORKING');
 	const pullRequests = await this.fetchPullRequests();
-	console.log('FAILING');
 	return {
 		members,
 		commits,
@@ -168,4 +166,49 @@ GithubRepo.prototype.fetchInfo = async function() {
 	};
 };
 
+GithubRepo.prototype.createPullRequest = async function(
+	title: string,
+	origin: string,
+	target: string,
+	body: string
+) {
+	try {
+		console.log(`${title}${origin}${target}${body}`);
+		const { data } = await github.post(
+			`/repos/${this.name}/pulls`,
+			{
+				title,
+				head: `${this.name.split('/')[0]}:${origin}`,
+				base: target,
+				body
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${this.accessToken}`
+				}
+			}
+		);
+		const user = await GithubMember.findOne({
+			where: { githubId: data.user.id, GithubRepoId: this.id }
+		});
+		await GithubPullRequest.create({
+			id: data.id,
+			title: data.title,
+			body: data.body,
+			sha: 'undefined',
+			number: data.number,
+			state: data.state,
+			origin: data.head.ref,
+			target: data.base.ref,
+			url: data._links.html.href,
+			userId: user.id,
+			triggered: true,
+			GithubRepoId: this.id,
+			createdDate: data.created_at.split('T')[0],
+			updatedDate: data.updated_at.split('T')[0]
+		});
+	} catch (err) {
+		console.log(err);
+	}
+};
 export default GithubRepo;
