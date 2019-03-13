@@ -182,6 +182,7 @@ export const trelloCardTriggerIssue = () => async (
 	const value = !getState().selectedProject.triggerCardsIssue;
 	const projectId = getState().selectedProject.id;
 	let launched = true;
+	console.log(value);
 	try {
 		await tribe.post(
 			`/projects/${projectId}/triggers/trelloIssues`,

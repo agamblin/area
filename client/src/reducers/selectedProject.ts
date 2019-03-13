@@ -90,9 +90,10 @@ export default (state = {} as selectedProjectState, action: any) => {
 				triggerCardsPr: action.payload
 			};
 		case TRIGGER_CARDS_ISSUE:
+			console.log('REDUCER:', action.payload);
 			return {
 				...state,
-				triggersCardsIssue: action.payload
+				triggerCardsIssue: action.payload
 			};
 		default:
 			return state;

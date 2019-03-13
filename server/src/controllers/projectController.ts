@@ -80,6 +80,7 @@ export const getProjects = async (
 				'triggerPrCards',
 				'triggerIssuesCards',
 				'triggerCardsPr',
+				'triggerCardsIssue',
 				'createdAt'
 			);
 		});
@@ -117,6 +118,7 @@ export const getProject = async (
 			'triggerPrCards',
 			'triggerIssuesCards',
 			'triggerCardsPr',
+			'triggerCardsIssue',
 			'createdAt'
 		),
 		board: _.pick(project.TrelloBoard, 'id'),
