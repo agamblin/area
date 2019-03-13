@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:41:49
+ * @Last Modified time: 2019-03-13 17:30:57
  */
 
 //@flow
@@ -15,16 +15,19 @@ import { connect } from 'react-redux';
 
 import { Input } from '@components';
 import { signUp, getUser } from '@actions';
+import { changeBaseURL } from '@store';
 
 type Props = NavigationScreenProps & {};
 
 type State = {
     email: string,
     username: string,
-    password: string
+    password: string,
+    ip: string
 };
 
 class SignUpScreen extends Component<Props, State> {
+    emailRef: any;
     usernameRef: any;
     passwordRef: any;
 
@@ -34,21 +37,41 @@ class SignUpScreen extends Component<Props, State> {
         this.state = {
             email: '',
             username: '',
-            password: ''
+            password: '',
+            ip: ''
         };
         this.onSignUp = this.onSignUp.bind(this);
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        if (nextProps.currentUser) {
-            this.props.navigation.navigate('Main');
-        } else if (nextProps.error) {
+        if (nextProps.currentUser && nextProps.currentUser.token) {
+            this.props.navigation.navigate('Main', { ip: this.state.ip });
+        } else if (!this.props.error && nextProps.error) {
             alert(nextProps.error);
         }
     }
 
     onSignUp: Function = () => {
-        const { email, username, password } = this.state;
+        const { email, password, username, ip } = this.state;
+        const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!ipRegex.test(ip)) {
+            alert('Please provide a valid IP Address');
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            alert('Please provide a valid email');
+            return;
+        }
+        if (!password) {
+            alert('Please provide a 6 characters minimum password');
+            return;
+        }
+        if (!username) {
+            alert('Please provide a username');
+            return;
+        }
+        changeBaseURL(ip);
         this.props.signUp(email, username, password).then(() => this.props.getUser());
     };
 
@@ -56,6 +79,15 @@ class SignUpScreen extends Component<Props, State> {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Text style={styles.titleStyle}>Sign Up to Tribe</Text>
+                <Input
+                    label="IP ADDRESS"
+                    placeholder="Enter the server ip"
+                    autoCapitalize="none"
+                    value={this.state.ip}
+                    onChangeText={ip => this.setState({ ip })}
+                    onSubmitEditing={() => this.emailRef.focus()}
+                    blurOnSubmit={false}
+                />
                 <Input
                     label="EMAIL"
                     placeholder="Enter your email"
@@ -65,6 +97,8 @@ class SignUpScreen extends Component<Props, State> {
                     value={this.state.email}
                     onChangeText={email => this.setState({ email })}
                     onSubmitEditing={() => this.usernameRef.focus()}
+                    ref={ref => (this.emailRef = ref)}
+                    blurOnSubmit={false}
                 />
                 <Input
                     label="USERNAME"
@@ -74,7 +108,8 @@ class SignUpScreen extends Component<Props, State> {
                     value={this.state.username}
                     onChangeText={username => this.setState({ username })}
                     onSubmitEditing={() => this.passwordRef.focus()}
-                    ref={ref => (ref = this.usernameRef)}
+                    ref={ref => (this.usernameRef = ref)}
+                    blurOnSubmit={false}
                 />
                 <Input
                     label="PASSWORD"
@@ -85,7 +120,7 @@ class SignUpScreen extends Component<Props, State> {
                     secureTextEntry
                     onChangeText={password => this.setState({ password })}
                     onSubmitEditing={this.onSignUp}
-                    ref={ref => (ref = this.passwordRef)}
+                    ref={ref => (this.passwordRef = ref)}
                 />
             </SafeAreaView>
         );

@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-10 20:41:10
+ * @Last Modified time: 2019-03-13 17:31:06
  */
 
 //@flow
@@ -15,16 +15,18 @@ import { connect } from 'react-redux';
 
 import { Input } from '@components';
 import { signIn, linkProviders, getProjects, getUser } from '@actions';
+import { changeBaseURL } from '@store';
 
 type Props = NavigationScreenProps & {};
 
 type State = {
     email: string,
-    password: string
+    password: string,
+    ip: string
 };
 
 class SignInScreen extends Component<Props, State> {
-    usernameRef: any;
+    emailRef: any;
     passwordRef: any;
 
     constructor(props: Props, state: State) {
@@ -32,20 +34,36 @@ class SignInScreen extends Component<Props, State> {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            ip: ''
         };
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        if (nextProps.currentUser) {
-            this.props.navigation.navigate('Main');
-        } else if (nextProps.error) {
+        if (nextProps.currentUser && nextProps.currentUser.token) {
+            this.props.navigation.navigate('Main', { ip: this.state.ip });
+        } else if (!this.props.error && nextProps.error) {
             alert(nextProps.error);
         }
     }
 
     onSignIn: Function = () => {
-        const { email, password } = this.state;
+        const { email, password, ip } = this.state;
+        const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!ipRegex.test(ip)) {
+            alert('Please provide a valid IP Address');
+            return;
+        }
+        if (!emailRegex.test(email)) {
+            alert('Please provide a valid email');
+            return;
+        }
+        if (!password) {
+            alert('Please provide a 6 characters minimum password');
+            return;
+        }
+        changeBaseURL(ip);
         this.props.signIn(email, password).then(() => {
             this.props.linkProviders();
             this.props.getProjects();
@@ -58,6 +76,16 @@ class SignInScreen extends Component<Props, State> {
             <SafeAreaView style={{ flex: 1 }}>
                 <Text style={styles.titleStyle}>Sign In to Tribe</Text>
                 <Input
+                    label="IP ADDRESS"
+                    placeholder="Enter the server ip"
+                    autoCapitalize="none"
+                    value={this.state.ip}
+                    onChangeText={ip => this.setState({ ip })}
+                    onSubmitEditing={() => {
+                        this.emailRef.focus();
+                    }}
+                />
+                <Input
                     label="EMAIL"
                     placeholder="Enter your email"
                     keyboardType="email-address"
@@ -65,7 +93,8 @@ class SignInScreen extends Component<Props, State> {
                     autoComplete="email"
                     value={this.state.email}
                     onChangeText={email => this.setState({ email })}
-                    onSubmitEditing={() => this.usernameRef.focus()}
+                    onSubmitEditing={() => this.passwordRef.focus()}
+                    ref={ref => (this.emailRef = ref)}
                 />
                 <Input
                     label="PASSWORD"
@@ -76,7 +105,7 @@ class SignInScreen extends Component<Props, State> {
                     secureTextEntry
                     onChangeText={password => this.setState({ password })}
                     onSubmitEditing={this.onSignIn}
-                    ref={ref => (ref = this.passwordRef)}
+                    ref={ref => (this.passwordRef = ref)}
                 />
             </SafeAreaView>
         );
