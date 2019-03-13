@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-13 17:30:57
+ * @Last Modified time: 2019-03-13 18:37:32
  */
 
 //@flow
@@ -122,6 +122,12 @@ class SignUpScreen extends Component<Props, State> {
                     onSubmitEditing={this.onSignUp}
                     ref={ref => (this.passwordRef = ref)}
                 />
+                <Button
+                    title="SIGN UP"
+                    onPress={this.onSignUp}
+                    containerStyle={styles.buttonStyle}
+                    buttonStyle={{ backgroundColor: 'black' }}
+                />
             </SafeAreaView>
         );
     }
@@ -133,6 +139,10 @@ const styles = StyleSheet.create({
         ...systemWeights.thin,
         marginVertical: 30,
         marginLeft: 15
+    },
+    buttonStyle: {
+        marginHorizontal: 30,
+        marginBottom: 30
     }
 });
 
