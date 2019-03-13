@@ -15,6 +15,7 @@ export default interface projectType {
 	triggerPrCards?: boolean;
 	triggerIssuesCards?: boolean;
 	triggerCardsPr?: boolean;
+	triggerCardsIssue?: boolean;
 	createTrelloBoard?: (source: trelloBoardType) => trelloBoardType;
 	createGithubRepo?: (source: githubRepoType) => githubRepoType;
 	createGoogleDriveFolder?: (
@@ -26,5 +27,5 @@ export default interface projectType {
 	save?: () => any;
 	launchPrTrelloInterval?: () => any;
 	launchIssuesTrelloInterval?: () => any;
-	launchCardsPrInterval?: () => any;
+	launchCardsInterval?: () => any;
 }

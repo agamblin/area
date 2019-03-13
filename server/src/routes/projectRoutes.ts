@@ -31,6 +31,11 @@ router.post(
 	'/:projectId/triggers/trelloPr',
 	projectController.trelloCardsPrTrigger
 );
+router.post(
+	'/:projectId/triggers/trelloIssues',
+	projectController.trelloCardsIssueTrigger
+);
+
 router.get('/upload/image', projectController.getS3Link);
 
 export default router;

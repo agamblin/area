@@ -200,8 +200,29 @@ export const trelloCardsPrTrigger = async (
 		const project: projectType = await Project.findByPk(projectId);
 		project.triggerCardsPr = value;
 		await project.save();
-		if (value === true) {
-			project.launchCardsPrInterval();
+		if (value === true && !project.triggerCardsIssue) {
+			project.launchCardsInterval();
+		}
+		return res.status(201).json(value);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const trelloCardsIssueTrigger = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { value } = req.body;
+	const { projectId } = req.params;
+
+	try {
+		const project: projectType = await Project.findByPk(projectId);
+		project.triggerCardsIssue = value;
+		await project.save();
+		if (value === true && !project.triggerCardsPr) {
+			project.launchCardsInterval();
 		}
 		return res.status(201).json(value);
 	} catch (err) {

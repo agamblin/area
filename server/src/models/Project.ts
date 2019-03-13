@@ -37,6 +37,10 @@ const Project: any = sequelize.define('Project', {
 	triggerCardsPr: {
 		type: Sequelize.BOOLEAN,
 		defaultValue: false
+	},
+	triggerCardsIssue: {
+		type: Sequelize.BOOLEAN,
+		defaultValue: false
 	}
 });
 
@@ -81,7 +85,6 @@ async function prTrellointervalFunc(
 ) {
 	const project: projectType = await Project.findByPk(projectId);
 	if (project.triggerPrCards) {
-		console.log('Fetching PR...');
 		await GithubPullRequest.fetchPullRequests(
 			repoId,
 			repoName,
@@ -89,7 +92,6 @@ async function prTrellointervalFunc(
 			true
 		);
 	} else {
-		console.log('CLEARING');
 		clearInterval(this);
 	}
 }
@@ -118,10 +120,8 @@ async function issuesTrelloInterval(
 ) {
 	const project: projectType = await Project.findByPk(projectId);
 	if (project.triggerIssuesCards) {
-		console.log('Fetching issues...');
 		await GithubIssue.fetchIssues(repoId, repoName, accessToken);
 	} else {
-		console.log('CLEARING');
 		clearInterval(this);
 	}
 }
@@ -141,22 +141,20 @@ Project.prototype.launchIssuesTrelloInterval = async function() {
 	);
 };
 
-// WHEN POSTING A CARD WITH A CERTAIN FORMAT, IT CREATES A NEW PR
+// WHEN POSTING A CARD WITH A CERTAIN FORMAT, IT CREATES A NEW PR or ISSUE
 
-async function cardsPrInterval(projectId: number) {
+async function cardsInterval(projectId: number) {
 	const project: projectType = await Project.findByPk(projectId);
 	const board: trelloBoardType = await project.getTrelloBoard();
 
-	if (project.triggerCardsPr) {
-		console.log('Fetching cards for pr...');
+	if (project.triggerCardsPr || project.triggerCardsIssue) {
 		await board.fetchCards();
 	} else {
-		console.log('CLEARING');
 		clearInterval(this);
 	}
 }
 
-Project.prototype.launchCardsPrInterval = async function() {
-	setInterval(cardsPrInterval, 7000, this.id);
+Project.prototype.launchCardsInterval = async function() {
+	setInterval(cardsInterval, 7000, this.id);
 };
 export default Project;
