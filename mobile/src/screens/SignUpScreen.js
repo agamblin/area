@@ -2,7 +2,7 @@
  * @Author: Karim DALAIZE
  * @Date: 2019-02-20 12:45:35
  * @Last Modified by: Karim DALAIZE
- * @Last Modified time: 2019-03-13 18:37:32
+ * @Last Modified time: 2019-03-13 18:43:59
  */
 
 //@flow
@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import { View, SafeAreaView, Text, StyleSheet } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 import { material, systemWeights } from 'react-native-typography';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { Input } from '@components';
