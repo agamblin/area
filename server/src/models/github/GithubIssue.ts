@@ -5,6 +5,9 @@ import github from '../../api/github';
 import githubIssueType from 'github/githubIssueType';
 import GithubRepo from './GithubRepo';
 import Project from '../Project';
+import githubRepoType from 'github/githubRepoType';
+import projectType from 'projectType';
+import trelloBoardType from 'trello/trelloBoardType';
 
 const GithubIssue: any = sequelize.define('GithubIssue', {
 	id: {
@@ -78,10 +81,12 @@ GithubIssue.fetchIssues = async function(
 };
 
 GithubIssue.afterCreate(async (githubIssue: githubIssueType) => {
-	const repo = await GithubRepo.findByPk(githubIssue.GithubRepoId);
-	const project = await Project.findByPk(repo.ProjectId);
-	const board = await project.getTrelloBoard();
-	if (githubIssue.state === 'open') {
+	const repo: githubRepoType = await GithubRepo.findByPk(
+		githubIssue.GithubRepoId
+	);
+	const project: projectType = await Project.findByPk(repo.ProjectId);
+	const board: trelloBoardType = await project.getTrelloBoard();
+	if (githubIssue.state === 'open' && project.triggerIssuesCards) {
 		await board.createNewCard(
 			`ISSUE #${githubIssue.number}: ${githubIssue.title}`,
 			`${githubIssue.body}`,

@@ -10,6 +10,7 @@ export default interface githubRepoType {
 	cloneUrl: string;
 	subscribersCount: number;
 	accessToken: string;
+	ProjectId?: number;
 	getProject?: () => projectType;
 	fetchInfo?: () => any;
 	destroy?: () => any;

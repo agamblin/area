@@ -6,6 +6,9 @@ import GithubMember from './GithubMember';
 import github from '../../api/github';
 import GithubRepo from './GithubRepo';
 import Project from '../Project';
+import githubRepoType from 'github/githubRepoType';
+import projectType from 'projectType';
+import trelloBoardType from 'trello/trelloBoardType';
 
 const GithubPullRequest: any = sequelize.define('GithubPullRequest', {
 	id: {
@@ -174,10 +177,12 @@ GithubPullRequest.fetchPullRequests = async function(
 };
 
 GithubPullRequest.afterCreate(async (pullRequest: githubPullRequestType) => {
-	const repo = await GithubRepo.findByPk(pullRequest.GithubRepoId);
-	const project = await Project.findByPk(repo.ProjectId);
-	const board = await project.getTrelloBoard();
-	if (pullRequest.state === 'open') {
+	const repo: githubRepoType = await GithubRepo.findByPk(
+		pullRequest.GithubRepoId
+	);
+	const project: projectType = await Project.findByPk(repo.ProjectId);
+	const board: trelloBoardType = await project.getTrelloBoard();
+	if (pullRequest.state === 'open' && project.triggerPrCards) {
 		await board.createNewCard(
 			`PR #${pullRequest.number}: ${pullRequest.title}`,
 			`${pullRequest.body} (${pullRequest.origin} => ${pullRequest.target})`,

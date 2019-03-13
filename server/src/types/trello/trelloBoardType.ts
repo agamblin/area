@@ -15,5 +15,6 @@ export default interface trelloBoardType {
 	createTrelloMember?: (source: trelloMemberType) => trelloMemberType;
 	getTrelloMembers?: () => Array<trelloMemberType>;
 	fetchCards?: () => any;
+	createNewCard?: (title: string, body: string, url: string) => any;
 	fetchBoard?: () => Array<any>;
 }
