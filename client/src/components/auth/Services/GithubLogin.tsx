@@ -43,6 +43,8 @@ export class GithubLogin extends Component<GithubLoginProps> {
 
 	render() {
 		const { username } = this.props;
+		console.log(keys.GITHUB_CLIENT_ID);
+		console.log(keys.GITHUB_SECRET);
 		return (
 			<div
 				onMouseEnter={() => this.setState({ renderAccount: true })}
