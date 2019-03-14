@@ -1,8 +1,20 @@
+import trelloCardType from './trelloCardType';
+import trelloMemberType from './trelloMemberType';
+import projectType from 'projectType';
+
 export default interface trelloBoardType {
-	id?: number;
-	trelloId: string;
+	id: string;
 	name: string;
 	description: string;
 	url: string;
+	accessToken: string;
 	destroy?: () => any;
+	getProject?: () => projectType;
+	createTrelloCard?: (source: trelloCardType) => trelloCardType;
+	getTrelloCards?: () => Array<trelloCardType>;
+	createTrelloMember?: (source: trelloMemberType) => trelloMemberType;
+	getTrelloMembers?: () => Array<trelloMemberType>;
+	fetchCards?: () => any;
+	createNewCard?: (title: string, body: string, url: string) => any;
+	fetchBoard?: () => Array<any>;
 }

@@ -43,8 +43,9 @@ GoogleProvider.prototype.createFolder = async function(project: projectType) {
 			{ headers: { Authorization: `Bearer ${this.accessToken}` } }
 		);
 		const driveFolder = await project.createGoogleDriveFolder({
-			googleId: data.id,
-			name: data.name
+			id: data.id,
+			name: data.name,
+			accessToken: this.accessToken
 		});
 		return driveFolder;
 	} catch (e) {

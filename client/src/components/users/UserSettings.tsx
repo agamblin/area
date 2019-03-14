@@ -8,7 +8,7 @@ import {
 	Loader,
 	Dimmer
 } from 'semantic-ui-react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
 import requireAuth from '../auth/requireAuth';
 import { compose } from 'redux';
@@ -19,7 +19,7 @@ import { editUser } from '../../actions/user';
 import Spinner from '../general/Spinner';
 import './css/UserSettings.css';
 
-interface UserSettingsProps {
+interface UserSettingsProps extends InjectedFormProps {
 	username: string;
 	handleSubmit: any;
 	editUser: any;

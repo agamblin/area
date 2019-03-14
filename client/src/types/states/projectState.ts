@@ -4,5 +4,9 @@ export default interface projectState {
 	description: string;
 	imageUrl: string;
 	userId: number;
+	triggerPrCards: boolean;
+	triggerIssuesCards: boolean;
+	triggerCardsPr: boolean;
+	triggerCardsIssue: boolean;
 	createdAt: string;
 }

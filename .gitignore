@@ -1,9 +1,11 @@
 client/node_modules
+client/public/client\.apk
+client/public/\.DS_Store
+
 server/node_modules
 server/build
 server/src/keysAws.ts
+
 mobile/android
 mobile/node_modules
-client/public/client\.apk
-
 mobile/\.DS_Store

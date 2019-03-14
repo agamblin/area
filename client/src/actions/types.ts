@@ -18,4 +18,26 @@ export const TRELLO_RESET = 'TRELLO_RESET';
 export const TRELLO_ERROR = 'TRELLO_ERROR';
 
 export const PROJECT_CREATE = 'PROJECT_CREATE';
+export const PROJECTS_FETCH = 'PROJECTS_FETCH';
 export const PROJECT_FETCH = 'PROJECT_FETCH';
+export const PROJECT_CLEAR = 'PROJECT_CLEAR';
+
+export const BOARD_FETCH = 'BOARD_FETCH';
+
+export const CARD_FETCH = 'CARD_FETCH';
+export const CARD_EMPTY = 'CARD_EMPTY';
+
+export const MEMBER_FETCH = 'MEMBER_FETCH';
+export const MEMBER_EMPTY = 'MEMBER_EMPTY';
+
+export const FOLDER_FETCH = 'FOLDER_FETCH';
+
+export const REPO_FETCH = 'REPO_FETCH';
+export const REPO_MERGE = 'REPO_MERGE';
+
+export const FILE_FETCH = 'FILE_FETCH';
+
+export const TRIGGER_ISSUES_CARDS = 'TRIGGER_ISSUES_CARDS';
+export const TRIGGER_PR_CARDS = 'TRIGGER_PR_CARDS';
+export const TRIGGER_CARDS_PR = 'TRIGGER_CARDS_PR';
+export const TRIGGER_CARDS_ISSUE = 'TRIGGER_CARDS_ISSUE';

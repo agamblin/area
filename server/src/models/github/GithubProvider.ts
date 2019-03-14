@@ -35,14 +35,15 @@ GithubProvider.prototype.createRepo = async function(project: projectType) {
 			}
 		);
 		const githubRepo = await project.createGithubRepo({
-			name,
+			id: data.id,
+			name: data.full_name,
 			description,
-			githubId: data.id,
 			nodeId: data.node_id,
 			private: data.private,
 			htmlUrl: data.html_url,
 			cloneUrl: data.ssh_url,
-			subscribersCount: data.subscribers_count
+			subscribersCount: data.subscribers_count,
+			accessToken: this.accessToken
 		});
 		return githubRepo;
 	} catch (e) {

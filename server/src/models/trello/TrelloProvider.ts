@@ -5,6 +5,7 @@ import trello from '../../api/trello';
 import * as qs from 'query-string';
 import projectType from 'projectType';
 import User from '../User';
+import trelloBoardType from 'trello/trelloBoardType';
 
 const TrelloProvider: any = sequelize.define('TrelloProvider', {
 	name: {
@@ -29,13 +30,15 @@ TrelloProvider.prototype.createBoard = async function(project: projectType) {
 		prefs_background: 'grey',
 		token: this.accessToken
 	});
+
 	try {
 		const { data } = await trello.post(`/boards/?${querystring}`);
-		const trelloBoard = await project.createTrelloBoard({
-			trelloId: data.id,
+		const trelloBoard: trelloBoardType = await project.createTrelloBoard({
+			id: data.id,
 			name: data.name,
 			description: data.desc,
-			url: data.shortUrl
+			url: data.shortUrl,
+			accessToken: this.accessToken
 		});
 		return trelloBoard;
 	} catch (e) {

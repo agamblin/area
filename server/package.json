@@ -44,6 +44,6 @@
 		"@types/passport": "^1.0.0",
 		"@types/passport-jwt": "^3.0.1",
 		"@types/query-string": "^6.2.0",
-		"@types/sequelize": "^4.27.36"
+		"@types/sequelize": "^4.27.39"
 	}
 }

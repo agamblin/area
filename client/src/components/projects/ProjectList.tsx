@@ -4,23 +4,29 @@ import ProjectCreate from './ProjectCreate';
 import { connect } from 'react-redux';
 import requireAuth from '../auth/requireAuth';
 import './css/ProjectList.css';
-import { getProjects } from '../../actions/projects';
+import { getProjects, clearSelectedProject } from '../../actions/projects';
 import projectState from '../../types/states/projectState';
+import history from '../../history';
 
 interface ProjectListProps {
 	getProjects: () => any;
+	clearSelectedProject: () => any;
 	projects: Array<projectState>;
 }
 
 export class ProjectList extends Component<ProjectListProps> {
 	componentDidMount() {
 		this.props.getProjects();
+		this.props.clearSelectedProject();
 	}
 
 	_displayProject = (project: projectState) => {
 		return (
-			<Card>
-				<Image src={project.imageUrl} />
+			<Card onClick={() => history.push(`/projects/${project.id}`)}>
+				<Image
+					src={project.imageUrl}
+					style={{ height: '150px', width: '260px' }}
+				/>
 				<Card.Content>
 					<Card.Header>{project.name}</Card.Header>
 					<Card.Meta>
@@ -31,6 +37,7 @@ export class ProjectList extends Component<ProjectListProps> {
 			</Card>
 		);
 	};
+
 	_displayContent = () => {
 		if (this.props.projects.length > 0) {
 			return this.props.projects.map(project => {
@@ -72,7 +79,8 @@ export default requireAuth(
 	connect(
 		mapStateToProps,
 		{
-			getProjects
+			getProjects,
+			clearSelectedProject
 		}
 	)(ProjectList)
 );

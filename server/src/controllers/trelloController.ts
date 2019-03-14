@@ -3,6 +3,15 @@ import trello from '../api/trello';
 import * as keys from '../keys';
 import * as _ from 'lodash';
 import { requestType } from '../types/requestType';
+import TrelloBoard from '../models/trello/TrelloBoard';
+import trelloBoardType from 'trello/trelloBoardType';
+import trelloCardType from 'trello/trelloCardType';
+import TrelloCard from '../models/trello/TrelloCard';
+import TrelloMember from '../models/trello/TrelloMember';
+import trelloMemberType from 'trello/trelloMemberType';
+import TrelloAction from '../models/trello/TrelloAction';
+import trelloListType from 'trello/trelloListType';
+import TrelloList from '../models/trello/TrelloList';
 
 export const registerTrelloService = async (
 	req: requestType,
@@ -73,4 +82,92 @@ export const resetTrelloService = async (
 	const err: any = new Error('No provider for trello renseigned');
 	err.statusCode = 404;
 	return next(err);
+};
+
+export const fetchBoard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const rawBoard: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const project = await rawBoard.getProject();
+		if (project.userId !== req.user.id) {
+			const err: any = new Error('Unauthorized');
+			err.statusCode = 401;
+			return next(err);
+		}
+		await rawBoard.fetchBoard();
+		const cards: Array<trelloCardType> = await TrelloCard.getFormattedCards(
+			boardId
+		);
+		const lists: Array<trelloListType> = await TrelloList.getFormattedLists(
+			boardId
+		);
+		const members: Array<
+			trelloMemberType
+		> = await TrelloMember.getFormattedMembers(boardId);
+		const activity = await TrelloAction.fetchFeed(boardId);
+		return res
+			.status(200)
+			.json({ cards, activity, url: rawBoard.url, members, lists });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCards = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { boardId } = req.params;
+
+	try {
+		const board: trelloBoardType = await TrelloBoard.findByPk(boardId);
+		const cards = await board.fetchBoard();
+		return res.status(200).json(cards);
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchCard = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { cardId } = req.params;
+
+	try {
+		const rawCard: trelloCardType = await TrelloCard.findByPk(cardId);
+		const cardInfo = await rawCard.fetchInfo();
+		const card = _.pick(rawCard, 'id', 'name', 'description', 'url');
+		return res.status(200).json({ ...card, ...cardInfo });
+	} catch (err) {
+		return next(err);
+	}
+};
+
+export const fetchMember = async (
+	req: requestType,
+	res: Response,
+	next: NextFunction
+) => {
+	const { memberId } = req.params;
+
+	try {
+		const member: trelloMemberType = await TrelloMember.findByPk(memberId);
+		const actions = await member.getActions();
+		return res.status(200).json({
+			id: member.id,
+			fullName: member.fullName,
+			avatarUrl: member.avatarUrl,
+			activity: actions
+		});
+	} catch (err) {
+		return next(err);
+	}
 };
